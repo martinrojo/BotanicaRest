@@ -30,7 +30,7 @@ public class Seguimiento implements Serializable{
 	@Column (name ="id_planta")
 	private Planta planta;
 	@OneToOne (mappedBy = "seguimiento", fetch = FetchType.EAGER)
-	List<Etapa> etapas;
+	private List<Etapa> etapas;
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="id_estado")
 	private Estado estado;

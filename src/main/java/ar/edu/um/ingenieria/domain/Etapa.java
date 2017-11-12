@@ -30,12 +30,12 @@ public class Etapa implements Serializable{
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@OneToOne (mappedBy = "etapas", fetch = FetchType.EAGER)
-	List<Tarea> tareas;
+	@OneToOne (mappedBy = "etapas", fetch = FetchType.LAZY)
+	private List<Tarea> tareas;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="id_seguimiento")
-	private Integer id_seguimiento;
+	private Seguimiento seguimiento;
 
 	public Integer getId() {
 		return id;
@@ -78,12 +78,11 @@ public class Etapa implements Serializable{
 	{
 		this.tareas.remove(tarea);
 	}
-	public Integer getId_seguimiento() {
-		return id_seguimiento;
+	public void add (Etapa o) {
+		this.seguimiento.add(o);
 	}
-
-	public void setId_seguimiento(Integer id_seguimiento) {
-		this.id_seguimiento = id_seguimiento;
+	public void remove (Etapa o) {
+		this.seguimiento.remove(o);
 	}
 
 	public static long getSerialversionuid() {
@@ -95,14 +94,23 @@ public class Etapa implements Serializable{
 	public void remove (Tarea o) {
 		this.tareas.remove(o);
 	}
+	
+
+	@Override
+	public String toString() {
+		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tareas=" + tareas
+				+ ", seguimiento=" + seguimiento + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((id_seguimiento == null) ? 0 : id_seguimiento.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((seguimiento == null) ? 0 : seguimiento.hashCode());
+		result = prime * result + ((tareas == null) ? 0 : tareas.hashCode());
 		return result;
 	}
 
@@ -125,23 +133,22 @@ public class Etapa implements Serializable{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (id_seguimiento == null) {
-			if (other.id_seguimiento != null)
-				return false;
-		} else if (!id_seguimiento.equals(other.id_seguimiento))
-			return false;
 		if (nombre == null) {
 			if (other.nombre != null)
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
+		if (seguimiento == null) {
+			if (other.seguimiento != null)
+				return false;
+		} else if (!seguimiento.equals(other.seguimiento))
+			return false;
+		if (tareas == null) {
+			if (other.tareas != null)
+				return false;
+		} else if (!tareas.equals(other.tareas))
+			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", id_seguimiento="
-				+ id_seguimiento + "]";
 	}
 
 	public Etapa() {
