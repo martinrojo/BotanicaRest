@@ -29,7 +29,7 @@ CREATE TABLE `climas` (
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5001 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +38,7 @@ CREATE TABLE `climas` (
 
 LOCK TABLES `climas` WRITE;
 /*!40000 ALTER TABLE `climas` DISABLE KEYS */;
+INSERT INTO `climas` VALUES (5000,'Infierno','Mas caliente que');
 /*!40000 ALTER TABLE `climas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +55,7 @@ CREATE TABLE `estados` (
   `descripcion` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5001 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,6 +64,7 @@ CREATE TABLE `estados` (
 
 LOCK TABLES `estados` WRITE;
 /*!40000 ALTER TABLE `estados` DISABLE KEYS */;
+INSERT INTO `estados` VALUES (5000,'Chocarrero','Está que pela');
 /*!40000 ALTER TABLE `estados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -89,6 +91,7 @@ CREATE TABLE `etapas` (
 
 LOCK TABLES `etapas` WRITE;
 /*!40000 ALTER TABLE `etapas` DISABLE KEYS */;
+INSERT INTO `etapas` VALUES (5000,'AlFilo','Se pudre todo',5000,5000);
 /*!40000 ALTER TABLE `etapas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,7 +109,7 @@ CREATE TABLE `personas` (
   `edad` int(11) DEFAULT NULL,
   `usuarios_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,6 +118,7 @@ CREATE TABLE `personas` (
 
 LOCK TABLES `personas` WRITE;
 /*!40000 ALTER TABLE `personas` DISABLE KEYS */;
+INSERT INTO `personas` VALUES (1,'bruseghini','alvaro',25,1);
 /*!40000 ALTER TABLE `personas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,11 +136,11 @@ CREATE TABLE `plantas` (
   `clima_id` int(11) DEFAULT NULL,
   `temporada_id` int(11) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
-  `tiempo_riego` date DEFAULT NULL,
+  `tiempo_riego` time DEFAULT NULL,
   `tiposPlantas_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5001 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,6 +149,7 @@ CREATE TABLE `plantas` (
 
 LOCK TABLES `plantas` WRITE;
 /*!40000 ALTER TABLE `plantas` DISABLE KEYS */;
+INSERT INTO `plantas` VALUES (5000,'palito',5000,5000,5000,'AltaPlanta','03:00:00',5000);
 /*!40000 ALTER TABLE `plantas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +224,7 @@ CREATE TABLE `roles` (
   `rol` varchar(50) DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,6 +233,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES (1,'Administrador','Administrador'),(2,'Usuario','Usuario');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -243,7 +249,7 @@ CREATE TABLE `seguimientos` (
   `usuario_id` varbinary(11) DEFAULT NULL,
   `planta_id` varbinary(11) NOT NULL,
   `estado_id` int(11) DEFAULT NULL,
-  `ultimo_riego` date DEFAULT NULL,
+  `ultimo_riego` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -269,7 +275,7 @@ CREATE TABLE `suelos` (
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5001 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -278,6 +284,7 @@ CREATE TABLE `suelos` (
 
 LOCK TABLES `suelos` WRITE;
 /*!40000 ALTER TABLE `suelos` DISABLE KEYS */;
+INSERT INTO `suelos` VALUES (5000,'Infierno','Pandemonium');
 /*!40000 ALTER TABLE `suelos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -296,7 +303,7 @@ CREATE TABLE `tareas` (
   `estado_id` int(11) DEFAULT NULL,
   `planta_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5001 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -305,6 +312,7 @@ CREATE TABLE `tareas` (
 
 LOCK TABLES `tareas` WRITE;
 /*!40000 ALTER TABLE `tareas` DISABLE KEYS */;
+INSERT INTO `tareas` VALUES (5000,'PerroSalchicha',5000,'Que se yo',5000,5000);
 /*!40000 ALTER TABLE `tareas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -401,6 +409,7 @@ CREATE TABLE `tipos_plantas` (
 
 LOCK TABLES `tipos_plantas` WRITE;
 /*!40000 ALTER TABLE `tipos_plantas` DISABLE KEYS */;
+INSERT INTO `tipos_plantas` VALUES (5000,'Manija','Comunmente hallada en puertas');
 /*!40000 ALTER TABLE `tipos_plantas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -420,7 +429,7 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_UNIQUE` (`user`),
   UNIQUE KEY `roles_id_UNIQUE` (`roles_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,6 +438,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (1,'1234','alvaro','estoes@unemail.com',1);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -469,4 +479,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-12 23:15:16
+-- Dump completed on 2017-11-13  4:49:03

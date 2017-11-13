@@ -23,20 +23,27 @@ public class Seguimiento implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -7153249297528005760L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	@Column (name ="usuario_id")
 	private Usuario usuario;
+	
 	@Column (name ="planta_id")
 	private Planta planta;
+	
 	@OneToMany (mappedBy = "seguimiento", fetch = FetchType.EAGER)
 	private List<Etapa> etapas;
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="estado_id")
 	private Estado estado;
+	
 	@Column ( name = "ultimo_riego")
 	private Date ultimoRiego;
+	
 	public Integer getId() {
 		return id;
 	}

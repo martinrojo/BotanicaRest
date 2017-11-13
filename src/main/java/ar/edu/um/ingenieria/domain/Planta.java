@@ -1,7 +1,7 @@
 package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Time;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,24 +29,24 @@ public class Planta implements Serializable {
 	@Column(name = "descripcion")
 	private String descripcion;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "tipoPlantas_id")
 	private Tipo tipo;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "temporada_id")
 	private Temporada temporada;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "suelo_id")
 	private Suelo suelo;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "clima_id")
 	private Clima clima;
 
 	@Column(name = "tiempo_riego")
-	private Date tiempo_riego;
+	private Time tiempo_riego;
 
 	@Override
 	public String toString() {
@@ -178,11 +178,11 @@ public class Planta implements Serializable {
 		this.clima = clima;
 	}
 
-	public Date gettiempo_riego() {
+	public Time gettiempo_riego() {
 		return tiempo_riego;
 	}
 
-	public void settiempo_riego(Date tiempo_riego) {
+	public void settiempo_riego(Time tiempo_riego) {
 		this.tiempo_riego = tiempo_riego;
 	}
 
