@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,10 +25,10 @@ public class Clima implements Serializable{
 	@Column(name="nombre")
 	private String nombre;
 	
-	@Column(name="descriocion")
-	private String descriocion;
+	@Column(name="descripcion")
+	private String descripcion;
 	
-	@OneToOne(mappedBy = "climas", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "clima", fetch = FetchType.EAGER)
 	private List<Planta> plantas;
 
 	public Integer getId() {
@@ -46,12 +47,12 @@ public class Clima implements Serializable{
 		this.nombre = nombre;
 	}
 
-	public String getDescriocion() {
-		return descriocion;
+	public String getdescripcion() {
+		return descripcion;
 	}
 
-	public void setDescriocion(String descriocion) {
-		this.descriocion = descriocion;
+	public void setdescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public List<Planta> getPlantas() {
@@ -66,19 +67,19 @@ public class Clima implements Serializable{
 		return serialVersionUID;
 	}
 
-	public void add(Planta planta) {
-		plantas.add(planta);
+	public void add(Planta o) {
+		plantas.add(o);
 	}
 	
-	public void remove(Planta planta) {
-		plantas.remove(planta);
+	public void remove(Planta o) {
+		plantas.remove(o);
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((descriocion == null) ? 0 : descriocion.hashCode());
+		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((plantas == null) ? 0 : plantas.hashCode());
@@ -94,10 +95,10 @@ public class Clima implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Clima other = (Clima) obj;
-		if (descriocion == null) {
-			if (other.descriocion != null)
+		if (descripcion == null) {
+			if (other.descripcion != null)
 				return false;
-		} else if (!descriocion.equals(other.descriocion))
+		} else if (!descripcion.equals(other.descripcion))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -119,7 +120,7 @@ public class Clima implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Clima [id=" + id + ", nombre=" + nombre + ", descriocion=" + descriocion + ", plantas=" + plantas + "]";
+		return "Clima [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", plantas=" + plantas + "]";
 	}
 
 	public Clima() {

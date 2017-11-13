@@ -29,7 +29,7 @@ public class Pregunta implements Serializable{
 	private String titulo;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="usuarios_id")
+	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
 	
 	@Column(name = "cerrado")
@@ -42,7 +42,7 @@ public class Pregunta implements Serializable{
 	@JoinColumn(name="temas_id")
 	private Tema tema;
 	
-	@OneToMany(mappedBy = "preguntas", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "pregunta", fetch = FetchType.EAGER)
 	private List<Respuesta> respuestas;
 	
 	@Column(name = "fecha")

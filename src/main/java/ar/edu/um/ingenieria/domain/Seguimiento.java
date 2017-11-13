@@ -11,11 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="seguimiento")
+@Table(name="seguimientos")
 public class Seguimiento implements Serializable{
 
 	/**
@@ -25,15 +26,16 @@ public class Seguimiento implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column (name ="id_usuario")
+	@Column (name ="usuario_id")
 	private Usuario usuario;
-	@Column (name ="id_planta")
+	@Column (name ="planta_id")
 	private Planta planta;
-	@OneToOne (mappedBy = "seguimiento", fetch = FetchType.EAGER)
+	@OneToMany (mappedBy = "seguimiento", fetch = FetchType.EAGER)
 	private List<Etapa> etapas;
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="id_estado")
+	@JoinColumn(name="estado_id")
 	private Estado estado;
+	@Column ( name = "ultimo_riego")
 	private Date ultimoRiego;
 	public Integer getId() {
 		return id;

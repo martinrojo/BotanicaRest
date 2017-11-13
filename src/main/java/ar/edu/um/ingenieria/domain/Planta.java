@@ -30,7 +30,7 @@ public class Planta implements Serializable {
 	private String descripcion;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tipo_id")
+	@JoinColumn(name = "tipoPlantas_id")
 	private Tipo tipo;
 
 	@OneToOne(fetch = FetchType.LAZY)
@@ -45,13 +45,13 @@ public class Planta implements Serializable {
 	@JoinColumn(name = "clima_id")
 	private Clima clima;
 
-	@Column(name = "tiempoRiego")
-	private Date tiempoRiego;
+	@Column(name = "tiempo_riego")
+	private Date tiempo_riego;
 
 	@Override
 	public String toString() {
 		return "Planta [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tipo=" + tipo
-				+ ", temporada=" + temporada + ", suelo=" + suelo + ", clima=" + clima + ", tiempoRiego=" + tiempoRiego
+				+ ", temporada=" + temporada + ", suelo=" + suelo + ", clima=" + clima + ", tiempo_riego=" + tiempo_riego
 				+ "]";
 	}
 
@@ -65,7 +65,7 @@ public class Planta implements Serializable {
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((suelo == null) ? 0 : suelo.hashCode());
 		result = prime * result + ((temporada == null) ? 0 : temporada.hashCode());
-		result = prime * result + ((tiempoRiego == null) ? 0 : tiempoRiego.hashCode());
+		result = prime * result + ((tiempo_riego == null) ? 0 : tiempo_riego.hashCode());
 		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		return result;
 	}
@@ -109,10 +109,10 @@ public class Planta implements Serializable {
 				return false;
 		} else if (!temporada.equals(other.temporada))
 			return false;
-		if (tiempoRiego == null) {
-			if (other.tiempoRiego != null)
+		if (tiempo_riego == null) {
+			if (other.tiempo_riego != null)
 				return false;
-		} else if (!tiempoRiego.equals(other.tiempoRiego))
+		} else if (!tiempo_riego.equals(other.tiempo_riego))
 			return false;
 		if (tipo == null) {
 			if (other.tipo != null)
@@ -178,12 +178,12 @@ public class Planta implements Serializable {
 		this.clima = clima;
 	}
 
-	public Date getTiempoRiego() {
-		return tiempoRiego;
+	public Date gettiempo_riego() {
+		return tiempo_riego;
 	}
 
-	public void setTiempoRiego(Date tiempoRiego) {
-		this.tiempoRiego = tiempoRiego;
+	public void settiempo_riego(Date tiempo_riego) {
+		this.tiempo_riego = tiempo_riego;
 	}
 
 	public static long getSerialversionuid() {

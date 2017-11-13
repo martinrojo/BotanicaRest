@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -30,11 +31,11 @@ public class Etapa implements Serializable{
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@OneToOne (mappedBy = "etapas", fetch = FetchType.LAZY)
+	@OneToMany (mappedBy = "etapa", fetch = FetchType.LAZY)
 	private List<Tarea> tareas;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="id_seguimiento")
+	@JoinColumn(name="seguimiento_id")
 	private Seguimiento seguimiento;
 
 	public Integer getId() {

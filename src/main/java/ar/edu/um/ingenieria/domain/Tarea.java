@@ -1,15 +1,18 @@
 package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table (name = "tareas")
 public class Tarea implements Serializable{
 	
 	private static final long serialVersionUID = -7153249297528005760L;
@@ -22,18 +25,18 @@ public class Tarea implements Serializable{
 	private String nombre;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_etapa")
+	@JoinColumn(name = "etapa_id")
 	private Etapa etapa;
 	
 	@Column (name = "descripcion")
 	private String descripcion;
 	
 	@OneToOne(fetch = FetchType.EAGER)	
-	@JoinColumn(name="id_estado")		
+	@JoinColumn(name="estado_id")		
 	private Estado estado;
 	
 	@OneToOne(fetch = FetchType.EAGER)	
-	@JoinColumn(name="id_planta")		
+	@JoinColumn(name="planta_id")		
 	private Planta planta;
 
 	public Integer getId() {

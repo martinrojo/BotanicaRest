@@ -29,11 +29,11 @@ public class Venta implements Serializable {
 	private String descripcion;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "tipoVenta_id")
+	@JoinColumn(name = "tipo_venta_id")
 	private TipoVenta tipoVenta;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "usuario_id")
+	@JoinColumn(name = "usuarios_id")
 	private Usuario usuario;
 	
 	@Column(name="cerrado")

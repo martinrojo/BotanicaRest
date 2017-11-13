@@ -9,7 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,7 +26,7 @@ public class Suelo implements Serializable {
 	@Column(name = "descripcion")
 	private String descripcion;
 
-	@OneToOne(mappedBy = "suelos", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "suelo", fetch = FetchType.EAGER)
 	private List<Planta> plantas;
 
 	public Integer getId() {

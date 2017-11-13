@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,7 +29,7 @@ public class TipoVenta implements Serializable{
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@OneToOne(mappedBy = "tipoVentas", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "tipoVenta", fetch = FetchType.EAGER)
 	private List<Venta> ventas;
 
 	public Integer getId() {
