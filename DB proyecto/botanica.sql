@@ -246,12 +246,12 @@ DROP TABLE IF EXISTS `seguimientos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `seguimientos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario_id` varbinary(11) DEFAULT NULL,
-  `planta_id` varbinary(11) NOT NULL,
+  `usuario_id` int(11) DEFAULT NULL,
+  `planta_id` int(11) NOT NULL,
   `estado_id` int(11) DEFAULT NULL,
   `ultimo_riego` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5001 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -260,6 +260,7 @@ CREATE TABLE `seguimientos` (
 
 LOCK TABLES `seguimientos` WRITE;
 /*!40000 ALTER TABLE `seguimientos` DISABLE KEYS */;
+INSERT INTO `seguimientos` VALUES (5000,5000,5000,5000,'1990-10-10 00:00:00');
 /*!40000 ALTER TABLE `seguimientos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -479,4 +480,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-13  4:49:03
+-- Dump completed on 2017-11-13  5:42:04

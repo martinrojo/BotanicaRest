@@ -28,10 +28,12 @@ public class Seguimiento implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column (name ="usuario_id")
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
 	
-	@Column (name ="planta_id")
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="planta_id")
 	private Planta planta;
 	
 	@OneToMany (mappedBy = "seguimiento", fetch = FetchType.EAGER)
