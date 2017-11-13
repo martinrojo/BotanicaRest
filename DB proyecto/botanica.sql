@@ -1,168 +1,191 @@
--- phpMyAdmin SQL Dump
--- version 4.1.14
--- http://www.phpmyadmin.net
+CREATE DATABASE  IF NOT EXISTS `botanica` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `botanica`;
+-- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 06-10-2017 a las 04:34:27
--- Versión del servidor: 5.6.17
--- Versión de PHP: 5.5.12
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: botanica
+-- ------------------------------------------------------
+-- Server version	5.7.20-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Base de datos: `botanica`
+-- Table structure for table `climas`
 --
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `climas`
---
-
-CREATE TABLE IF NOT EXISTS `climas` (
+DROP TABLE IF EXISTS `climas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `climas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
+  `descripcion` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `climas`
+-- Dumping data for table `climas`
 --
 
-INSERT INTO `climas` (`id`, `nombre`) VALUES
-(1, 'Calido'),
-(2, 'Templado'),
-(3, 'Arido'),
-(4, 'Frio'),
-(5, 'nanan');
-
--- --------------------------------------------------------
+LOCK TABLES `climas` WRITE;
+/*!40000 ALTER TABLE `climas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `climas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `estados`
+-- Table structure for table `estados`
 --
 
-CREATE TABLE IF NOT EXISTS `estados` (
+DROP TABLE IF EXISTS `estados`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `estados` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `estados`
+-- Dumping data for table `estados`
 --
 
-INSERT INTO `estados` (`id`, `nombre`, `descripcion`) VALUES
-(1, 'Saludable', 'Planta en buen estado general con posibilidad de continuar su ciclo. Optimas condiciones'),
-(2, 'Enferma', 'La planta se encuentra en riesgos, requiere atencion sanitaria. '),
-(3, 'Muerta', 'La planta ha llegado a un punto irreversible. Es necesario discontinuar su cuidado');
-
--- --------------------------------------------------------
+LOCK TABLES `estados` WRITE;
+/*!40000 ALTER TABLE `estados` DISABLE KEYS */;
+/*!40000 ALTER TABLE `estados` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `etapas`
+-- Table structure for table `etapas`
 --
 
-CREATE TABLE IF NOT EXISTS `etapas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) DEFAULT NULL,
+DROP TABLE IF EXISTS `etapas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `etapas` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(20) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
+  `seguimiento_id` int(11) DEFAULT NULL,
+  `planta_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `etapas`
+-- Dumping data for table `etapas`
 --
 
-INSERT INTO `etapas` (`id`, `nombre`, `descripcion`) VALUES
-(1, 'Germinacion', 'Esta etapa comprende entierro de la semilla, la cual absorbe agua y se hincha. Luego se abre y sale una pequeña raiz. Por ultimo el tallo sale hacia arriba y aparecen las primeras hojas.'),
-(2, 'Crecimiento', 'La raiz y el tallo crece, salen nuevas hojas y/o ramas.'),
-(3, 'Floracion', 'La planta ya ha alcanzado la madurez en su ciclo vital. Aparecen las flores donde se encuentran los órganos masculinos y/o femeninos de la planta y donde se lleva a cabo la polinización y/o formación de semillas y frutos.'),
-(4, 'Polinizacion', '                        Proceso de transporte del polen que se encuentra en el interior de los estambres y se tiene que unir al óvulo que se encuentra en el pistilo.'),
-(5, 'Formacion del fruto', 'Después de ser polinizada, la flor se transforma en fruto. Y dentro del fruto se encuentran las semillas para dar lugar a una nueva planta.');
-
--- --------------------------------------------------------
+LOCK TABLES `etapas` WRITE;
+/*!40000 ALTER TABLE `etapas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `etapas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `personas`
+-- Table structure for table `personas`
 --
 
-CREATE TABLE IF NOT EXISTS `personas` (
+DROP TABLE IF EXISTS `personas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `personas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `apellido` varchar(50) NOT NULL,
   `nombre` varchar(50) DEFAULT NULL,
   `edad` int(11) DEFAULT NULL,
   `usuarios_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `usuario_fk_idx` (`usuarios_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `personas`
+-- Dumping data for table `personas`
 --
 
-INSERT INTO `personas` (`id`, `apellido`, `nombre`, `edad`, `usuarios_id`) VALUES
-(1, 'padilla', 'perla', 22, 6),
-(2, 'ascurra', 'daiana', 27, 7),
-(3, 'rojo', 'martin', 21, 8),
-(4, 'sabio', 'leandro', 23, 9),
-(5, 'martinez', 'brenda', 24, 10);
-
--- --------------------------------------------------------
+LOCK TABLES `personas` WRITE;
+/*!40000 ALTER TABLE `personas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `personas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `plantas`
+-- Table structure for table `plantas`
 --
 
-CREATE TABLE IF NOT EXISTS `plantas` (
+DROP TABLE IF EXISTS `plantas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `plantas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
-  `mes_inicio` date DEFAULT NULL,
-  `mes_fin` date DEFAULT NULL,
   `suelo_id` int(11) DEFAULT NULL,
   `clima_id` int(11) DEFAULT NULL,
+  `temporada_id` int(11) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
+  `tiempo_riego` date DEFAULT NULL,
+  `tiposPlantas_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `id_clima_idx` (`clima_id`),
-  KEY `id_suelo_idx` (`suelo_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `preguntas`
+-- Dumping data for table `plantas`
 --
 
-CREATE TABLE IF NOT EXISTS `preguntas` (
+LOCK TABLES `plantas` WRITE;
+/*!40000 ALTER TABLE `plantas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `plantas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `preguntas`
+--
+
+DROP TABLE IF EXISTS `preguntas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `preguntas` (
   `id` int(11) NOT NULL,
   `titulo` varchar(45) DEFAULT NULL,
-  `usuarios_id` int(11) DEFAULT NULL,
-  `cerrado` tinyint(1) DEFAULT NULL,
+  `usuario_id` int(11) DEFAULT NULL,
+  `cerrado` bit(1) DEFAULT NULL,
   `texto` varchar(255) DEFAULT NULL,
-  `temas_id` int(11) NOT NULL AUTO_INCREMENT,
+  `temas_id` int(11) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `temas_id_UNIQUE` (`temas_id`),
-  UNIQUE KEY `usuarios_id_UNIQUE` (`usuarios_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  UNIQUE KEY `usuarios_id_UNIQUE` (`usuario_id`),
+  UNIQUE KEY `temas_id_UNIQUE` (`temas_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `respuestas`
+-- Dumping data for table `preguntas`
 --
 
-CREATE TABLE IF NOT EXISTS `respuestas` (
+LOCK TABLES `preguntas` WRITE;
+/*!40000 ALTER TABLE `preguntas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `preguntas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `respuestas`
+--
+
+DROP TABLE IF EXISTS `respuestas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `respuestas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `preguntas_id` int(11) DEFAULT NULL,
   `texto` varchar(255) DEFAULT NULL,
@@ -172,211 +195,278 @@ CREATE TABLE IF NOT EXISTS `respuestas` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `preguntas_id_UNIQUE` (`preguntas_id`),
   UNIQUE KEY `usuario_id_UNIQUE` (`usuario_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `roles`
+-- Dumping data for table `respuestas`
 --
 
-CREATE TABLE IF NOT EXISTS `roles` (
+LOCK TABLES `respuestas` WRITE;
+/*!40000 ALTER TABLE `respuestas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `respuestas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rol` varchar(50) DEFAULT NULL,
-  `descripcion` varchar(520) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `roles`
+-- Dumping data for table `roles`
 --
 
-INSERT INTO `roles` (`id`, `rol`, `descripcion`) VALUES
-(1, 'ROLE_ADMIN', 'Administrador'),
-(2, 'ROLE_USER', 'Usuario Comun'),
-(3, 'ROLE_VENDEDOR', 'Vendedor');
-
--- --------------------------------------------------------
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `suelos`
+-- Table structure for table `seguimientos`
 --
 
-CREATE TABLE IF NOT EXISTS `suelos` (
+DROP TABLE IF EXISTS `seguimientos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `seguimientos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` varbinary(11) DEFAULT NULL,
+  `planta_id` varbinary(11) NOT NULL,
+  `estado_id` int(11) DEFAULT NULL,
+  `ultimo_riego` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `seguimientos`
+--
+
+LOCK TABLES `seguimientos` WRITE;
+/*!40000 ALTER TABLE `seguimientos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `seguimientos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `suelos`
+--
+
+DROP TABLE IF EXISTS `suelos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `suelos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `suelos`
+-- Dumping data for table `suelos`
 --
 
-INSERT INTO `suelos` (`id`, `nombre`) VALUES
-(1, 'Secos y arenosos'),
-(2, 'Salitrosos'),
-(3, 'Arcillosos'),
-(4, 'Alcalinos'),
-(5, 'Humiferos');
-
--- --------------------------------------------------------
+LOCK TABLES `suelos` WRITE;
+/*!40000 ALTER TABLE `suelos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `suelos` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `temas`
+-- Table structure for table `tareas`
 --
 
-CREATE TABLE IF NOT EXISTS `temas` (
+DROP TABLE IF EXISTS `tareas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tareas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) DEFAULT NULL,
+  `etapa_id` int(11) NOT NULL,
+  `descripcion` varchar(512) DEFAULT NULL,
+  `estado_id` int(11) DEFAULT NULL,
+  `planta_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tareas`
+--
+
+LOCK TABLES `tareas` WRITE;
+/*!40000 ALTER TABLE `tareas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tareas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `temas`
+--
+
+DROP TABLE IF EXISTS `temas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(120) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `tipos`
+-- Dumping data for table `temas`
 --
 
-CREATE TABLE IF NOT EXISTS `tipos` (
+LOCK TABLES `temas` WRITE;
+/*!40000 ALTER TABLE `temas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `temas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `temporadas`
+--
+
+DROP TABLE IF EXISTS `temporadas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temporadas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) DEFAULT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `temporadas`
+--
+
+LOCK TABLES `temporadas` WRITE;
+/*!40000 ALTER TABLE `temporadas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `temporadas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tipo_ventas`
+--
+
+DROP TABLE IF EXISTS `tipo_ventas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tipo_ventas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) DEFAULT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tipo_ventas`
+--
+
+LOCK TABLES `tipo_ventas` WRITE;
+/*!40000 ALTER TABLE `tipo_ventas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tipo_ventas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tipos_plantas`
+--
+
+DROP TABLE IF EXISTS `tipos_plantas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tipos_plantas` (
   `id` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='			';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `tipos`
+-- Dumping data for table `tipos_plantas`
 --
 
-INSERT INTO `tipos` (`id`, `nombre`, `descripcion`) VALUES
-(0, 'Arboreas', 'Se reconocen por que tienen un solo tronco principal del cual salen las ramas, luego las hojas y las flores. Su tronco es leñoso y usualmente tiene una composición clásica; raíces debajo de la tierra y una copa de hojas fronda. Son muy duraderos.'),
-(1, 'Arbustivas', '	No suelen tener un tronco principal, sino varios que salen desde la base de la planta. Las ramas y troncos también suelen ser leñosos. Usualmente tienen un crecimiento de formas variadas, pero son ideales para podar y darle forma a gusto'),
-(2, 'Herbaceas', 'Suelen ser pequeñas.  Sus ramas y troncos no son leñosos sino más blandos.'),
-(3, 'Tuberosas', 'se desarrollan a través de un tubérculo. Esta es una parte de la planta que se ha modificado, ya sea la raíz o el tallo, para almacenar alimentos en las épocas donde escasean el agua o los nutrientes.'),
-(4, 'Bulbosas', 'Los bulbos se desarrollan debajo de la tierra y sirven para almacenar alimentos, sobre todo durante el invierno. Los bulbos tienden a tener formas más redondeadas'),
-(5, 'Aereas', '	Se les llama así debido a que sus raíces no viven dentro de la tierra. Estas se anclan en las copas de los árboles y absorben el alimento y el agua que corre sobre la corteza de los mismos'),
-(6, 'Suculentas', ' han adaptado algunas de sus partes, ya sea el tallo o las hojas, para almacenar agua y alimentos en épocas de escasez.'),
-(7, 'Acuaticas', 'viven sobre el agua o en estanques donde el sustrato siempre está inundado. Estas se han adaptado a estos altos niveles de humedad lo mismo en cuerpos de agua salinos como de agua dulce');
-
--- --------------------------------------------------------
+LOCK TABLES `tipos_plantas` WRITE;
+/*!40000 ALTER TABLE `tipos_plantas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tipos_plantas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `tipos_plantas`
+-- Table structure for table `usuarios`
 --
 
-CREATE TABLE IF NOT EXISTS `tipos_plantas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipos_id` int(11) DEFAULT NULL,
-  `plantas_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `id_tipos_idx` (`tipos_id`),
-  KEY `id_plantas_idx` (`plantas_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuarios`
---
-
-CREATE TABLE IF NOT EXISTS `usuarios` (
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `password` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `user` varchar(16) COLLATE utf8_spanish_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `roles_id` int(50) NOT NULL,
+  `roles_id` int(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_UNIQUE` (`user`),
-  KEY `roles_fk` (`roles_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=12 ;
+  UNIQUE KEY `roles_id_UNIQUE` (`roles_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `password`, `user`, `email`, `roles_id`) VALUES
-(6, '1234', 'perla_padilla', 'perlapadilla@hotmail.com', 3),
-(7, '4321', 'daiana_ascurra', 'daianaascurra@hotmail.com', 2),
-(8, 'abc123', 'martin_rojo', 'martinrojo@hotmail.com', 1),
-(9, '123abc', 'leandro_sabio', 'leandrosabio@hotmail.com', 1),
-(10, 'gallega', 'brenda_martinez', 'bredamartinez@hotmail.com', 3),
-(11, '1234', 'ramiro', 'ramirog@hotmail.com', 3);
-
--- --------------------------------------------------------
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `usuario_plantas`
+-- Table structure for table `ventas`
 --
 
-CREATE TABLE IF NOT EXISTS `usuario_plantas` (
-  `id` int(11) NOT NULL,
-  `usuario_id` int(11) NOT NULL,
-  `planta_id` int(11) NOT NULL,
-  `etapa_id` int(11) DEFAULT NULL,
-  `estado_id` int(11) DEFAULT NULL,
-  `remedio` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_usuario_UNIQUE` (`usuario_id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `id_planta_UNIQUE` (`planta_id`),
-  KEY `id_etapas_idx` (`etapa_id`),
-  KEY `id_estados_idx` (`estado_id`)
+DROP TABLE IF EXISTS `ventas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ventas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `producto` varchar(45) DEFAULT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `usuarios_id` int(11) DEFAULT NULL,
+  `cerrado` tinyint(1) DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `tipo_venta_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Restricciones para tablas volcadas
+-- Dumping data for table `ventas`
 --
 
---
--- Filtros para la tabla `personas`
---
-ALTER TABLE `personas`
-  ADD CONSTRAINT `usuario_fk` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+LOCK TABLES `ventas` WRITE;
+/*!40000 ALTER TABLE `ventas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ventas` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Filtros para la tabla `plantas`
---
-ALTER TABLE `plantas`
-  ADD CONSTRAINT `id_clima` FOREIGN KEY (`clima_id`) REFERENCES `climas` (`id`),
-  ADD CONSTRAINT `id_suelo` FOREIGN KEY (`suelo_id`) REFERENCES `suelos` (`id`);
-
---
--- Filtros para la tabla `preguntas`
---
-ALTER TABLE `preguntas`
-  ADD CONSTRAINT `temas_id` FOREIGN KEY (`temas_id`) REFERENCES `temas` (`id`),
-  ADD CONSTRAINT `usuarios_id` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`);
-
---
--- Filtros para la tabla `respuestas`
---
-ALTER TABLE `respuestas`
-  ADD CONSTRAINT `preguntas_id` FOREIGN KEY (`preguntas_id`) REFERENCES `preguntas` (`id`);
-
---
--- Filtros para la tabla `tipos_plantas`
---
-ALTER TABLE `tipos_plantas`
-  ADD CONSTRAINT `id_plantas` FOREIGN KEY (`plantas_id`) REFERENCES `plantas` (`id`),
-  ADD CONSTRAINT `id_tipos` FOREIGN KEY (`tipos_id`) REFERENCES `tipos` (`id`);
-
---
--- Filtros para la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD CONSTRAINT `roles_fk` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `usuario_plantas`
---
-ALTER TABLE `usuario_plantas`
-  ADD CONSTRAINT `fk_estados` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`id`),
-  ADD CONSTRAINT `fk_etapas` FOREIGN KEY (`etapa_id`) REFERENCES `etapas` (`id`),
-  ADD CONSTRAINT `fk_plantas` FOREIGN KEY (`planta_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_usuarios` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-11-12 23:15:16
