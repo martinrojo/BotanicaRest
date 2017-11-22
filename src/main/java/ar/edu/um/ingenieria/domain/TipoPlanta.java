@@ -1,31 +1,34 @@
 package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="estados")
-public class Estado implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8971003862132413479L;
-	
+@Table(name = "tipos_plantas")
+public class TipoPlanta implements Serializable {
+
+	private static final long serialVersionUID = 5594164633144592475L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "nombre")
 	private String nombre;
-	
+
 	@Column(name = "descripcion")
 	private String descripcion;
+
+	@OneToMany(mappedBy = "tipo", fetch = FetchType.EAGER)
+	private List<Planta> plantas;
 	
 	public Integer getId() {
 		return id;
@@ -51,6 +54,14 @@ public class Estado implements Serializable {
 		this.descripcion = descripcion;
 	}
 
+	public List<Planta> getPlantas() {
+		return plantas;
+	}
+
+	public void setPlantas(List<Planta> plantas) {
+		this.plantas = plantas;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -73,7 +84,7 @@ public class Estado implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Estado other = (Estado) obj;
+		TipoPlanta other = (TipoPlanta) obj;
 		if (descripcion == null) {
 			if (other.descripcion != null)
 				return false;
@@ -94,10 +105,10 @@ public class Estado implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Estado [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
+		return "Tipo [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
 	}
 
-	public Estado() {
+	public TipoPlanta() {
 		super();
-	}	 
+	}
 }

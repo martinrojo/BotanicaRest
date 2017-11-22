@@ -16,7 +16,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name="ventas")
 public class Venta implements Serializable {
-
 	private static final long serialVersionUID = -7450859031546245239L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +29,7 @@ public class Venta implements Serializable {
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "tipo_venta_id")
-	private TipoVenta tipoVenta;
+	private TipoVenta tipo_venta_id;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "usuarios_id")
@@ -41,7 +40,7 @@ public class Venta implements Serializable {
 	
 	@Column(name="fecha")
 	private Date fecha;
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -67,11 +66,11 @@ public class Venta implements Serializable {
 	}
 
 	public TipoVenta getTipoVenta() {
-		return tipoVenta;
+		return tipo_venta_id;
 	}
 
 	public void setTipoVenta(TipoVenta tipoVenta) {
-		this.tipoVenta = tipoVenta;
+		this.tipo_venta_id = tipoVenta;
 	}
 
 	public Usuario getUsuario() {
@@ -101,7 +100,7 @@ public class Venta implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -111,8 +110,6 @@ public class Venta implements Serializable {
 		result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((producto == null) ? 0 : producto.hashCode());
-		result = prime * result + ((tipoVenta == null) ? 0 : tipoVenta.hashCode());
-		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
 
@@ -150,23 +147,13 @@ public class Venta implements Serializable {
 				return false;
 		} else if (!producto.equals(other.producto))
 			return false;
-		if (tipoVenta == null) {
-			if (other.tipoVenta != null)
-				return false;
-		} else if (!tipoVenta.equals(other.tipoVenta))
-			return false;
-		if (usuario == null) {
-			if (other.usuario != null)
-				return false;
-		} else if (!usuario.equals(other.usuario))
-			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Ventas [id=" + id + ", producto=" + producto + ", descripcion=" + descripcion + ", tipoVenta="
-				+ tipoVenta + ", usuario=" + usuario + ", cerrado=" + cerrado + ", fecha=" + fecha + "]";
+		return "Venta [id=" + id + ", producto=" + producto + ", descripcion=" + descripcion + ", cerrado=" + cerrado
+				+ ", fecha=" + fecha + "]";
 	}
 
 	public Venta() {

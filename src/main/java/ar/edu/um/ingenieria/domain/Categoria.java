@@ -10,27 +10,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tipos_plantas")
-public class Tipo implements Serializable {
-
-	private static final long serialVersionUID = 5594164633144592475L;
+@Table(name="categorias")
+public class Categoria implements Serializable{
+	private static final long serialVersionUID = -145486320173528095L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
+	
 	@Column(name = "nombre")
 	private String nombre;
-
-	@Column(name = "descripcion")
-	private String descripcion;
-
-	@OneToMany(mappedBy = "tipo", fetch = FetchType.EAGER)
-	private List<Planta> plantas;
-
+	
+	@OneToMany(mappedBy = "categoria", fetch = FetchType.EAGER)
+	private List<Tema> temas;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -47,42 +43,24 @@ public class Tipo implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getdescripcion() {
-		return descripcion;
+	public List<Tema> getTemas() {
+		return temas;
 	}
 
-	public void setdescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public List<Planta> getPlantas() {
-		return plantas;
-	}
-
-	public void setPlantas(List<Planta> plantas) {
-		this.plantas = plantas;
+	public void setTemas(List<Tema> temas) {
+		this.temas = temas;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	public void add(Planta planta) {
-		plantas.add(planta);
-	}
-
-	public void remove(Planta planta) {
-		plantas.remove(planta);
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((plantas == null) ? 0 : plantas.hashCode());
 		return result;
 	}
 
@@ -94,12 +72,7 @@ public class Tipo implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Tipo other = (Tipo) obj;
-		if (descripcion == null) {
-			if (other.descripcion != null)
-				return false;
-		} else if (!descripcion.equals(other.descripcion))
-			return false;
+		Categoria other = (Categoria) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -110,20 +83,15 @@ public class Tipo implements Serializable {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		if (plantas == null) {
-			if (other.plantas != null)
-				return false;
-		} else if (!plantas.equals(other.plantas))
-			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Tipo [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", plantas=" + plantas + "]";
+		return "Categoria [id=" + id + ", nombre=" + nombre + ", temas=" + temas + "]";
 	}
 
-	public Tipo() {
+	public Categoria() {
 		super();
 	}
 }

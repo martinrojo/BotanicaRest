@@ -37,7 +37,7 @@ public class Etapa implements Serializable{
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="seguimiento_id")
 	private Seguimiento seguimiento;
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -70,39 +70,18 @@ public class Etapa implements Serializable{
 		this.tareas = tareas;
 	}
 
-	public void addTareas(Tarea tarea)
-	{
-		this.tareas.add(tarea);
+	public Seguimiento getSeguimiento() {
+		return seguimiento;
 	}
-	
-	public void removeTareas(Tarea tarea)
-	{
-		this.tareas.remove(tarea);
-	}
-	public void add (Etapa o) {
-		this.seguimiento.add(o);
-	}
-	public void remove (Etapa o) {
-		this.seguimiento.remove(o);
+
+	public void setSeguimiento(Seguimiento seguimiento) {
+		this.seguimiento = seguimiento;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public void add (Tarea o) {
-		this.tareas.add(o);
-	}
-	public void remove (Tarea o) {
-		this.tareas.remove(o);
-	}
 	
-
-	@Override
-	public String toString() {
-		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tareas=" + tareas
-				+ ", seguimiento=" + seguimiento + "]";
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -110,8 +89,6 @@ public class Etapa implements Serializable{
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((seguimiento == null) ? 0 : seguimiento.hashCode());
-		result = prime * result + ((tareas == null) ? 0 : tareas.hashCode());
 		return result;
 	}
 
@@ -139,22 +116,15 @@ public class Etapa implements Serializable{
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		if (seguimiento == null) {
-			if (other.seguimiento != null)
-				return false;
-		} else if (!seguimiento.equals(other.seguimiento))
-			return false;
-		if (tareas == null) {
-			if (other.tareas != null)
-				return false;
-		} else if (!tareas.equals(other.tareas))
-			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
 	}
 
 	public Etapa() {
 		super();
 	}
-	
-	
 }

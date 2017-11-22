@@ -17,15 +17,14 @@ import ar.edu.um.ingenieria.domain.Planta;
 import ar.edu.um.ingenieria.domain.Seguimiento;
 import ar.edu.um.ingenieria.domain.Tarea;
 import ar.edu.um.ingenieria.domain.Usuario;
-import ar.edu.um.ingenieria.manager.SeguimientoManager;
 
 @RestController
 @RequestMapping("/seguimiento")
 public class SeguimientoController {
-	
+	/*
 	@Autowired
 	private SeguimientoManager seguimientoManager;
-
+	
 	public ResponseEntity<List<Seguimiento>> findAll() {
 		return new ResponseEntity<List<Seguimiento>>(seguimientoManager.findAll(), HttpStatus.OK);
 	}
@@ -45,5 +44,5 @@ public class SeguimientoController {
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
 		seguimientoManager.delete(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
+	}*/
 }

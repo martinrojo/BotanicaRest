@@ -1,6 +1,7 @@
 package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,46 +12,37 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import net.minidev.json.annotate.JsonIgnore;
 
 @Entity
-@Table(name="personas")
-public class Persona implements Serializable{
-	/**
-	 * 
-	 */
+@Table(name = "personas")
+public class Persona implements Serializable {
 	private static final long serialVersionUID = -7970707835084301001L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "apellido")
 	private String apellido;
-	
+
 	@Column(name = "nombre")
 	private String nombre;
-	
-	@Column(name = "edad")
-	private Integer edad;
-	
+
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Column(name = "fecha_nacimiento")
+	private Date fecha_naciemiento;
+
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "usuarios_id")
 	private Usuario usuario;
-	
-	public Persona() {
-		super();
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 
 	public Integer getId() {
 		return id;
@@ -76,12 +68,20 @@ public class Persona implements Serializable{
 		this.nombre = nombre;
 	}
 
-	public Integer getEdad() {
-		return edad;
+	public Date getFechaNacimiento() {
+		return fecha_naciemiento;
 	}
 
-	public void setEdad(Integer edad) {
-		this.edad = edad;
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fecha_naciemiento = fechaNacimiento;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public static long getSerialversionuid() {
@@ -93,7 +93,7 @@ public class Persona implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((apellido == null) ? 0 : apellido.hashCode());
-		result = prime * result + ((edad == null) ? 0 : edad.hashCode());
+		result = prime * result + ((fecha_naciemiento == null) ? 0 : fecha_naciemiento.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		return result;
@@ -113,10 +113,10 @@ public class Persona implements Serializable{
 				return false;
 		} else if (!apellido.equals(other.apellido))
 			return false;
-		if (edad == null) {
-			if (other.edad != null)
+		if (fecha_naciemiento == null) {
+			if (other.fecha_naciemiento != null)
 				return false;
-		} else if (!edad.equals(other.edad))
+		} else if (!fecha_naciemiento.equals(other.fecha_naciemiento))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -131,16 +131,13 @@ public class Persona implements Serializable{
 		return true;
 	}
 
-	public Persona(String apellido, String nombre, Integer edad, Usuario usuario) {
-		super();
-		this.apellido = apellido;
-		this.nombre = nombre;
-		this.edad = edad;
-		this.usuario = usuario;
-	}
-
 	@Override
 	public String toString() {
-		return "Persona [id=" + id + ", apellido=" + apellido + ", nombre=" + nombre + ", edad=" + edad + "]";
+		return "Persona [id=" + id + ", apellido=" + apellido + ", nombre=" + nombre + ", fechaNacimiento="
+				+ fecha_naciemiento + "]";
+	}
+
+	public Persona() {
+		super();
 	}
 }

@@ -10,11 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tipoVentas")
+@Table(name="tipos_ventas")
 public class TipoVenta implements Serializable{
 
 	private static final long serialVersionUID = 5119395375884302672L;
@@ -29,9 +28,9 @@ public class TipoVenta implements Serializable{
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@OneToMany(mappedBy = "tipoVenta", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "tipo_venta_id", fetch = FetchType.EAGER)
 	private List<Venta> ventas;
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -68,14 +67,6 @@ public class TipoVenta implements Serializable{
 		return serialVersionUID;
 	}
 	
-	public void add(Venta venta) {
-		ventas.add(venta);
-	}
-	
-	public void remove(Venta venta) {
-		ventas.remove(venta);
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -83,7 +74,6 @@ public class TipoVenta implements Serializable{
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((ventas == null) ? 0 : ventas.hashCode());
 		return result;
 	}
 
@@ -111,18 +101,12 @@ public class TipoVenta implements Serializable{
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		if (ventas == null) {
-			if (other.ventas != null)
-				return false;
-		} else if (!ventas.equals(other.ventas))
-			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "TipoVenta [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", ventas=" + ventas
-				+ "]";
+		return "TipoVenta [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
 	}
 
 	public TipoVenta() {

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import ar.edu.um.ingenieria.repository.TemaRepository;
-import ar.edu.um.ingenieria.domain.Tema;
+import ar.edu.um.ingenieria.domain.Categoria;
 
 @RestController
 @RequestMapping("/temas")
@@ -21,13 +21,13 @@ public class TemaController {
 	private TemaRepository temaRepository;
 	
 	@GetMapping //lo usamos para devolver datos
-	public List<Tema> indexPage() {
+	public List<Categoria> indexPage() {
 		logger.info("datos de clima: {}", temaRepository.findAll());
 		return temaRepository.findAll();
 	}
 	
 	@GetMapping("/{id}") 
-	public Tema show(@PathVariable Integer id) {
+	public Categoria show(@PathVariable Integer id) {
 		logger.info("datos de tema: {}", temaRepository.findAll());
 		return temaRepository.getOne(id);
 	}

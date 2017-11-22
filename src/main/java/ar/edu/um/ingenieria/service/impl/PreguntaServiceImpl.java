@@ -4,37 +4,37 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.edu.um.ingenieria.domain.Pregunta;
+import ar.edu.um.ingenieria.domain.Tema;
 
 @Service
-public class PreguntaServiceImpl extends ServiceImpl<Pregunta, Integer>{
+public class PreguntaServiceImpl extends ServiceImpl<Tema, Integer>{
 
 	@Override
-	public Pregunta create(Pregunta entity) {
+	public Tema create(Tema entity) {
 		// TODO Auto-generated method stub
 		return super.create(entity);
 	}
 
 	@Override
-	public void remove(Pregunta entity) {
+	public void remove(Tema entity) {
 		// TODO Auto-generated method stub
 		super.remove(entity);
 	}
 
 	@Override
-	public Pregunta update(Pregunta entity) {
+	public Tema update(Tema entity) {
 		// TODO Auto-generated method stub
 		return super.update(entity);
 	}
 
 	@Override
-	public Pregunta findById(Integer id) {
+	public Tema findById(Integer id) {
 		// TODO Auto-generated method stub
 		return super.findById(id);
 	}
 
 	@Override
-	public List<Pregunta> findAll() {
+	public List<Tema> findAll() {
 		// TODO Auto-generated method stub
 		return super.findAll();
 	}

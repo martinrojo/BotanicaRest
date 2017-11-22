@@ -49,6 +49,7 @@ private static final Logger logger = LoggerFactory.getLogger(UsuarioController.c
 	    return usuarioService.update(usuario);
     }
 	
+	
 	@DeleteMapping(value = "/{id}")
 	public void delete(@PathVariable Integer id) {
 		usuarioService.remove(usuarioService.findById(id));

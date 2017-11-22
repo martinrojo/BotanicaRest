@@ -1,7 +1,7 @@
 package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
-import java.sql.Time;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "plantas")
@@ -30,98 +34,26 @@ public class Planta implements Serializable {
 	private String descripcion;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "tipoPlantas_id")
-	private Tipo tipo;
+	@JoinColumn(name = "tipo_planta_id")
+	private TipoPlanta tipo;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "temporada_id")
+	@JoinColumn(name = "temporadas_id")
 	private Temporada temporada;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "suelo_id")
+	@JoinColumn(name = "suelos_id")
 	private Suelo suelo;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "clima_id")
+	@JoinColumn(name = "climas_id")
 	private Clima clima;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="HH:mm:ss")
 	@Column(name = "tiempo_riego")
-	private Time tiempo_riego;
-
-	@Override
-	public String toString() {
-		return "Planta [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tipo=" + tipo
-				+ ", temporada=" + temporada + ", suelo=" + suelo + ", clima=" + clima + ", tiempo_riego=" + tiempo_riego
-				+ "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((clima == null) ? 0 : clima.hashCode());
-		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((suelo == null) ? 0 : suelo.hashCode());
-		result = prime * result + ((temporada == null) ? 0 : temporada.hashCode());
-		result = prime * result + ((tiempo_riego == null) ? 0 : tiempo_riego.hashCode());
-		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Planta other = (Planta) obj;
-		if (clima == null) {
-			if (other.clima != null)
-				return false;
-		} else if (!clima.equals(other.clima))
-			return false;
-		if (descripcion == null) {
-			if (other.descripcion != null)
-				return false;
-		} else if (!descripcion.equals(other.descripcion))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (nombre == null) {
-			if (other.nombre != null)
-				return false;
-		} else if (!nombre.equals(other.nombre))
-			return false;
-		if (suelo == null) {
-			if (other.suelo != null)
-				return false;
-		} else if (!suelo.equals(other.suelo))
-			return false;
-		if (temporada == null) {
-			if (other.temporada != null)
-				return false;
-		} else if (!temporada.equals(other.temporada))
-			return false;
-		if (tiempo_riego == null) {
-			if (other.tiempo_riego != null)
-				return false;
-		} else if (!tiempo_riego.equals(other.tiempo_riego))
-			return false;
-		if (tipo == null) {
-			if (other.tipo != null)
-				return false;
-		} else if (!tipo.equals(other.tipo))
-			return false;
-		return true;
-	}
-
+	private Date tiempo_riego;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -146,11 +78,11 @@ public class Planta implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Tipo getTipo() {
+	public TipoPlanta getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(Tipo tipo) {
+	public void setTipo(TipoPlanta tipo) {
 		this.tipo = tipo;
 	}
 
@@ -178,16 +110,65 @@ public class Planta implements Serializable {
 		this.clima = clima;
 	}
 
-	public Time gettiempo_riego() {
+	public Date getTiempoRiego() {
 		return tiempo_riego;
 	}
 
-	public void settiempo_riego(Time tiempo_riego) {
-		this.tiempo_riego = tiempo_riego;
+	public void setTiempoRiego(Date tiempoRiego) {
+		this.tiempo_riego = tiempoRiego;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((tiempo_riego == null) ? 0 : tiempo_riego.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Planta other = (Planta) obj;
+		if (descripcion == null) {
+			if (other.descripcion != null)
+				return false;
+		} else if (!descripcion.equals(other.descripcion))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (tiempo_riego == null) {
+			if (other.tiempo_riego != null)
+				return false;
+		} else if (!tiempo_riego.equals(other.tiempo_riego))
+			return false;
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return "Planta [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tiempoRiego="
+				+ tiempo_riego + "]";
 	}
 
 	public Planta() {

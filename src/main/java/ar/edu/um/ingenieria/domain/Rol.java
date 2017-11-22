@@ -27,9 +27,32 @@ public class Rol implements Serializable{
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	
-	public Rol() {
-		super();
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getRol() {
+		return rol;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 	@Override
@@ -41,6 +64,7 @@ public class Rol implements Serializable{
 		result = prime * result + ((rol == null) ? 0 : rol.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -50,6 +74,11 @@ public class Rol implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Rol other = (Rol) obj;
+		if (descripcion == null) {
+			if (other.descripcion != null)
+				return false;
+		} else if (!descripcion.equals(other.descripcion))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -62,31 +91,13 @@ public class Rol implements Serializable{
 			return false;
 		return true;
 	}
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public String getRol() {
-		return rol;
-	}
-	public void setRol(String rol) {
-		this.rol = rol;
-	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
 	@Override
 	public String toString() {
 		return "Rol [id=" + id + ", rol=" + rol + ", descripcion=" + descripcion + "]";
 	}
-	
-	
+
+	public Rol() {
+		super();
+	}
 }

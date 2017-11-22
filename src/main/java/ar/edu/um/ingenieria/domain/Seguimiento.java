@@ -14,14 +14,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="seguimientos")
 public class Seguimiento implements Serializable{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7153249297528005760L;
 	
 	@Id
@@ -43,67 +43,74 @@ public class Seguimiento implements Serializable{
 	@JoinColumn(name="estado_id")
 	private Estado estado;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column ( name = "ultimo_riego")
-	private Date ultimoRiego;
+	private Date utlimo_riego;
 	
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
+
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
 	public Planta getPlanta() {
 		return planta;
 	}
+
 	public void setPlanta(Planta planta) {
 		this.planta = planta;
 	}
-	
+
 	public List<Etapa> getEtapas() {
 		return etapas;
 	}
+
 	public void setEtapas(List<Etapa> etapas) {
 		this.etapas = etapas;
 	}
+
 	public Estado getEstado() {
 		return estado;
 	}
+
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
-	public Date getultimoRiego() {
-		return ultimoRiego;
+
+	public Date getUltimoRiego() {
+		return utlimo_riego;
 	}
-	public void setultimoRiego(Date ultimoRiego) {
-		this.ultimoRiego = ultimoRiego;
+
+	public void setUltimoRiego(Date ultimoRiego) {
+		this.utlimo_riego = ultimoRiego;
 	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public void add (Etapa o) {
-		this.etapas.add(o);
-	}
-	public void remove (Etapa o) {
-		this.etapas.remove(o);
-	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
-		result = prime * result + ((etapas == null) ? 0 : etapas.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((planta == null) ? 0 : planta.hashCode());
-		result = prime * result + ((ultimoRiego == null) ? 0 : ultimoRiego.hashCode());
-		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+		result = prime * result + ((utlimo_riego == null) ? 0 : utlimo_riego.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -118,11 +125,6 @@ public class Seguimiento implements Serializable{
 				return false;
 		} else if (!estado.equals(other.estado))
 			return false;
-		if (etapas == null) {
-			if (other.etapas != null)
-				return false;
-		} else if (!etapas.equals(other.etapas))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -133,21 +135,21 @@ public class Seguimiento implements Serializable{
 				return false;
 		} else if (!planta.equals(other.planta))
 			return false;
-		if (ultimoRiego == null) {
-			if (other.ultimoRiego != null)
+		if (utlimo_riego == null) {
+			if (other.utlimo_riego != null)
 				return false;
-		} else if (!ultimoRiego.equals(other.ultimoRiego))
-			return false;
-		if (usuario == null) {
-			if (other.usuario != null)
-				return false;
-		} else if (!usuario.equals(other.usuario))
+		} else if (!utlimo_riego.equals(other.utlimo_riego))
 			return false;
 		return true;
 	}
+	
 	@Override
 	public String toString() {
-		return "Seguimiento [id=" + id + ", usuario=" + usuario + ", planta=" + planta + ", etapa=" + etapas
-				+ ", estado=" + estado + ", ultimoRiego=" + ultimoRiego + "]";
+		return "Seguimiento [id=" + id + ", planta=" + planta + ", estado=" + estado + ", ultimoRiego=" + utlimo_riego
+				+ "]";
+	}
+
+	public Seguimiento() {
+		super();
 	}
 }

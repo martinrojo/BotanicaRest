@@ -10,13 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="temporadas")
-public class Temporada implements Serializable{
-	
+public class Temporada implements Serializable {
 	private static final long serialVersionUID = 573505379794188504L;
 
 	@Id
@@ -31,7 +29,7 @@ public class Temporada implements Serializable{
 	
 	@OneToMany(mappedBy = "temporada", fetch = FetchType.EAGER)
 	private List<Planta> plantas;
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -48,11 +46,11 @@ public class Temporada implements Serializable{
 		this.nombre = nombre;
 	}
 
-	public String getdescripcion() {
+	public String getDescripcion() {
 		return descripcion;
 	}
 
-	public void setdescripcion(String descripcion) {
+	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
@@ -68,14 +66,6 @@ public class Temporada implements Serializable{
 		return serialVersionUID;
 	}
 	
-	public void add(Planta planta) {
-		plantas.add(planta);
-	}
-	
-	public void remove(Planta planta) {
-		plantas.remove(planta);
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -83,7 +73,6 @@ public class Temporada implements Serializable{
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((plantas == null) ? 0 : plantas.hashCode());
 		return result;
 	}
 
@@ -111,18 +100,12 @@ public class Temporada implements Serializable{
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		if (plantas == null) {
-			if (other.plantas != null)
-				return false;
-		} else if (!plantas.equals(other.plantas))
-			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Temporada [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", plantas=" + plantas
-				+ "]";
+		return "Temporada [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
 	}
 
 	public Temporada() {
