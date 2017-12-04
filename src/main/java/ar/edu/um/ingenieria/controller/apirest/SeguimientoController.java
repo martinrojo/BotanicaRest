@@ -12,22 +12,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Seguimiento;
 import ar.edu.um.ingenieria.service.impl.SeguimientoServiceImpl;
 
 @RestController
-@RequestMapping(value = "/seguimiento" , method = RequestMethod.GET)
+@RequestMapping(value = "/seguimiento")
 public class SeguimientoController {
 	@Autowired
 	private SeguimientoServiceImpl seguimientoService;
 	
-
-private static final Logger logger = LoggerFactory.getLogger(SeguimientoController.class);
+	private static final Logger logger = LoggerFactory.getLogger(SeguimientoController.class);
 	
-
 	@GetMapping
     public List<Seguimiento> indexPage() {
 		logger.info("datos de seguimiento: {}", seguimientoService.findAll());
@@ -50,7 +47,6 @@ private static final Logger logger = LoggerFactory.getLogger(SeguimientoControll
 		seguimiento.setId(id);
 	    return seguimientoService.update(seguimiento);
     }
-	
 	
 	@DeleteMapping(value = "/{id}")
 	public void delete(@PathVariable Integer id) {
