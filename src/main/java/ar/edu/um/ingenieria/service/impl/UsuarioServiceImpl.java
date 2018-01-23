@@ -37,7 +37,6 @@ public class UsuarioServiceImpl extends ServiceImpl<Usuario, Integer>{
 
 	@Override
 	public List<Usuario> findAll() {
-		
 		return super.findAll();
 	}
 

@@ -19,6 +19,8 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="seguimientos")
 public class Seguimiento implements Serializable{
@@ -36,6 +38,7 @@ public class Seguimiento implements Serializable{
 	@JoinColumn(name="planta_id")
 	private Planta planta;
 	
+	@JsonIgnore
 	@OneToMany (mappedBy = "seguimiento", fetch = FetchType.EAGER)
 	private List<Etapa> etapas;
 	

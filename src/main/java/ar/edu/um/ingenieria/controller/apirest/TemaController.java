@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import ar.edu.um.ingenieria.repository.TemaRepository;
+import ar.edu.um.ingenieria.repository.CategoriaRepository;
 import ar.edu.um.ingenieria.domain.Categoria;
 
 @RestController
@@ -18,7 +18,7 @@ import ar.edu.um.ingenieria.domain.Categoria;
 public class TemaController {
 	private static final Logger logger = LoggerFactory.getLogger(TemaController.class);
 	@Autowired
-	private TemaRepository temaRepository;
+	private CategoriaRepository temaRepository;
 	
 	@GetMapping //lo usamos para devolver datos
 	public List<Categoria> indexPage() {

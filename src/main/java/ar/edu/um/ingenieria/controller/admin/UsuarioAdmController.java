@@ -13,25 +13,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Usuario;
 import ar.edu.um.ingenieria.manager.UsuarioManager;
+import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 
 @RestController
 @RequestMapping("/admin")
 public class UsuarioAdmController {
 
 	@Autowired
+	private UsuarioServiceImpl usuarioServiceImpl;
+	@Autowired
 	private UsuarioManager usuarioManager;
 
-	@GetMapping("/usuario/")
+	@GetMapping("/usuarios/")
 	public ResponseEntity<List<Usuario>> findAll() {
-		return new ResponseEntity<List<Usuario>>(usuarioManager.findAll(), HttpStatus.OK);
+		return new ResponseEntity<List<Usuario>>(usuarioServiceImpl.findAll(), HttpStatus.OK);
 	}
 
-	@GetMapping("/usuario/{id}")
+	@GetMapping("/usuarios/{id}")
 	public ResponseEntity<Usuario> edit(@PathVariable Integer id) {
 		return new ResponseEntity<Usuario>(usuarioManager.findById(id),HttpStatus.OK);
 	}
 
-	@DeleteMapping("/usuario/{id}")
+	@DeleteMapping("/usuarios/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
 		usuarioManager.delete(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);

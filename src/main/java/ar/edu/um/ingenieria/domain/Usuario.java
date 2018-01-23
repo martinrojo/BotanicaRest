@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="usuarios")
 public class Usuario implements Serializable{
@@ -33,7 +35,8 @@ public class Usuario implements Serializable{
 	@JoinColumn(name="roles_id")	
 	private Rol rol;
 	
-	@OneToOne(mappedBy = "usuario", fetch = FetchType.EAGER)
+	@JsonIgnore
+	@OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
 	private Persona persona;
 	
 	public Integer getId() {
