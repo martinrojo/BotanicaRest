@@ -17,9 +17,7 @@ public class UsuarioManager {
 	private static final Logger logger = LoggerFactory.getLogger(UsuarioManager.class);
 	
 	@Autowired
-	private UsuarioServiceImpl usuarioServiceImpl;
-	
-	
+	private UsuarioServiceImpl usuarioServiceImpl;	
 	
 	@Autowired
 	private PersonaServiceImpl personaServiceImpl;

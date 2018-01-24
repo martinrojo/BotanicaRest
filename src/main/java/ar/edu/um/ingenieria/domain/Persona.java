@@ -17,8 +17,6 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import net.minidev.json.annotate.JsonIgnore;
-
 @Entity
 @Table(name = "personas")
 public class Persona implements Serializable {
@@ -39,7 +37,6 @@ public class Persona implements Serializable {
 	@Column(name = "fecha_nacimiento")
 	private Date fecha_naciemiento;
 
-	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "usuarios_id")
 	private Usuario usuario;

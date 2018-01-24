@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="climas")
 public class Clima implements Serializable{
@@ -27,6 +29,7 @@ public class Clima implements Serializable{
 	@Column(name="descripcion")
 	private String descripcion;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "clima", fetch = FetchType.EAGER)
 	private List<Planta> plantas;
 	
