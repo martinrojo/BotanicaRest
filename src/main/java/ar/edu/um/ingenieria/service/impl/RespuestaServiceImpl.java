@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import ar.edu.um.ingenieria.domain.Respuesta;
 
 @Service
-public class RespuestaSerivceImpl extends ServiceImpl<Respuesta, Integer>{
+public class RespuestaServiceImpl extends ServiceImpl<Respuesta, Integer>{
 
 	@Override
 	public Respuesta create(Respuesta entity) {
