@@ -18,7 +18,7 @@ import ar.edu.um.ingenieria.domain.Seguimiento;
 import ar.edu.um.ingenieria.service.impl.SeguimientoServiceImpl;
 
 @RestController
-@RequestMapping(value = "/seguimiento")
+@RequestMapping("/seguimiento")
 public class SeguimientoController {
 	@Autowired
 	private SeguimientoServiceImpl seguimientoService;
