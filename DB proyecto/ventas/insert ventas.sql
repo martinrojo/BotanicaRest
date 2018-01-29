@@ -1,0 +1,3 @@
+use botanica;
+INSERT INTO `botanica`.`ventas` (`id`, `producto`, `descripcion`, `usuarios_id`, `cerrado`, `fecha`, `tipo_venta_id`) VALUES ('1', 'Conserva de frutillas', 'conserva de frutillas', '1', '1', '17/9/20', '1');
+INSERT INTO `botanica`.`ventas` (`id`, `producto`, `descripcion`, `usuarios_id`, `cerrado`, `fecha`, `tipo_venta_id`) VALUES ('2', 'Conserva de Cerezas', 'conserva de Cerezas', '1', '1', '17/9/21', '1');
