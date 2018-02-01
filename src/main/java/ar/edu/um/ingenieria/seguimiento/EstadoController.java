@@ -1,4 +1,4 @@
-package ar.edu.um.ingenieria.controller.apirest;
+package ar.edu.um.ingenieria.seguimiento;
 
 import java.util.List;
 
