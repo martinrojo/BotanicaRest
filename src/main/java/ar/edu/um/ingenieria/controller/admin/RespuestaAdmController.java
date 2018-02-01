@@ -28,12 +28,12 @@ public class RespuestaAdmController {
 	public ResponseEntity<List<Respuesta>> findAll() {
 		return new ResponseEntity<List<Respuesta>>(respuestaServiceImpl.findAll(), HttpStatus.OK);
 	}
-	
+	//falta logica de: existe o no existe?
 	@GetMapping("/{id}")
-	public ResponseEntity<Respuesta> edit(@PathVariable Integer id) {
+	public ResponseEntity<Respuesta> findById(@PathVariable Integer id) {
 		return new ResponseEntity<Respuesta>(respuestaManager.findById(id),HttpStatus.OK);
 	}
-
+	//falta logica de: existe o no existe?
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
 		respuestaManager.delete(id);
