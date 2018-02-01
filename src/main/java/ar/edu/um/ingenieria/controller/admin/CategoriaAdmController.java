@@ -24,7 +24,7 @@ public class CategoriaAdmController {
 	@Autowired
 	private CategoriaManager categoriaManager;
 	
-	@GetMapping("/{id}")
+	@GetMapping
 	public ResponseEntity<List<Categoria>> findAll() {
 		return new ResponseEntity<List<Categoria>>(categoriaServiceImpl.findAll(), HttpStatus.OK);
 	}

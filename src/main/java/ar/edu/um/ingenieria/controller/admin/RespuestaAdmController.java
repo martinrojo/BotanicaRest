@@ -24,7 +24,7 @@ public class RespuestaAdmController {
 	@Autowired
 	private RespuestaManager respuestaManager;
 	
-	@GetMapping("/{id}")
+	@GetMapping
 	public ResponseEntity<List<Respuesta>> findAll() {
 		return new ResponseEntity<List<Respuesta>>(respuestaServiceImpl.findAll(), HttpStatus.OK);
 	}

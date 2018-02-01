@@ -24,7 +24,7 @@ public class TemaAdmController {
 	@Autowired
 	private TemaManager temaManager;
 	
-	@GetMapping("/{id}")
+	@GetMapping
 	public ResponseEntity<List<Tema>> findAll() {
 		return new ResponseEntity<List<Tema>>(temaServiceImpl.findAll(), HttpStatus.OK);
 	}

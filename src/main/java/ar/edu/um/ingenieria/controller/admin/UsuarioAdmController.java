@@ -16,7 +16,7 @@ import ar.edu.um.ingenieria.manager.UsuarioManager;
 import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admin/usuarios")
 public class UsuarioAdmController {
 
 	@Autowired
@@ -24,17 +24,17 @@ public class UsuarioAdmController {
 	@Autowired
 	private UsuarioManager usuarioManager;
 
-	@GetMapping("/usuarios/")
+	@GetMapping
 	public ResponseEntity<List<Usuario>> findAll() {
 		return new ResponseEntity<List<Usuario>>(usuarioServiceImpl.findAll(), HttpStatus.OK);
 	}
 
-	@GetMapping("/usuarios/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> edit(@PathVariable Integer id) {
 		return new ResponseEntity<Usuario>(usuarioManager.findById(id),HttpStatus.OK);
 	}
 
-	@DeleteMapping("/usuarios/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
 		usuarioManager.delete(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
