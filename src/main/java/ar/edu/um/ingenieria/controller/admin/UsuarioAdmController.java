@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Usuario;
 import ar.edu.um.ingenieria.manager.UsuarioManager;
+import ar.edu.um.ingenieria.repository.UsuarioRepository;
 import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 
 @RestController
@@ -23,7 +24,7 @@ public class UsuarioAdmController {
 	private UsuarioServiceImpl usuarioServiceImpl;
 	@Autowired
 	private UsuarioManager usuarioManager;
-
+	
 	@GetMapping
 	public ResponseEntity<List<Usuario>> findAll() {
 		return new ResponseEntity<List<Usuario>>(usuarioServiceImpl.findAll(), HttpStatus.OK);
