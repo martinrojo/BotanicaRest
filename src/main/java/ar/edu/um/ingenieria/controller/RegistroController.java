@@ -10,16 +10,26 @@ import org.springframework.web.bind.annotation.RestController;
 import ar.edu.um.ingenieria.domain.Persona;
 import ar.edu.um.ingenieria.domain.Usuario;
 import ar.edu.um.ingenieria.manager.UsuarioManager;
+import ar.edu.um.ingenieria.repository.UsuarioRepository;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/registro")
 public class RegistroController {
 	@Autowired
 	private UsuarioManager usuarioManager;
-	
-	@PostMapping("/registro")
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
+	@PostMapping
 	public ResponseEntity<Void> agregar(Usuario usuario, Persona persona) {
-		usuarioManager.create(persona, usuario);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		if (usuarioRepository.findUsermail(usuario.getEmail()) == null) {
+			if (usuarioRepository.findUsername(usuario.getUser()) == null) {
+				usuarioManager.create(persona, usuario);
+				return new ResponseEntity<Void>(HttpStatus.OK);
+			}					
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
 	}
 }
