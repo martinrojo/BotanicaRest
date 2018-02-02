@@ -13,5 +13,7 @@ import ar.edu.um.ingenieria.domain.Usuario;
 public interface UsuarioRepository  extends JpaRepository<Usuario, Integer> {
 	@Query("SELECT u FROM Usuario u WHERE u.user=:username")
 	List<Usuario> findUsername(@Param("username") String username);
-
+	
+	@Query("SELECT u FROM Usuario u WHERE u.email=:usermail") //Si anda, está verificado
+	Usuario findUsermail(@Param("usermail") String usermail);
 }
