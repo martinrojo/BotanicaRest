@@ -1,31 +1,69 @@
 package ar.edu.um.ingenieria.controller;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.edu.um.ingenieria.domain.Estado;
-import ar.edu.um.ingenieria.domain.Etapa;
-
-import ar.edu.um.ingenieria.domain.Planta;
 import ar.edu.um.ingenieria.domain.Seguimiento;
 import ar.edu.um.ingenieria.domain.Tarea;
-import ar.edu.um.ingenieria.domain.Usuario;
 import ar.edu.um.ingenieria.manager.SeguimientoManager;
-
+import ar.edu.um.ingenieria.service.impl.SeguimientoServiceImpl;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/seguimientos")
 public class SeguimientoController {
+	
+	@Autowired
+	private SeguimientoServiceImpl seguimientoService;
+	
 	@Autowired
 	private SeguimientoManager seguimientoManager;
+
+	private static final Logger logger = LoggerFactory.getLogger(SeguimientoController.class);
+
+	@GetMapping
+	public List<Seguimiento> indexPage() {
+		logger.info("datos de seguimiento: {}", seguimientoService.findAll());
+		return seguimientoService.findAll();
+	}
+
+	@GetMapping("/{id}")
+	public Seguimiento show(@PathVariable Integer id) {
+		logger.info("datos de seguimiento: {}", seguimientoService.findAll());
+		return seguimientoService.findById(id);
+	}
 	
-	@PostMapping("/seguimiento")
-	public ResponseEntity<Void> agregar(Usuario usuario, Planta planta, Estado estado, Tarea tarea, Etapa etapa, Seguimiento seguimiento) {
-		seguimientoManager.create(usuario, planta, estado, tarea, etapa, seguimiento);
+	@PostMapping("/create")
+	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado/*, Tarea tarea, Integer etapa*/) {
+		seguimientoManager.create(usuario, planta, estado/*,tarea, etapa*/);
 		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	@PostMapping
+	public Seguimiento add(@RequestBody Seguimiento seguimiento) {
+		return seguimientoService.create(seguimiento);
+	}
+
+	@PutMapping(value = "/{id}")
+	public Seguimiento update(@RequestBody Seguimiento seguimiento, @PathVariable Integer id) {
+		seguimiento.setId(id);
+		return seguimientoService.update(seguimiento);
+	}
+
+	@DeleteMapping(value = "/{id}")
+	public void delete(@PathVariable Integer id) {
+		seguimientoService.remove(seguimientoService.findById(id));
 	}
 }

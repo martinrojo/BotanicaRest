@@ -32,15 +32,11 @@ public class Etapa implements Serializable{
 	
 	@Column(name = "descripcion")
 	private String descripcion;
-	
+	/*
 	@JsonIgnore
-	@OneToMany (mappedBy = "etapa", fetch = FetchType.LAZY)
+	@OneToMany (mappedBy = "tareas", fetch = FetchType.EAGER)
 	private List<Tarea> tareas;
-	
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="seguimiento_id")
-	private Seguimiento seguimiento;
-	
+*/
 	public Integer getId() {
 		return id;
 	}
@@ -64,7 +60,7 @@ public class Etapa implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
+/*
 	public List<Tarea> getTareas() {
 		return tareas;
 	}
@@ -72,15 +68,7 @@ public class Etapa implements Serializable{
 	public void setTareas(List<Tarea> tareas) {
 		this.tareas = tareas;
 	}
-
-	public Seguimiento getSeguimiento() {
-		return seguimiento;
-	}
-
-	public void setSeguimiento(Seguimiento seguimiento) {
-		this.seguimiento = seguimiento;
-	}
-
+	*/
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

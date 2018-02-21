@@ -23,14 +23,10 @@ public class Tarea implements Serializable{
 	
 	@Column (name = "nombre")
 	private String nombre;
-	
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "etapas_id")
-	private Etapa etapa;
-	
+
 	@Column (name = "descripcion")
 	private String descripcion;
-	
+	/*
 	@OneToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="estados_id")		
 	private Estado estado;
@@ -38,7 +34,7 @@ public class Tarea implements Serializable{
 	@OneToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="plantas_id")		
 	private Planta planta;
-	
+	*/
 	public Integer getId() {
 		return id;
 	}
@@ -55,14 +51,6 @@ public class Tarea implements Serializable{
 		this.nombre = nombre;
 	}
 
-	public Etapa getEtapa() {
-		return etapa;
-	}
-
-	public void setEtapa(Etapa etapa) {
-		this.etapa = etapa;
-	}
-
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -70,7 +58,7 @@ public class Tarea implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
+/*
 	public Estado getEstado() {
 		return estado;
 	}
@@ -86,19 +74,21 @@ public class Tarea implements Serializable{
 	public void setPlanta(Planta planta) {
 		this.planta = planta;
 	}
-
+*/
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
-		result = prime * result + ((etapa == null) ? 0 : etapa.hashCode());
+		//result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		//result = prime * result + ((planta == null) ? 0 : planta.hashCode());
 		return result;
 	}
 
@@ -116,11 +106,11 @@ public class Tarea implements Serializable{
 				return false;
 		} else if (!descripcion.equals(other.descripcion))
 			return false;
-		if (etapa == null) {
-			if (other.etapa != null)
+		/*if (estado == null) {
+			if (other.estado != null)
 				return false;
-		} else if (!etapa.equals(other.etapa))
-			return false;
+		} else if (!estado.equals(other.estado))
+			return false;*/
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -130,14 +120,18 @@ public class Tarea implements Serializable{
 			if (other.nombre != null)
 				return false;
 		} else if (!nombre.equals(other.nombre))
+	/*	return false;
+		if (planta == null) {
+			if (other.planta != null)
+				return false;*/
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Tarea [id=" + id + ", nombre=" + nombre + ", etapa=" + etapa + ", descripcion=" + descripcion
-				+ ", estado=" + estado + ", planta=" + planta + "]";
+		return "Tarea [id=" + id + ", nombre=" + nombre + ", etapa=" + ", descripcion=" + descripcion
+				+ ", estado="/* + estado */+ ", planta=" /*+ planta */+ "]";
 	}
 
 	public Tarea() {

@@ -1,4 +1,4 @@
-package ar.edu.um.ingenieria.seguimiento;
+package ar.edu.um.ingenieria.controller;
 
 import java.util.List;
 

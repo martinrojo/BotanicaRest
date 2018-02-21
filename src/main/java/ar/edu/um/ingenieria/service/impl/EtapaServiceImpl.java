@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import ar.edu.um.ingenieria.domain.Etapa;
+import ar.edu.um.ingenieria.domain.Planta;
 
 @Service
 public class EtapaServiceImpl extends ServiceImpl<Etapa, Integer>{
@@ -38,5 +39,4 @@ public class EtapaServiceImpl extends ServiceImpl<Etapa, Integer>{
 		// TODO Auto-generated method stub
 		return super.findAll();
 	}
-	
 }

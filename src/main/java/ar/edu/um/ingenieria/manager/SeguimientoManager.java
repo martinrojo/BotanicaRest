@@ -12,7 +12,11 @@ import ar.edu.um.ingenieria.domain.Planta;
 import ar.edu.um.ingenieria.domain.Seguimiento;
 import ar.edu.um.ingenieria.domain.Tarea;
 import ar.edu.um.ingenieria.domain.Usuario;
+import ar.edu.um.ingenieria.service.impl.EstadoServiceImpl;
+import ar.edu.um.ingenieria.service.impl.EtapaServiceImpl;
+import ar.edu.um.ingenieria.service.impl.PlantaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.SeguimientoServiceImpl;
+import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 
 @Service
 public class SeguimientoManager {
@@ -21,13 +25,20 @@ public class SeguimientoManager {
 	
 	@Autowired
 	private SeguimientoServiceImpl seguimientoServiceImpl;
+	@Autowired
+	private UsuarioServiceImpl usuarioServiceImpl;
+	@Autowired
+	private EstadoServiceImpl estadoServiceImpl;
+	@Autowired
+	private PlantaServiceImpl plantaServiceImpl;
 	
-	public void create(Usuario usuario, Planta planta, Estado estado, Tarea tarea, Etapa etapa, Seguimiento seguimiento) {
-		tarea.setEstado(estado);
-		seguimiento.setEstado(estado);
-		seguimiento.setEtapas((List<Etapa>) etapa);
-		seguimiento.setUsuario(usuario);
-		seguimiento.setPlanta(planta);
+	public void create(Integer usuario, Integer planta, Integer estado/*, Tarea tarea*/) {
+		Seguimiento seguimiento = new Seguimiento();
+		//tarea.setEstado(estadoServiceImpl.findById(estado));
+		seguimiento.setEstado(estadoServiceImpl.findById(estado));
+		//seguimiento.setEtapas(etapaServiceImpl.findById(etapa));
+		seguimiento.setUsuario(usuarioServiceImpl.findById(usuario));
+		seguimiento.setPlanta(plantaServiceImpl.findById(planta));
 		seguimientoServiceImpl.create(seguimiento);
 	}
 	
