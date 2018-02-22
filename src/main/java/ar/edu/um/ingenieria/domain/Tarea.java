@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,15 +27,9 @@ public class Tarea implements Serializable{
 
 	@Column (name = "descripcion")
 	private String descripcion;
-	/*
-	@OneToOne(fetch = FetchType.EAGER)	
-	@JoinColumn(name="estados_id")		
-	private Estado estado;
 	
-	@OneToOne(fetch = FetchType.EAGER)	
-	@JoinColumn(name="plantas_id")		
-	private Planta planta;
-	*/
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "tarea_id")
 	public Integer getId() {
 		return id;
 	}
@@ -58,23 +53,7 @@ public class Tarea implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-/*
-	public Estado getEstado() {
-		return estado;
-	}
 
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
-
-	public Planta getPlanta() {
-		return planta;
-	}
-
-	public void setPlanta(Planta planta) {
-		this.planta = planta;
-	}
-*/
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -85,10 +64,8 @@ public class Tarea implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
-		//result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		//result = prime * result + ((planta == null) ? 0 : planta.hashCode());
 		return result;
 	}
 
@@ -106,11 +83,6 @@ public class Tarea implements Serializable{
 				return false;
 		} else if (!descripcion.equals(other.descripcion))
 			return false;
-		/*if (estado == null) {
-			if (other.estado != null)
-				return false;
-		} else if (!estado.equals(other.estado))
-			return false;*/
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -120,10 +92,6 @@ public class Tarea implements Serializable{
 			if (other.nombre != null)
 				return false;
 		} else if (!nombre.equals(other.nombre))
-	/*	return false;
-		if (planta == null) {
-			if (other.planta != null)
-				return false;*/
 			return false;
 		return true;
 	}
@@ -131,7 +99,7 @@ public class Tarea implements Serializable{
 	@Override
 	public String toString() {
 		return "Tarea [id=" + id + ", nombre=" + nombre + ", etapa=" + ", descripcion=" + descripcion
-				+ ", estado="/* + estado */+ ", planta=" /*+ planta */+ "]";
+				+ ", estado=" + "]";
 	}
 
 	public Tarea() {

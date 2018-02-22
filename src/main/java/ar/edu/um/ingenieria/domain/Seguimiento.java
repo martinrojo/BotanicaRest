@@ -42,10 +42,23 @@ public class Seguimiento implements Serializable{
 	@JoinColumn(name="estado_id")
 	private Estado estado;
 	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="etapa_id")
+	private Etapa etapa;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="tarea_id")
+	private Tarea tarea;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
-	@Column ( name = "ultimo_riego")
+	@JoinColumn ( name = "ultimo_riego")
 	private Date utlimo_riego;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@JoinColumn ( name = "proximo_riego")
+	private Date proximo_riego;
 	
 	public Integer getId() {
 		return id;
@@ -70,21 +83,29 @@ public class Seguimiento implements Serializable{
 	public void setPlanta(Planta planta) {
 		this.planta = planta;
 	}
-/*
-	public List<Etapa> getEtapas() {
-		return etapas;
+
+	public Etapa getEtapas() {
+		return etapa;
 	}
 
-	public void setEtapas(List<Etapa> etapas) {
-		this.etapas = etapas;
+	public void setEtapas(Etapa etapa) {
+		this.etapa = etapa;
 	}
-*/
+
 	public Estado getEstado() {
 		return estado;
 	}
 
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+	
+	public Tarea getTarea() {
+		return tarea;
+	}
+
+	public void setTarea(Tarea tarea) {
+		this.tarea = tarea;
 	}
 
 	public Date getUltimoRiego() {
@@ -93,6 +114,14 @@ public class Seguimiento implements Serializable{
 
 	public void setUltimoRiego(Date ultimoRiego) {
 		this.utlimo_riego = ultimoRiego;
+	}
+	
+	public Date getProximo_riego() {
+		return proximo_riego;
+	}
+
+	public void setProximo_riego(Date proximo_riego) {
+		this.proximo_riego = proximo_riego;
 	}
 
 	public static long getSerialversionuid() {
@@ -103,9 +132,13 @@ public class Seguimiento implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-	//	result = prime * result + ((estado == null) ? 0 : estado.hashCode());
+		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
+		result = prime * result + ((etapa == null) ? 0 : etapa.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((planta == null) ? 0 : planta.hashCode());
+		result = prime * result + ((proximo_riego == null) ? 0 : proximo_riego.hashCode());
+		result = prime * result + ((tarea == null) ? 0 : tarea.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		result = prime * result + ((utlimo_riego == null) ? 0 : utlimo_riego.hashCode());
 		return result;
 	}
@@ -119,11 +152,16 @@ public class Seguimiento implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Seguimiento other = (Seguimiento) obj;
-	/*	if (estado == null) {
+		if (estado == null) {
 			if (other.estado != null)
 				return false;
 		} else if (!estado.equals(other.estado))
-			return false;*/
+			return false;
+		if (etapa == null) {
+			if (other.etapa != null)
+				return false;
+		} else if (!etapa.equals(other.etapa))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -134,6 +172,21 @@ public class Seguimiento implements Serializable{
 				return false;
 		} else if (!planta.equals(other.planta))
 			return false;
+		if (proximo_riego == null) {
+			if (other.proximo_riego != null)
+				return false;
+		} else if (!proximo_riego.equals(other.proximo_riego))
+			return false;
+		if (tarea == null) {
+			if (other.tarea != null)
+				return false;
+		} else if (!tarea.equals(other.tarea))
+			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
+			return false;
 		if (utlimo_riego == null) {
 			if (other.utlimo_riego != null)
 				return false;
@@ -141,11 +194,12 @@ public class Seguimiento implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Seguimiento [id=" + id + ", planta=" + planta + ", estado=" /*+ estado */+ ", ultimoRiego=" + utlimo_riego
-				+ "]";
+		return "Seguimiento [id=" + id + ", usuario=" + usuario + ", planta=" + planta + ", etapas=" + etapa
+				+ ", estado=" + estado + ", tarea=" + tarea + ", utlimo_riego=" + utlimo_riego + ", proximo_riego="
+				+ proximo_riego + "]";
 	}
 
 	public Seguimiento() {

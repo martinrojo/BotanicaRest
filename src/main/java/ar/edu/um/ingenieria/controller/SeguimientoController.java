@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Seguimiento;
-import ar.edu.um.ingenieria.domain.Tarea;
 import ar.edu.um.ingenieria.manager.SeguimientoManager;
 import ar.edu.um.ingenieria.service.impl.SeguimientoServiceImpl;
 
@@ -46,8 +45,8 @@ public class SeguimientoController {
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado/*, Tarea tarea, Integer etapa*/) {
-		seguimientoManager.create(usuario, planta, estado/*,tarea, etapa*/);
+	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa) {
+		seguimientoManager.create(usuario, planta, estado, tarea, etapa);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
