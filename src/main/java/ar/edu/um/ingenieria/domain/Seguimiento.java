@@ -16,6 +16,8 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name="seguimientos")
 public class Seguimiento implements Serializable{
@@ -47,11 +49,13 @@ public class Seguimiento implements Serializable{
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column ( name = "ultimo_riego")
 	private Date ultimoRiego;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column ( name = "proximo_riego")
 	private Date proximoRiego;
 	

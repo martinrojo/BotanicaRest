@@ -29,7 +29,7 @@ public class SeguimientoController {
 	private SeguimientoManager seguimientoManager;
 
 	private static final Logger logger = LoggerFactory.getLogger(SeguimientoController.class);
-
+//Get devuelve todos
 	@GetMapping
 	public List<Seguimiento> indexPage() {
 		logger.info("datos de seguimiento: {}", seguimientoService.findAll());
@@ -47,7 +47,7 @@ public class SeguimientoController {
 		seguimientoManager.create(usuario, planta, estado);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	
+//Put es para actualizar, patch es para actualizar parcialmente	
 	@PostMapping("/update")
 	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa) {
 		seguimientoManager.update(usuario, planta, estado,tarea, etapa);
