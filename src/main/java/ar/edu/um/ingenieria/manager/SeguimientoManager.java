@@ -1,14 +1,10 @@
 package ar.edu.um.ingenieria.manager;
 
-import java.util.Calendar;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import ar.edu.um.ingenieria.domain.Planta;
 import ar.edu.um.ingenieria.domain.Seguimiento;
 import ar.edu.um.ingenieria.service.impl.EstadoServiceImpl;
 import ar.edu.um.ingenieria.service.impl.EtapaServiceImpl;
@@ -35,28 +31,24 @@ public class SeguimientoManager {
 	@Autowired
 	private TareaServiceImpl tareaServiceImpl;
 	
-	public void create(Integer usuario, Integer planta) {
-		Seguimiento seguimiento = new Seguimiento();		
-		seguimiento.setEstado(estadoServiceImpl.findById(1));
+	
+	public void create(Integer usuario, Integer planta, Integer estado) {
+		Seguimiento seguimiento = new Seguimiento();
+		seguimiento.setEtapa(etapaServiceImpl.findById(1));
 		seguimiento.setTarea(tareaServiceImpl.findById(1));
-		seguimiento.setEtapas(etapaServiceImpl.findById(1));
+		seguimiento.setEstado(estadoServiceImpl.findById(estado));
 		seguimiento.setUsuario(usuarioServiceImpl.findById(usuario));
 		seguimiento.setPlanta(plantaServiceImpl.findById(planta));
 		seguimientoServiceImpl.create(seguimiento);
 	}
 	
-	public void create(Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa) {
-		Calendar calendar = Calendar.getInstance();
-		Seguimiento seguimiento = new Seguimiento();
-		Planta planta1 = plantaServiceImpl.findById(planta);
+	public void update (Integer Seguimiento, Integer planta, Integer estado, Integer tarea, Integer etapa)
+	{
+		Seguimiento seguimiento = seguimientoServiceImpl.findById(Seguimiento);
 		seguimiento.setTarea(tareaServiceImpl.findById(tarea));
-		seguimiento.setEtapas(etapaServiceImpl.findById(etapa));
+		seguimiento.setEtapa(etapaServiceImpl.findById(etapa));
 		seguimiento.setEstado(estadoServiceImpl.findById(estado));
-		seguimiento.setUsuario(usuarioServiceImpl.findById(usuario));
-		seguimiento.setPlanta(planta1);
-		calendar.setTime(seguimiento.getUltimoRiego());
-      	//calendar.add(Calendar.HOUR, planta1.getTiempoRiego()); 
-		seguimiento.setProximo_riego(calendar.getTime());
+		seguimiento.setPlanta(plantaServiceImpl.findById(planta));
 		seguimientoServiceImpl.create(seguimiento);
 	}
 	

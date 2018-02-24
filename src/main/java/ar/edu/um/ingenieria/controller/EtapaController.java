@@ -24,8 +24,8 @@ public class EtapaController {
 	@Autowired
 	private EtapaRepository etapaRepository;
 	
-	@GetMapping
-	public List<Etapa> indexPage() {
+	@GetMapping //lo usamos para devolver datos
+	public List<Etapa> indexPage() { //devolver DTO del servicio que queremos mostrar en la aplicacion
 		logger.info("datos de etapa: {}", etapaRepository.findAll());
 		return etapaRepository.findAll();
 	}
