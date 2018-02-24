@@ -2,7 +2,6 @@ package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,8 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "plantas")
@@ -49,10 +47,10 @@ public class Planta implements Serializable {
 	@JoinColumn(name = "climas_id")
 	private Clima clima;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern="HH:mm:ss")
+	@Temporal(TemporalType.TIME)
+	@JsonFormat(pattern="HH:mm:ss")
 	@Column(name = "tiempo_riego")
-	private Date tiempo_riego;
+	private Date tiempoRiego;
 	
 	public Integer getId() {
 		return id;
@@ -111,11 +109,11 @@ public class Planta implements Serializable {
 	}
 
 	public Date getTiempoRiego() {
-		return tiempo_riego;
+		return tiempoRiego;
 	}
 
 	public void setTiempoRiego(Date tiempoRiego) {
-		this.tiempo_riego = tiempoRiego;
+		this.tiempoRiego = tiempoRiego;
 	}
 
 	public static long getSerialversionuid() {
@@ -129,7 +127,7 @@ public class Planta implements Serializable {
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((tiempo_riego == null) ? 0 : tiempo_riego.hashCode());
+		result = prime * result + ((tiempoRiego == null) ? 0 : tiempoRiego.hashCode());
 		return result;
 	}
 
@@ -157,10 +155,10 @@ public class Planta implements Serializable {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		if (tiempo_riego == null) {
-			if (other.tiempo_riego != null)
+		if (tiempoRiego == null) {
+			if (other.tiempoRiego != null)
 				return false;
-		} else if (!tiempo_riego.equals(other.tiempo_riego))
+		} else if (!tiempoRiego.equals(other.tiempoRiego))
 			return false;
 		return true;
 	}
@@ -168,7 +166,7 @@ public class Planta implements Serializable {
 	@Override
 	public String toString() {
 		return "Planta [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tiempoRiego="
-				+ tiempo_riego + "]";
+				+ tiempoRiego + "]";
 	}
 
 	public Planta() {
