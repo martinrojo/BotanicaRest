@@ -39,7 +39,7 @@ public class Usuario implements Serializable{
 	private Rol rol;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="usuario",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="usuario",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Seguimiento> seguimiento;
 	
 	@OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)

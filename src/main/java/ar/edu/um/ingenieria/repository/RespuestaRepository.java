@@ -7,10 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import ar.edu.um.ingenieria.domain.Tema;
+import ar.edu.um.ingenieria.domain.Respuesta;
+
+
 
 @Repository
-public interface TemaRepository  extends JpaRepository<Tema, Integer> {
-	@Query("SELECT t FROM Tema t WHERE t.categoria=:idCategoria")
-	List<Tema> findTemasByCategoria(@Param("idCategoria") Integer idCategoria);
+public interface RespuestaRepository  extends JpaRepository<Respuesta, Integer> {
+	@Query("SELECT r FROM Respuesta r WHERE r.tema=:idTema")
+	List<Respuesta> findRespuestaByTema(@Param("idTema") Integer idTema);
+
 }

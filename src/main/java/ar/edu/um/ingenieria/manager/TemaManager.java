@@ -13,23 +13,15 @@ import ar.edu.um.ingenieria.service.impl.TemaServiceImpl;
 @Service
 public class TemaManager {
 
-	private static final Logger logger = LoggerFactory.getLogger(TemaManager.class);
-	
 	@Autowired
 	private TemaServiceImpl temaServiceImpl;
 	
 	public void create(Tema tema) {
 		temaServiceImpl.create(tema);
-		
 	}
 
 	public List<Tema> findAll(){
-		try {
-			return temaServiceImpl.findAll();
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
-		return null;
+		return temaServiceImpl.findAll();
 	}
 	
 	public Tema findById(Integer id) {
