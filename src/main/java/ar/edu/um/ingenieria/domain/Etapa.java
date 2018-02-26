@@ -32,8 +32,8 @@ public class Etapa implements Serializable{
 	
 	@JsonIgnore
 	@OneToMany
-	@JoinColumn(name="estado_id")
-	private List<Estado> estado;
+	@JoinColumn(name="tarea_id")
+	private List<Tarea> tarea;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "etapa", fetch = FetchType.LAZY)
@@ -63,12 +63,12 @@ public class Etapa implements Serializable{
 		this.descripcion = descripcion;
 	}
 
-	public List<Estado> getEstado() {
-		return estado;
+	public List<Tarea> getTarea() {
+		return tarea;
 	}
 
-	public void setEstado(List<Estado> estado) {
-		this.estado = estado;
+	public void setTarea(List<Tarea> tarea) {
+		this.tarea = tarea;
 	}
 	
 	public List<Seguimiento> getSeguimiento() {
@@ -91,7 +91,7 @@ public class Etapa implements Serializable{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((seguimiento == null) ? 0 : seguimiento.hashCode());
-		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
+		result = prime * result + ((tarea == null) ? 0 : tarea.hashCode());
 		return result;
 	}
 
@@ -124,17 +124,17 @@ public class Etapa implements Serializable{
 				return false;
 		} else if (!seguimiento.equals(other.seguimiento))
 			return false;
-		if (estado == null) {
-			if (other.estado != null)
+		if (tarea == null) {
+			if (other.tarea != null)
 				return false;
-		} else if (!estado.equals(other.estado))
+		} else if (!tarea.equals(other.tarea))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tareas=" + estado
+		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tareas=" + tarea
 				+ ", seguimiento=" + seguimiento + "]";
 	}
 

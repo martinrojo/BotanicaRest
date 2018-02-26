@@ -89,10 +89,10 @@ public class Estado implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
-		result = prime * result + ((tarea == null) ? 0 : tarea.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((seguimiento == null) ? 0 : seguimiento.hashCode());
+		result = prime * result + ((tarea == null) ? 0 : tarea.hashCode());
 		return result;
 	}
 
@@ -110,11 +110,6 @@ public class Estado implements Serializable {
 				return false;
 		} else if (!descripcion.equals(other.descripcion))
 			return false;
-		if (tarea == null) {
-			if (other.tarea != null)
-				return false;
-		} else if (!tarea.equals(other.tarea))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -129,6 +124,11 @@ public class Estado implements Serializable {
 			if (other.seguimiento != null)
 				return false;
 		} else if (!seguimiento.equals(other.seguimiento))
+			return false;
+		if (tarea == null) {
+			if (other.tarea != null)
+				return false;
+		} else if (!tarea.equals(other.tarea))
 			return false;
 		return true;
 	}
