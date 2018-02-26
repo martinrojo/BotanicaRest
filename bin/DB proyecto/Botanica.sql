@@ -4,8 +4,6 @@
 -- ------------------------------------------------------
 -- Server version	5.6.17
 
-use botanica;
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -263,8 +261,6 @@ CREATE TABLE `seguimientos` (
   `ultimo_riego` datetime DEFAULT NULL,
   `estado_id` int(11) DEFAULT NULL,
   `proximo_riego` datetime DEFAULT NULL,
-  `etapa` int(11) DEFAULT NULL,
-  `tarea_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_seguim_user_idx` (`usuario_id`),
   KEY `fk_seguim_planta_idx` (`planta_id`),
@@ -283,8 +279,7 @@ CREATE TABLE `seguimientos` (
 
 LOCK TABLES `seguimientos` WRITE;
 /*!40000 ALTER TABLE `seguimientos` DISABLE KEYS */;
-INSERT INTO `seguimientos` VALUES (1,1,6,'0000-00-00 00:00:00',1,'0000-00-00 00:00:00','',''),
-(2,2,4,'0000-00-00 00:00:00',1,'0000-00-00 00:00:00','','');
+INSERT INTO `seguimientos` VALUES (1,1,6,'0000-00-00 00:00:00',1,'0000-00-00 00:00:00'),(2,2,4,'0000-00-00 00:00:00',1,'0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `seguimientos` ENABLE KEYS */;
 UNLOCK TABLES;
 
