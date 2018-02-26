@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,6 +33,10 @@ public class Estado implements Serializable {
 	@OneToMany
 	@JoinColumn(name = "estados_id")
 	private List<Etapa> etapas;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
+	private List<Seguimiento> seguimiento;
 	
 	public Integer getId() {
 		return id;
@@ -65,6 +70,14 @@ public class Estado implements Serializable {
 		this.etapas = etapas;
 	}
 
+	public List<Seguimiento> getSeguimiento() {
+		return seguimiento;
+	}
+
+	public void setSeguimiento(List<Seguimiento> seguimiento) {
+		this.seguimiento = seguimiento;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -77,6 +90,7 @@ public class Estado implements Serializable {
 		result = prime * result + ((etapas == null) ? 0 : etapas.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((seguimiento == null) ? 0 : seguimiento.hashCode());
 		return result;
 	}
 
@@ -109,12 +123,18 @@ public class Estado implements Serializable {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
+		if (seguimiento == null) {
+			if (other.seguimiento != null)
+				return false;
+		} else if (!seguimiento.equals(other.seguimiento))
+			return false;
 		return true;
 	}
 	
 	@Override
 	public String toString() {
-		return "Estado [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", etapas=" + etapas + "]";
+		return "Estado [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", etapas=" + etapas
+				+ ", seguimiento=" + seguimiento + "]";
 	}
 
 	public Estado() {
