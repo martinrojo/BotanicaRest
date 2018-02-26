@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Usuario;
 import ar.edu.um.ingenieria.manager.UsuarioManager;
-import ar.edu.um.ingenieria.repository.UsuarioRepository;
 import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 
 @RestController
@@ -37,7 +36,8 @@ public class UsuarioAdmController {
 	//falta logica de: existe o no existe?
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
-		usuarioManager.delete(id);
+		Usuario usuario = usuarioServiceImpl.findById(id);
+		usuarioServiceImpl.remove(usuario);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }

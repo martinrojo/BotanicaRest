@@ -2,18 +2,14 @@ package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -34,13 +30,10 @@ public class Etapa implements Serializable{
 	private String descripcion;
 	
 	@JsonIgnore
-	@OneToMany (mappedBy = "etapa", fetch = FetchType.LAZY)
+	@OneToMany
+	@JoinColumn(name="etapas_id")
 	private List<Tarea> tareas;
-	
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="seguimiento_id")
-	private Seguimiento seguimiento;
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -72,19 +65,11 @@ public class Etapa implements Serializable{
 	public void setTareas(List<Tarea> tareas) {
 		this.tareas = tareas;
 	}
-
-	public Seguimiento getSeguimiento() {
-		return seguimiento;
-	}
-
-	public void setSeguimiento(Seguimiento seguimiento) {
-		this.seguimiento = seguimiento;
-	}
-
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -92,6 +77,7 @@ public class Etapa implements Serializable{
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((tareas == null) ? 0 : tareas.hashCode());
 		return result;
 	}
 
@@ -119,12 +105,17 @@ public class Etapa implements Serializable{
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
+		if (tareas == null) {
+			if (other.tareas != null)
+				return false;
+		} else if (!tareas.equals(other.tareas))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
+		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tareas=" + tareas + "]";
 	}
 
 	public Etapa() {

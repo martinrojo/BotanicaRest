@@ -1,7 +1,9 @@
 package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -35,6 +38,9 @@ public class Usuario implements Serializable{
 	@JoinColumn(name="roles_id")	
 	private Rol rol;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy="usuario",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Seguimiento> seguimiento;
 	
 	@OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
 	private Persona persona;
@@ -83,6 +89,14 @@ public class Usuario implements Serializable{
 		return persona;
 	}
 
+	public List<Seguimiento> getSeguimiento() {
+		return seguimiento;
+	}
+
+	public void setSeguimiento(List<Seguimiento> seguimiento) {
+		this.seguimiento = seguimiento;
+	}
+
 	public void setPersona(Persona persona) {
 		this.persona = persona;
 	}
@@ -98,7 +112,9 @@ public class Usuario implements Serializable{
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((persona == null) ? 0 : persona.hashCode());
 		result = prime * result + ((rol == null) ? 0 : rol.hashCode());
+		result = prime * result + ((seguimiento == null) ? 0 : seguimiento.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -127,10 +143,20 @@ public class Usuario implements Serializable{
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (persona == null) {
+			if (other.persona != null)
+				return false;
+		} else if (!persona.equals(other.persona))
+			return false;
 		if (rol == null) {
 			if (other.rol != null)
 				return false;
 		} else if (!rol.equals(other.rol))
+			return false;
+		if (seguimiento == null) {
+			if (other.seguimiento != null)
+				return false;
+		} else if (!seguimiento.equals(other.seguimiento))
 			return false;
 		if (user == null) {
 			if (other.user != null)
@@ -143,7 +169,7 @@ public class Usuario implements Serializable{
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", user=" + user + ", email=" + email + ", password=" + password + ", rol=" + rol
-				+ "]";
+				+ ", seguimiento=" + seguimiento + ", persona=" + persona + "]";
 	}
 
 	public Usuario() {

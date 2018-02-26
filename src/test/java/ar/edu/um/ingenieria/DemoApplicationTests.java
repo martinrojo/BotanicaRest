@@ -5,12 +5,16 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import ar.edu.um.ingenieria.domain.Seguimiento;
+import ar.edu.um.ingenieria.service.impl.SeguimientoServiceImpl;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DemoApplicationTests {
 
 	@Test
 	public void contextLoads() {
+		
 	}
 
 }

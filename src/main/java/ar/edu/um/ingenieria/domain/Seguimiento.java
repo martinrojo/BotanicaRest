@@ -2,8 +2,6 @@ package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,6 +17,7 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -30,26 +29,38 @@ public class Seguimiento implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="planta_id")
 	private Planta planta;
-	
-	@JsonIgnore
-	@OneToMany (mappedBy = "seguimiento", fetch = FetchType.EAGER)
-	private List<Etapa> etapas;
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="estado_id")
 	private Estado estado;
 	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="etapa_id")
+	private Etapa etapa;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="tarea_id")
+	private Tarea tarea;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column ( name = "ultimo_riego")
-	private Date utlimo_riego;
+	private Date ultimoRiego;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@Column ( name = "proximo_riego")
+	private Date proximoRiego;
 	
 	public Integer getId() {
 		return id;
@@ -75,12 +86,12 @@ public class Seguimiento implements Serializable{
 		this.planta = planta;
 	}
 
-	public List<Etapa> getEtapas() {
-		return etapas;
+	public Etapa getEtapa() {
+		return etapa;
 	}
 
-	public void setEtapas(List<Etapa> etapas) {
-		this.etapas = etapas;
+	public void setEtapa(Etapa etapa) {
+		this.etapa = etapa;
 	}
 
 	public Estado getEstado() {
@@ -92,25 +103,45 @@ public class Seguimiento implements Serializable{
 	}
 
 	public Date getUltimoRiego() {
-		return utlimo_riego;
+		return ultimoRiego;
 	}
 
 	public void setUltimoRiego(Date ultimoRiego) {
-		this.utlimo_riego = ultimoRiego;
+		this.ultimoRiego = ultimoRiego;
+	}
+	
+	public Tarea getTarea() {
+		return tarea;
+	}
+
+	public void setTarea(Tarea tarea) {
+		this.tarea = tarea;
+	}
+
+	public Date getProximoRiego() {
+		return proximoRiego;
+	}
+
+	public void setProximoRiego(Date proximoRiego) {
+		this.proximoRiego = proximoRiego;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
+		result = prime * result + ((etapa == null) ? 0 : etapa.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((planta == null) ? 0 : planta.hashCode());
-		result = prime * result + ((utlimo_riego == null) ? 0 : utlimo_riego.hashCode());
+		result = prime * result + ((proximoRiego == null) ? 0 : proximoRiego.hashCode());
+		result = prime * result + ((tarea == null) ? 0 : tarea.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+		result = prime * result + ((ultimoRiego == null) ? 0 : ultimoRiego.hashCode());
 		return result;
 	}
 
@@ -128,6 +159,11 @@ public class Seguimiento implements Serializable{
 				return false;
 		} else if (!estado.equals(other.estado))
 			return false;
+		if (etapa == null) {
+			if (other.etapa != null)
+				return false;
+		} else if (!etapa.equals(other.etapa))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -138,18 +174,33 @@ public class Seguimiento implements Serializable{
 				return false;
 		} else if (!planta.equals(other.planta))
 			return false;
-		if (utlimo_riego == null) {
-			if (other.utlimo_riego != null)
+		if (proximoRiego == null) {
+			if (other.proximoRiego != null)
 				return false;
-		} else if (!utlimo_riego.equals(other.utlimo_riego))
+		} else if (!proximoRiego.equals(other.proximoRiego))
+			return false;
+		if (tarea == null) {
+			if (other.tarea != null)
+				return false;
+		} else if (!tarea.equals(other.tarea))
+			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
+			return false;
+		if (ultimoRiego == null) {
+			if (other.ultimoRiego != null)
+				return false;
+		} else if (!ultimoRiego.equals(other.ultimoRiego))
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Seguimiento [id=" + id + ", planta=" + planta + ", estado=" + estado + ", ultimoRiego=" + utlimo_riego
-				+ "]";
+		return "Seguimiento [id=" + id +", planta=" + planta + ", estado=" + estado
+				+ ", etapa=" + etapa + ", tarea=" + tarea + ", ultimoRiego=" + ultimoRiego + ", proximoRiego=" + proximoRiego + "]";
 	}
 
 	public Seguimiento() {
