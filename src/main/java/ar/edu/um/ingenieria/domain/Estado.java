@@ -33,8 +33,8 @@ public class Estado implements Serializable {
 	private String descripcion;
 	
 	@OneToMany
-	@JoinColumn(name = "estados_id")
-	private List<Etapa> etapas;
+	@JoinColumn(name = "tarea_id")
+	private List<Tarea> tarea;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="estado",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -64,12 +64,12 @@ public class Estado implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public List<Etapa> getEtapas() {
-		return etapas;
+	public List<Tarea> getTarea() {
+		return tarea;
 	}
 
-	public void setEtapas(List<Etapa> etapas) {
-		this.etapas = etapas;
+	public void setEtapas(List<Tarea> tarea) {
+		this.tarea = tarea;
 	}
 
 	public List<Seguimiento> getSeguimiento() {
@@ -89,7 +89,7 @@ public class Estado implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
-		result = prime * result + ((etapas == null) ? 0 : etapas.hashCode());
+		result = prime * result + ((tarea == null) ? 0 : tarea.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((seguimiento == null) ? 0 : seguimiento.hashCode());
@@ -110,10 +110,10 @@ public class Estado implements Serializable {
 				return false;
 		} else if (!descripcion.equals(other.descripcion))
 			return false;
-		if (etapas == null) {
-			if (other.etapas != null)
+		if (tarea == null) {
+			if (other.tarea != null)
 				return false;
-		} else if (!etapas.equals(other.etapas))
+		} else if (!tarea.equals(other.tarea))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -135,7 +135,7 @@ public class Estado implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Estado [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", etapas=" + etapas
+		return "Estado [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tarea=" + tarea
 				+ ", seguimiento=" + seguimiento + "]";
 	}
 
