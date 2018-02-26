@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,6 +34,10 @@ public class Etapa implements Serializable{
 	@OneToMany
 	@JoinColumn(name="etapas_id")
 	private List<Tarea> tareas;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "etapa", fetch = FetchType.LAZY)
+	private List<Seguimiento> seguimiento;
 
 	public Integer getId() {
 		return id;
@@ -66,6 +71,14 @@ public class Etapa implements Serializable{
 		this.tareas = tareas;
 	}
 	
+	public List<Seguimiento> getSeguimiento() {
+		return seguimiento;
+	}
+
+	public void setSeguimiento(List<Seguimiento> seguimiento) {
+		this.seguimiento = seguimiento;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -77,6 +90,7 @@ public class Etapa implements Serializable{
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((seguimiento == null) ? 0 : seguimiento.hashCode());
 		result = prime * result + ((tareas == null) ? 0 : tareas.hashCode());
 		return result;
 	}
@@ -105,6 +119,11 @@ public class Etapa implements Serializable{
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
+		if (seguimiento == null) {
+			if (other.seguimiento != null)
+				return false;
+		} else if (!seguimiento.equals(other.seguimiento))
+			return false;
 		if (tareas == null) {
 			if (other.tareas != null)
 				return false;
@@ -115,7 +134,8 @@ public class Etapa implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tareas=" + tareas + "]";
+		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tareas=" + tareas
+				+ ", seguimiento=" + seguimiento + "]";
 	}
 
 	public Etapa() {
