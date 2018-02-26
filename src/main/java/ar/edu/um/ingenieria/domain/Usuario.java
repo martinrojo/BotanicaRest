@@ -35,7 +35,7 @@ public class Usuario implements Serializable{
 	@JoinColumn(name="roles_id")	
 	private Rol rol;
 	
-	@JsonIgnore
+	
 	@OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
 	private Persona persona;
 	

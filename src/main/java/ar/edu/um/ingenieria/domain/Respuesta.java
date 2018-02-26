@@ -18,6 +18,9 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "respuestas")
 public class Respuesta implements Serializable{
@@ -30,6 +33,7 @@ public class Respuesta implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="temas_id")
 	private Tema tema;
@@ -37,12 +41,14 @@ public class Respuesta implements Serializable{
 	@Column(name = "texto")
 	private String texto;
 	
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column(name = "fecha")
 	private Date fecha;
 	
@@ -52,14 +58,6 @@ public class Respuesta implements Serializable{
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Tema getPregunta() {
-		return tema;
-	}
-
-	public void setPregunta(Tema pregunta) {
-		this.tema = pregunta;
 	}
 
 	public String getTexto() {

@@ -32,7 +32,7 @@ public class UsuarioAdmController {
 	//falta logica de: existe o no existe?
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> findById(@PathVariable Integer id) {
-		return new ResponseEntity<Usuario>(usuarioManager.findById(id),HttpStatus.OK);
+		return new ResponseEntity<Usuario>(usuarioServiceImpl.findById(id),HttpStatus.OK);
 	}
 	//falta logica de: existe o no existe?
 	@DeleteMapping("/{id}")
