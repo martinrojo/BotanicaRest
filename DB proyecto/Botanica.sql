@@ -77,9 +77,9 @@ CREATE TABLE `estados` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
-  `seguimientos_id` int(11) NOT NULL,
+  `etapas_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_estados_seguimientos1_idx` (`seguimientos_id`)
+  KEY `fk_estados_etapas1_idx` (`etapas_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -263,7 +263,7 @@ CREATE TABLE `seguimientos` (
   `ultimo_riego` datetime DEFAULT NULL,
   `estado_id` int(11) DEFAULT NULL,
   `proximo_riego` datetime DEFAULT NULL,
-  `etapa` int(11) DEFAULT NULL,
+  `etapa_id` int(11) DEFAULT NULL,
   `tarea_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_seguim_user_idx` (`usuario_id`),
