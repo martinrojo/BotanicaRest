@@ -60,10 +60,6 @@ public class Planta implements Serializable {
 	@Column(name = "tiempo_riego")
 	private Date tiempoRiego;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy="planta",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Seguimiento> seguimiento;
-	
 	public Integer getId() {
 		return id;
 	}
