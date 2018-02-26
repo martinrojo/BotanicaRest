@@ -15,6 +15,21 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema botanica
+-- -----------------------------------------------------
+
+DROP SCHEMA IF EXISTS `botanica` ;
+
+-- -----------------------------------------------------
+-- Schema botanica
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `botanica` DEFAULT CHARACTER SET utf8 ;
+USE `botanica` ;
+
 --
 -- Table structure for table `categorias`
 --
@@ -29,16 +44,6 @@ CREATE TABLE `categorias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `categorias`
---
-
-LOCK TABLES `categorias` WRITE;
-/*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-/*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
-UNLOCK TABLES;
-
 --
 -- Table structure for table `climas`
 --
@@ -55,19 +60,20 @@ CREATE TABLE `climas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `climas`
+-- Volcado de datos para la tabla `climas`
 --
 
-LOCK TABLES `climas` WRITE;
-/*!40000 ALTER TABLE `climas` DISABLE KEYS */;
-INSERT INTO `climas` VALUES (1,'calido','clima con mucho calor'),(3,'seco','asd7');
-/*!40000 ALTER TABLE `climas` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `climas` (`id`, `nombre`, `descripcion`) VALUES
+(null,'polar', 'El clima polar o gélido se caracteriza por tener casi permanentemente temperaturas por debajo de 0 °C; y escasas precipitaciones. La humedad en el aire es inexistente y el viento suele ser bastante intenso, lo que hace muy malas las condiciones de vida.'),
+(null,'templado', 'El clima templado es un tipo de clima que se caracteriza por temperaturas medias anuales de alrededor de 15 °C y precipitaciones medias entre 600 mm y 2000 mm anuales.'),
+(null,'arido', 'El clima árido es aquel donde las precipitaciones anuales son menores a los 400 mm y normalmente se ubica entre los 15º y 35º de latitud (proximidades a los trópicos de cada hemisferio). '),
+(null,'tropical', 'El clima tropical se da en las zonas situadas en los trópicos. Se caracteriza por tener temperaturas elevadas y por la poca diferencia de éstas entre las estaciones del año, es decir, no tiene una verdadera estación fría en invierno.  '),
+(null,'mediterráneo', 'El clima mediterráneo está situado en los climas templados junto a otros como el chino o pampeano y el oceánico. Se caracteriza por inviernos templados y lluviosos y veranos secos y calurosos, con otoños y primaveras variables.'),
+(null,'montaña', 'Se caracteriza por unos inviernos fríos y largos con temperaturas negativas, y veranos frescos y cortos. Las precipitaciones son muy escasas en forma de lluvia en primavera, verano, de nieve en invierno y otoño en zonas templadas.');
 
 --
 -- Table structure for table `estados`
 --
-
 DROP TABLE IF EXISTS `estados`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -84,14 +90,12 @@ CREATE TABLE `estados` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `estados`
+-- Volcado de datos para la tabla `estados`
 --
-
-LOCK TABLES `estados` WRITE;
-/*!40000 ALTER TABLE `estados` DISABLE KEYS */;
-INSERT INTO `estados` VALUES (1,'asd97','el pepo tiene la posta',0,0),(2,'tu abuela','te da comida',0,0),(6,'chirimolla','asd8',0,0);
-/*!40000 ALTER TABLE `estados` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `estados` (`id`, `nombre`, `descripcion`) VALUES
+(1,'sana', 'La planta se encuentra en optimas condiciones para continuar su desarrollo'),
+(2,'enferma', 'La planta se encuentra con problemas que todavia se pueden resolver antes de cancelar su seguimiento'),
+(3,'muerta', 'La planta se encuentra en un estado irreversible,ya no se puede continuar con su desarrollo');
 
 --
 -- Table structure for table `etapas`
@@ -112,14 +116,14 @@ CREATE TABLE `etapas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `etapas`
+-- Volcado de datos para la tabla `etapas`
 --
-
-LOCK TABLES `etapas` WRITE;
-/*!40000 ALTER TABLE `etapas` DISABLE KEYS */;
-INSERT INTO `etapas` VALUES (1,'riego','riego',NULL,0);
-/*!40000 ALTER TABLE `etapas` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `etapas` (`id`, `nombre`, `descripcion`, `planta_id`, `estados_id`) VALUES
+(null,'inicio', '', null, null),
+(null,'transplante', '', null, null),
+(null,'finalizado', '', null, null),
+(null,'poda', '', null, null),
+(null,'cosecha', '', null, null);
 
 --
 -- Table structure for table `personas`
@@ -141,14 +145,18 @@ CREATE TABLE `personas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `personas`
+-- Volcado de datos para la tabla `personas`
 --
+INSERT INTO `personas` (`id`, `apellido`, `nombre`, `fecha_nacimiento`, `usuarios_id`) VALUES
+(null,'ascurra', 'daiana', '12-12-1989', null),
+(null,'padilla', 'perla', '15-01-1995', null),
+(null,'rojo', 'martin', '1-01-1995', null),
+(null,'romani', 'matias', '15-02-1995', null),
+(null,'nosecomoseescribe', 'alvaro', '15-01-1999', null),
+(null,'sabio', 'leandro', '5-10-1995', null),
+(null,'giandinoto', 'ramiro', '10-10-1988', null);
 
-LOCK TABLES `personas` WRITE;
-/*!40000 ALTER TABLE `personas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `personas` ENABLE KEYS */;
-UNLOCK TABLES;
-
+--
 --
 -- Table structure for table `plantas`
 --
@@ -163,7 +171,7 @@ CREATE TABLE `plantas` (
   `climas_id` int(11) NOT NULL,
   `temporadas_id` int(11) NOT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
-  `tiempo_riego` datetime DEFAULT NULL,
+  `tiempo_riego` time DEFAULT NULL,
   `tipo_planta_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_plantas_clima_idx` (`climas_id`),
@@ -177,14 +185,24 @@ CREATE TABLE `plantas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `plantas`
+-- Volcado de datos para la tabla `plantas`
 --
 
-LOCK TABLES `plantas` WRITE;
-/*!40000 ALTER TABLE `plantas` DISABLE KEYS */;
-INSERT INTO `plantas` VALUES (1,'roberto',1,1,1,'esta planta se llama roberto',NULL,NULL),(3,'Juanelo',2,3,4,'asd9',NULL,NULL);
-/*!40000 ALTER TABLE `plantas` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `plantas` (`id`, `nombre`, `suelos_id`, `climas_id`, `temporadas_id`, `descripcion`, `tiempo_riego`, `tipo_planta_id`) VALUES
+(null, 'frutillas', null, null, null, 'fruto rojo pequeño','tiempo riego', null),
+(null, 'limonero', null, null, null, 'planta de tipo arbol', null, null),
+(null, 'acelga', null, null, null, 'planta de hojas verdes pequeña', null, null),
+(null, 'SOLANUM LYCOPERSICUM/ tomate "perita"', null, null, null, 'Es una planta anual, pero a veces puede perdurar más de un año en el terreno.\r\n\r\nLos tallos son ligeramente angulosos, semileñosos, de grosor mediano (cercano a 4 cm en la base) y con tricomas simples y glandulares.\r\n\r\nHojas de tamaño medio a grande (10 a 50 cm), alternas, pecioladas, bipinatisectas (con folíolos a su vez divididos) y con numerosos tricomas simples y glandulares.\r\nNecesitan mucho sol.', null, null),
+(null, 'lavanda', null, null, null, 'planta de tipo arbusto mediana', null, null),
+(null, 'petunia multiflora', null, null, null, 'Son originarias de Brasil. Son plantas perennes de escasa estatura, aproximadamente entre 15 y 60 centímetros. Desde principios de primavera hasta los finales de otoño, la floración se produce de manera abundante. ', null, null),
+(null, 'echinocactus grusonii / asiento de suegra', null, null, null, 'Suculenta, puede llegar a medir 80 cm de ancho y diámetro (15 cm a los 10 años) y es de crecimiento lento. Florece cuando es adulto y sólo en verano por 3 días. Requiere mucho sol y poca agua. ',null, null),
+(null, 'epipremnum pinnatum / potus colgante', null, null, null, 'Conocido como "potus", es originario del sudeste asiático. Liana que puede alcanzar 20 m de alto, con tallos de hasta 4 cm de diámetro. Trepa mediante raíces aéreas que se enganchan a las ramas de los árboles. Las hojas son perennes, alternas y acorazonadas, enteras en las plantas jóvenes, pero irregularmente pinnadas en las maduras y de hasta 1 m de largo por 45 cm de ancho (en las plantas jóvenes no superan los 20 cm de largo). Crecimiento rápido. Abundante agua y sombra luminosa. necesita buen drenaje. ', null, null),
+(null, 'albaca', null, null, null, 'aromatica para ensaladas', null, null),
+(null, 'ruda', null, null, null, 'aromatica con propiedades digestivas', null, null),
+(null, 'menta', null, null, null, 'pequeñas hojas con propiedades digestivas', null, null),
+(null, 'aloe variegata/aloe tigre', null, null, null, 'Pequeñas plantas suculentas de fácil cultivo, sin tallo o con uno muy corto y que alcanzan los 20-30 cm de altura. Las hojas carnosas y lanceoladas surgen en roseta, son de color verde oscuro con bandas transversales y borde blanco con pequeños dientes. Las flores se presentan en inflorescencias ramificadas, son de color rojo o rosa y de forma tubular. Florecen en la segunda mitad del invierno. Son muy sensibles al exceso de humedad que pudre rápidamente la planta;pueden ser víctimas de cochinillas.', null, null),
+(null, 'junco', null, null, null, 'planca acuatica', null, null),
+(null, 'flor de loto', null, null, null, 'acuatica', null, null);
 
 --
 -- Table structure for table `respuestas`
@@ -208,15 +226,6 @@ CREATE TABLE `respuestas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `respuestas`
---
-
-LOCK TABLES `respuestas` WRITE;
-/*!40000 ALTER TABLE `respuestas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `respuestas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `roles`
 --
 
@@ -232,14 +241,13 @@ CREATE TABLE `roles` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `roles`
+-- Volcado de datos para la tabla `roles`
 --
 
-LOCK TABLES `roles` WRITE;
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'ROLE_ADMIN','Administrador'),(2,'ROLE_USER','Usuario Comun'),(3,'ROLE_VENDEDOR','Usuario Vendedor');
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `roles` (`id`, `rol`, `descripcion`) VALUES
+(1, 'ROLE_ADMIN', 'Administrador'),
+(2, 'ROLE_USER', 'Usuario Comun'),
+(3, 'ROLE_VENDEDOR', 'Usuario Vendedor');
 
 --
 -- Table structure for table `seguimientos`
@@ -254,6 +262,7 @@ CREATE TABLE `seguimientos` (
   `planta_id` int(11) NOT NULL,
   `ultimo_riego` datetime DEFAULT NULL,
   `estado_id` int(11) DEFAULT NULL,
+  `proximo_riego` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_seguim_user_idx` (`usuario_id`),
   KEY `fk_seguim_planta_idx` (`planta_id`),
@@ -263,14 +272,12 @@ CREATE TABLE `seguimientos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `seguimientos`
+-- Volcado de datos para la tabla `roles`
 --
 
-LOCK TABLES `seguimientos` WRITE;
-/*!40000 ALTER TABLE `seguimientos` DISABLE KEYS */;
-INSERT INTO `seguimientos` VALUES (1,2,1,NULL,NULL),(2,3,3,NULL,NULL),(3,1,1,NULL,NULL),(4,2,1,NULL,1);
-/*!40000 ALTER TABLE `seguimientos` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `seguimientos` (`id`, `usuario_id`, `planta_id`, `ultimo_riego`, `estado_id`, `proximo_riego`) VALUES
+(null, 1, 1, '', 1, ''),
+(null, 1, 1, '', 1, '');
 
 --
 -- Table structure for table `suelos`
@@ -288,14 +295,13 @@ CREATE TABLE `suelos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `suelos`
+-- Volcado de datos para la tabla `suelos`
 --
-
-LOCK TABLES `suelos` WRITE;
-/*!40000 ALTER TABLE `suelos` DISABLE KEYS */;
-INSERT INTO `suelos` VALUES (1,'salino','suelo alvearence'),(2,'humedo','suelo pampeano');
-/*!40000 ALTER TABLE `suelos` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `suelos` (`id`, `nombre`, `descripcion`) VALUES
+(null, 'arcilloso', 'Están compuestos en gran parte por el mineral conocido como arcilla. Esto los convierte en un suelo de textura pesada, pegajoso cuando está húmedo y muy duro ante carencia de agua. Controlar el riego; suele podrir las raíces. '),
+(null, 'arenoso', 'Formados por arena;micropartículas de silicio. Son suelos muy drenantes, con poca o nula capacidad de retención de humedad y por lo tanto secos. Magros en cuanto a los nutrientes que aportan.  '),
+(null, 'calcáreo', 'Estos suelos tienen gran cantidad de sales calcáreas. Suelen ser de color blanco, seco y árido. Al ser tan dura no favorece la agricultura, puesto que las plantas no pueden absorber bien los nutrientes.'),
+(null, 'humífero', 'Son las superficies que albergan abundante material orgánico en descomposición y ya descompuesto. La palabra humífero infiere que el suelo es abundante en humus, sustancia compuesta por productos orgánicos de origen coloidal.\r\n\r\n');
 
 --
 -- Table structure for table `tareas`
@@ -309,21 +315,27 @@ CREATE TABLE `tareas` (
   `nombre` varchar(50) NOT NULL,
   `etapas_id` int(11) NOT NULL,
   `descripcion` varchar(512) NOT NULL,
-  `etapas_id1` int(11) NOT NULL,
-  PRIMARY KEY (`id`,`etapas_id1`),
-  KEY `fk_tareas_etapas1_idx` (`etapas_id1`)
+  PRIMARY KEY (`id`,`etapas_id`),
+  KEY `fk_tareas_etapas_idx` (`etapas_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tareas`
+-- Volcado de datos para la tabla `tareas`
 --
 
-LOCK TABLES `tareas` WRITE;
-/*!40000 ALTER TABLE `tareas` DISABLE KEYS */;
-INSERT INTO `tareas` VALUES (1,'regar',1,'descripcion',0);
-/*!40000 ALTER TABLE `tareas` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `tareas` (`id`, `nombre`, `etapas_id`, `descripcion`) VALUES
+(null,'preparar suelo',1, 'Preparar todo el terreno / maceta donde será plantada la planta'),
+(null,'transplantar',2, 'Cambiar la planta de contenedor, por ejemplo pasar de maceta a tierra'),
+(null,'podar',4, 'Se cortan los brotes viejos para darle paso a los mas nuevos'),
+(null,'cosechar',5, 'Obtencios de los frutos que pueda dar la planta'),
+(null,'regar',1, 'Regar'),
+(null,'regar',2, 'Regar'),
+(null,'regar',3, 'Regar'),
+(null,'regar',4, 'Regar'),
+(null,'regar',5, 'Regar'),
+(null,'abonar',1, 'Cambiar la tierra o agregar abono o algun tipo de fertilizante que ayude a su crecimiento'),
+(null,'abonar',2, 'Cambiar la tierra o agregar abono o algun tipo de fertilizante que ayude a su crecimiento');
 
 --
 -- Table structure for table `temas`
@@ -348,15 +360,6 @@ CREATE TABLE `temas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `temas`
---
-
-LOCK TABLES `temas` WRITE;
-/*!40000 ALTER TABLE `temas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `temas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `temporadas`
 --
 
@@ -372,14 +375,14 @@ CREATE TABLE `temporadas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `temporadas`
+-- Volcado de datos para la tabla `temporadas`
 --
 
-LOCK TABLES `temporadas` WRITE;
-/*!40000 ALTER TABLE `temporadas` DISABLE KEYS */;
-INSERT INTO `temporadas` VALUES (1,'cosecha','todos los culeados cosechando'),(4,'riego','todos los culeados regando');
-/*!40000 ALTER TABLE `temporadas` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `temporadas` (`id`, `nombre`, `descripcion`) VALUES
+(null, 'primavera', ''),
+(null, 'verano', ''),
+(null, 'otoño', ''),
+(null, 'invierno', '');
 
 --
 -- Table structure for table `tipos_plantas`
@@ -389,7 +392,7 @@ DROP TABLE IF EXISTS `tipos_plantas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tipos_plantas` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -397,14 +400,16 @@ CREATE TABLE `tipos_plantas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tipos_plantas`
+-- Volcado de datos para la tabla `tipos_plantas`/
 --
 
-LOCK TABLES `tipos_plantas` WRITE;
-/*!40000 ALTER TABLE `tipos_plantas` DISABLE KEYS */;
-INSERT INTO `tipos_plantas` VALUES (1,'ciruela','d\'gend'),(2,'duraznito','prismo');
-/*!40000 ALTER TABLE `tipos_plantas` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `tipos_plantas` (`id`, `nombre`, `descripcion`) VALUES
+(null, 'frutas', 'Aptos para consumo'),
+(null, 'verduras y hortalizas', 'Aptos para consumo'),
+(null, 'decorativas', 'Con flores, sin flores, para decorar espacios'),
+(null, 'aromaticas y medicinales', 'Hierbas aromaticas aptas para consumo ideal para cocinar. Hierbas medicinales con propiedades curativas'),
+(null, 'cactus y suculentas', 'Bulbosas'),
+(null, 'acuaticas', 'Plantas adaptadas a los medios muy húmedos o acuáticos, incluso sin tierra');
 
 --
 -- Table structure for table `tipos_ventas`
@@ -420,15 +425,6 @@ CREATE TABLE `tipos_ventas` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tipos_ventas`
---
-
-LOCK TABLES `tipos_ventas` WRITE;
-/*!40000 ALTER TABLE `tipos_ventas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tipos_ventas` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `usuarios`
@@ -450,15 +446,18 @@ CREATE TABLE `usuarios` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuarios`
+-- Table structure for table `usuarios`
 --
+INSERT INTO `usuarios` (`id`, `password`, `user`, `email`, `roles_id`) VALUES
+(null, '1234', 'day', 'day@gmail',2),
+(null, '2345', 'perlis','perlis@gmail',1),
+(null, '3456', 'tincho','tincho@gmail',2),
+(null, '7890', 'mati', 'mati@gmail',3),
+(null, '0123', 'lea', 'lea@gmail',2),
+(null, '4567', 'alvarito','alvarito@gmail',3),
+(null, '4567', 'rami','rami@gmail',2);
 
-LOCK TABLES `usuarios` WRITE;
-/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'1234','user','user@user.com',2),(2,'4321','resu','resu@user.com',1),(3,'4321','rosita gomez','rositaGomez@user.com',3),(4,'1234','ramiro','rami@ro.com',2);
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
-UNLOCK TABLES;
-
+--
 --
 -- Table structure for table `ventas`
 --
@@ -482,14 +481,71 @@ CREATE TABLE `ventas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ventas`
+-- Filtros para la tabla `etapas`
 --
+ALTER TABLE `etapas`
+  ADD CONSTRAINT `fk_etapas_planta` FOREIGN KEY (`planta_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_etapas_seguim` FOREIGN KEY (`estados_id`) REFERENCES `estados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-LOCK TABLES `ventas` WRITE;
-/*!40000 ALTER TABLE `ventas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ventas` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+--
+-- Filtros para la tabla `personas`
+--
+ALTER TABLE `personas`
+  ADD CONSTRAINT `fk_personas_usuarios` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `plantas`
+--
+ALTER TABLE `plantas`
+  ADD CONSTRAINT `fk_plantas_climas` FOREIGN KEY (`climas_id`) REFERENCES `climas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_plantas_suelo` FOREIGN KEY (`suelos_id`) REFERENCES `suelos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_plantas_tiempo` FOREIGN KEY (`temporadas_id`) REFERENCES `temporadas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_plantas_tiposPl` FOREIGN KEY (`tipo_planta_id`) REFERENCES `tipos_plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `respuestas`
+--
+ALTER TABLE `respuestas`
+  ADD CONSTRAINT `fk_respuestas_preguntas` FOREIGN KEY (`temas_id`) REFERENCES `temas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_respuestas_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `seguimientos`
+--
+ALTER TABLE `seguimientos`
+  ADD CONSTRAINT `fk_seguimiento_estados` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_seguimiento_planta` FOREIGN KEY (`planta_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_seguimiento_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  ADD CONSTRAINT `fk_tareas_estados` FOREIGN KEY (`etapas_id`) REFERENCES `etapas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_tareas_etapas` FOREIGN KEY (`etapas_id`) REFERENCES `etapas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+/*  ADD CONSTRAINT `fk_tareas_plantas` FOREIGN KEY (`plantas_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;*/
+
+--
+-- Filtros para la tabla `temas`
+--
+ALTER TABLE `temas`
+  ADD CONSTRAINT `fk_preguntas_categ` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_preguntas_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `fk_usuarios_rol` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  ADD CONSTRAINT `fk_ventas_tipos` FOREIGN KEY (`tipo_venta_id`) REFERENCES `tipos_ventas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_ventas_usuario` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+/*fin datos de ramiro*/
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
@@ -498,5 +554,3 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2018-02-21  7:01:05
