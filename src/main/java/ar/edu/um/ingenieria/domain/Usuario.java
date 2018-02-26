@@ -42,7 +42,7 @@ public class Usuario implements Serializable{
 	@OneToMany(mappedBy="usuario",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Seguimiento> seguimiento;
 	
-	@OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Persona persona;
 	
 	public Integer getId() {

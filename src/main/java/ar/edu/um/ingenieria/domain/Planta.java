@@ -2,6 +2,9 @@ package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,11 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "plantas")
@@ -51,6 +56,10 @@ public class Planta implements Serializable {
 	@JsonFormat(pattern="HH:mm:ss")
 	@Column(name = "tiempo_riego")
 	private Date tiempoRiego;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="planta",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Seguimiento> seguimiento;
 	
 	public Integer getId() {
 		return id;
