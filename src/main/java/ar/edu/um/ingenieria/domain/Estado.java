@@ -31,7 +31,6 @@ public class Estado implements Serializable {
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@JsonIgnore
 	@OneToMany
 	@JoinColumn(name = "estados_id")
 	private List<Etapa> etapas;

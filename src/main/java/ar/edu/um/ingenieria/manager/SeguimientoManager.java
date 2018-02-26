@@ -1,6 +1,9 @@
 package ar.edu.um.ingenieria.manager;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,7 @@ import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 @Service
 public class SeguimientoManager {
 	
-	private static final Logger logger = LoggerFactory.getLogger(UsuarioManager.class);
+	private static final Logger logger = LoggerFactory.getLogger(SeguimientoManager.class);
 	
 	@Autowired
 	private SeguimientoServiceImpl seguimientoServiceImpl;
@@ -33,12 +36,17 @@ public class SeguimientoManager {
 	
 	
 	public void create(Integer usuario, Integer planta, Integer estado) {
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-3:00"));
 		Seguimiento seguimiento = new Seguimiento();
+		long tiempoActual = calendar.getTimeInMillis()-10800000	, horasFaltantes = plantaServiceImpl.findById(planta).getTiempoRiego().getTime(),
+				suma = tiempoActual + horasFaltantes;
+		calendar.setTimeInMillis(suma);
 		seguimiento.setEtapa(etapaServiceImpl.findById(1));
 		seguimiento.setTarea(tareaServiceImpl.findById(1));
 		seguimiento.setEstado(estadoServiceImpl.findById(estado));
 		seguimiento.setUsuario(usuarioServiceImpl.findById(usuario));
 		seguimiento.setPlanta(plantaServiceImpl.findById(planta));
+		seguimiento.setProximoRiego(calendar.getTime());
 		seguimientoServiceImpl.create(seguimiento);
 	}
 	
@@ -52,13 +60,9 @@ public class SeguimientoManager {
 		seguimientoServiceImpl.create(seguimiento);
 	}
 	
-	public List<Seguimiento> findAll(){
-		try {
-			return seguimientoServiceImpl.findAll();
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
-		return null;
+	public List<Seguimiento> findByUser(Integer usuario)
+	{
+		return usuarioServiceImpl.findById(usuario).getSeguimiento();
 	}
 
 	public Seguimiento findById(Integer id) {
@@ -68,5 +72,14 @@ public class SeguimientoManager {
 	public void delete(Integer id) {
 		Seguimiento seguimiento = seguimientoServiceImpl.findById(id);		
 		seguimientoServiceImpl.remove(seguimiento);
+	}
+	
+	public List<Seguimiento> findAll(){
+		try {
+			return seguimientoServiceImpl.findAll();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return null;
 	}
 }

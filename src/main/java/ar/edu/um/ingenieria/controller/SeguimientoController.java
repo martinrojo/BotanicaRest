@@ -32,8 +32,9 @@ public class SeguimientoController {
 //Get devuelve todos
 	@GetMapping
 	public List<Seguimiento> indexPage() {
-		logger.info("datos de seguimiento: {}", seguimientoService.findAll());
-		return seguimientoService.findAll();
+		int id = 2;
+		logger.info("datos de seguimiento: {}", seguimientoManager.findByUser(id));
+		return seguimientoManager.findByUser(id);
 	}
 
 	@GetMapping("/{id}")

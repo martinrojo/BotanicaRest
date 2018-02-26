@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -17,6 +18,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="seguimientos")
@@ -27,7 +29,8 @@ public class Seguimiento implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
 	
@@ -196,9 +199,8 @@ public class Seguimiento implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Seguimiento [id=" + id + ", usuario=" + usuario + ", planta=" + planta + ", estado=" + estado
-				+ ", etapa=" + etapa + ", tarea=" + tarea + ", utlimo_riego=" + ultimoRiego + ", proximoRiego="
-				+ proximoRiego + "]";
+		return "Seguimiento [id=" + id +", planta=" + planta + ", estado=" + estado
+				+ ", etapa=" + etapa + ", tarea=" + tarea + ", ultimoRiego=" + ultimoRiego + ", proximoRiego=" + proximoRiego + "]";
 	}
 
 	public Seguimiento() {

@@ -1,36 +1,44 @@
 package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table (name = "tareas")
-public class Tarea implements Serializable{
+@Table(name = "tareas")
+public class Tarea implements Serializable {
 	private static final long serialVersionUID = -7153249297528005760L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@Column (name = "nombre")
+
+	@Column(name = "nombre")
 	private String nombre;
 
-	@Column (name = "descripcion")
+	@Column(name = "descripcion")
 	private String descripcion;
-	/*
-	@OneToOne(fetch = FetchType.EAGER)	
-	@JoinColumn(name="estados_id")		
-	private Estado estado;
+
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "etapas_id")
+	private Etapa etapa;
 	
-	@OneToOne(fetch = FetchType.EAGER)	
-	@JoinColumn(name="plantas_id")		
-	private Planta planta;
-	*/
+	@JsonIgnore
+	@OneToMany(mappedBy = "tarea", fetch = FetchType.LAZY)
+	private List<Seguimiento> seguimiento;
+
 	public Integer getId() {
 		return id;
 	}
@@ -54,37 +62,36 @@ public class Tarea implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-/*
-	public Estado getEstado() {
-		return estado;
+
+	public Etapa getEtapa() {
+		return etapa;
 	}
 
-	public void setEstado(Estado estado) {
-		this.estado = estado;
+	public void setEtapa(Etapa etapa) {
+		this.etapa = etapa;
 	}
 
-	public Planta getPlanta() {
-		return planta;
+	public List<Seguimiento> getSeguimiento() {
+		return seguimiento;
 	}
 
-	public void setPlanta(Planta planta) {
-		this.planta = planta;
+	public void setSeguimiento(List<Seguimiento> seguimiento) {
+		this.seguimiento = seguimiento;
 	}
-*/
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
-		//result = prime * result + ((estado == null) ? 0 : estado.hashCode());
+		result = prime * result + ((etapa == null) ? 0 : etapa.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		//result = prime * result + ((planta == null) ? 0 : planta.hashCode());
+		result = prime * result + ((seguimiento == null) ? 0 : seguimiento.hashCode());
 		return result;
 	}
 
@@ -102,11 +109,11 @@ public class Tarea implements Serializable{
 				return false;
 		} else if (!descripcion.equals(other.descripcion))
 			return false;
-		/*if (estado == null) {
-			if (other.estado != null)
+		if (etapa == null) {
+			if (other.etapa != null)
 				return false;
-		} else if (!estado.equals(other.estado))
-			return false;*/
+		} else if (!etapa.equals(other.etapa))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -116,18 +123,18 @@ public class Tarea implements Serializable{
 			if (other.nombre != null)
 				return false;
 		} else if (!nombre.equals(other.nombre))
-	/*	return false;
-		if (planta == null) {
-			if (other.planta != null)
-				return false;*/
+			return false;
+		if (seguimiento == null) {
+			if (other.seguimiento != null)
+				return false;
+		} else if (!seguimiento.equals(other.seguimiento))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Tarea [id=" + id + ", nombre=" + nombre + ", etapa=" + ", descripcion=" + descripcion
-				+ ", estado="/* + estado */+ ", planta=" /*+ planta */+ "]";
+		return "Tarea [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
 	}
 
 	public Tarea() {

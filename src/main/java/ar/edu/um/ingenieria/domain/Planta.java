@@ -165,8 +165,9 @@ public class Planta implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Planta [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tiempoRiego="
-				+ tiempoRiego + "]";
+		return "Planta [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tipo=" + tipo
+				+ ", temporada=" + temporada + ", suelo=" + suelo + ", clima=" + clima + ", tiempoRiego=" + tiempoRiego
+				+ "]";
 	}
 
 	public Planta() {
