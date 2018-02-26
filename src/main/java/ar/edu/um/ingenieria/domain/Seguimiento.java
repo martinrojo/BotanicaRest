@@ -41,11 +41,11 @@ public class Seguimiento implements Serializable{
 	private Estado estado;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="etapa_id")
+	@JoinColumn(name="etapas_id")
 	private Etapa etapa;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="tarea_id")
+	@JoinColumn(name="tareas_id")
 	private Tarea tarea;
 	
 	@Temporal(TemporalType.TIMESTAMP)

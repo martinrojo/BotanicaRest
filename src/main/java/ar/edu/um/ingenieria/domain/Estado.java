@@ -33,7 +33,7 @@ public class Estado implements Serializable {
 	private String descripcion;
 	
 	@OneToMany
-	@JoinColumn(name = "etapa_id")
+	@JoinColumn(name = "etapas_id")
 	private List<Etapa> etapa;
 	
 	@JsonIgnore
