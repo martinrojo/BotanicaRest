@@ -19,22 +19,30 @@ import ar.edu.um.ingenieria.service.impl.TipoVentaServiceImpl;
 public class TipoVentaAdmController {
 
 	@Autowired
-	private TipoVentaServiceImpl ventaServiceImpl;
+	private TipoVentaServiceImpl tipoVentaServiceImpl;
 
 	@GetMapping("/tipoventas/")
 	public ResponseEntity<List<TipoVenta>> findAll() {
-		return new ResponseEntity<List<TipoVenta>>(ventaServiceImpl.findAll(), HttpStatus.OK);
+		return new ResponseEntity<List<TipoVenta>>(tipoVentaServiceImpl.findAll(), HttpStatus.OK);
 	}
 
 	@GetMapping("/tipoventas/{id}")
 	public ResponseEntity<TipoVenta> edit(@PathVariable Integer id) {
-		return new ResponseEntity<TipoVenta>(ventaServiceImpl.findById(id),HttpStatus.OK);
+		if(tipoVentaServiceImpl.findById(id)==null)
+			return new ResponseEntity<TipoVenta>(HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<TipoVenta>(tipoVentaServiceImpl.findById(id),HttpStatus.OK);
 	}
 
 	@DeleteMapping("/tipoventas/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
-		ventaServiceImpl.remove(ventaServiceImpl.findById(id));
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		if(tipoVentaServiceImpl.findById(id)==null)
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		else {
+			tipoVentaServiceImpl.remove(tipoVentaServiceImpl.findById(id));
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+		
 	}
 }
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Venta;
-//import ar.edu.um.ingenieria.manager.VentaManager;
+import ar.edu.um.ingenieria.manager.VentaManager;
 import ar.edu.um.ingenieria.service.impl.VentaServiceImpl;
 
 @RestController
@@ -22,7 +22,7 @@ public class VentaAdmController {
 	@Autowired
 	private VentaServiceImpl ventaServiceImpl;
 	@Autowired
-	//private VentaManager ventaManager;
+	private VentaManager ventaManager;
 
 	@GetMapping("/ventas/")
 	public ResponseEntity<List<Venta>> findAll() {
@@ -31,12 +31,20 @@ public class VentaAdmController {
 
 	@GetMapping("/ventas/{id}")
 	public ResponseEntity<Venta> edit(@PathVariable Integer id) {
-		return new ResponseEntity<Venta>(ventaServiceImpl.findById(id),HttpStatus.OK);
+		if(ventaServiceImpl.findById(id)==null)
+			return new ResponseEntity<Venta>(HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<Venta>(ventaServiceImpl.findById(id),HttpStatus.OK);
 	}
 
 	@DeleteMapping("/ventas/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
-		ventaServiceImpl.remove(ventaServiceImpl.findById(id));
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		if(ventaServiceImpl.findById(id)==null)
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		else {
+			ventaServiceImpl.remove(ventaServiceImpl.findById(id));
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+		
 	}
 }

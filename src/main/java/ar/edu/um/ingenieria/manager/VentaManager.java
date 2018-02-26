@@ -2,6 +2,7 @@ package ar.edu.um.ingenieria.manager;
 
 import org.springframework.stereotype.Service;
 
+import ar.edu.um.ingenieria.domain.Venta;
 import ar.edu.um.ingenieria.service.impl.VentaServiceImpl;
 
 import java.util.List;
@@ -23,5 +24,4 @@ private static final Logger logger = LoggerFactory.getLogger(TemaManager.class);
 		ventaServiceImpl.remove(ventaServiceImpl.findById(id));
 		
 	}
-
 }
