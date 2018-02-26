@@ -13,7 +13,6 @@ import ar.edu.um.ingenieria.domain.Respuesta;
 
 @Repository
 public interface RespuestaRepository  extends JpaRepository<Respuesta, Integer> {
-
 	@Query("SELECT r FROM Respuesta r WHERE r.tema=:idTema")
 	List<Respuesta> findRespuestaByTema(@Param("idTema") Integer idTema);
 

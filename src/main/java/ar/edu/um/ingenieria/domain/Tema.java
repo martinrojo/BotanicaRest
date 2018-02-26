@@ -33,6 +33,7 @@ public class Tema implements Serializable{
 	@Column(name = "titulo")
 	private String titulo;
 	
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
@@ -43,11 +44,12 @@ public class Tema implements Serializable{
 	@Column(name = "texto")
 	private String texto;
 	
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="categoria_id")
 	private Categoria categoria;
 	
-	@JsonIgnore
+	
 	@OneToMany(mappedBy = "tema", fetch = FetchType.EAGER)
 	private List<Respuesta> respuestas;
 	

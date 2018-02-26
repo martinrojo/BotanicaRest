@@ -26,7 +26,7 @@ public class Categoria implements Serializable{
 	@Column(name = "nombre")
 	private String nombre;
 	
-	@JsonIgnore
+	
 	@OneToMany(mappedBy = "categoria", fetch = FetchType.EAGER)
 	private List<Tema> temas;
 	
