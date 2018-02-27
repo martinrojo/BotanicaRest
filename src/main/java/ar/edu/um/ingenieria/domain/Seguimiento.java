@@ -14,7 +14,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -41,11 +43,11 @@ public class Seguimiento implements Serializable{
 	private Estado estado;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="etapas_id")
+	@JoinColumn(name="etapa_id")
 	private Etapa etapa;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="tareas_id")
+	@JoinColumn(name="tarea_id")
 	private Tarea tarea;
 	
 	@Temporal(TemporalType.TIMESTAMP)

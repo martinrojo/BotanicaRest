@@ -76,7 +76,6 @@ public class TipoPlanta implements Serializable {
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((plantas == null) ? 0 : plantas.hashCode());
 		return result;
 	}
 
@@ -104,18 +103,12 @@ public class TipoPlanta implements Serializable {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		if (plantas == null) {
-			if (other.plantas != null)
-				return false;
-		} else if (!plantas.equals(other.plantas))
-			return false;
 		return true;
 	}
 	
 	@Override
 	public String toString() {
-		return "TipoPlanta [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", plantas=" + plantas
-				+ "]";
+		return "Tipo [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
 	}
 
 	public TipoPlanta() {

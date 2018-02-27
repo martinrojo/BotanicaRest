@@ -2,6 +2,7 @@ package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -63,7 +64,6 @@ public class Categoria implements Serializable{
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((temas == null) ? 0 : temas.hashCode());
 		return result;
 	}
 
@@ -85,11 +85,6 @@ public class Categoria implements Serializable{
 			if (other.nombre != null)
 				return false;
 		} else if (!nombre.equals(other.nombre))
-			return false;
-		if (temas == null) {
-			if (other.temas != null)
-				return false;
-		} else if (!temas.equals(other.temas))
 			return false;
 		return true;
 	}

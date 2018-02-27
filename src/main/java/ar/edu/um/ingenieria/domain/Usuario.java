@@ -39,15 +39,11 @@ public class Usuario implements Serializable{
 	private Rol rol;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="usuario",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="usuario",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<Seguimiento> seguimiento;
 	
-	@OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
 	private Persona persona;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-	private List<Venta> ventas;
 	
 	public Integer getId() {
 		return id;
@@ -120,7 +116,6 @@ public class Usuario implements Serializable{
 		result = prime * result + ((rol == null) ? 0 : rol.hashCode());
 		result = prime * result + ((seguimiento == null) ? 0 : seguimiento.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
-		result = prime * result + ((ventas == null) ? 0 : ventas.hashCode());
 		return result;
 	}
 
@@ -168,18 +163,13 @@ public class Usuario implements Serializable{
 				return false;
 		} else if (!user.equals(other.user))
 			return false;
-		if (ventas == null) {
-			if (other.ventas != null)
-				return false;
-		} else if (!ventas.equals(other.ventas))
-			return false;
 		return true;
 	}
 	
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", user=" + user + ", email=" + email + ", password=" + password + ", rol=" + rol
-				+ ", seguimiento=" + seguimiento + ", persona=" + persona + ", ventas=" + ventas + "]";
+				+ ", seguimiento=" + seguimiento + ", persona=" + persona + "]";
 	}
 
 	public Usuario() {
