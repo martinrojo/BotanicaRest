@@ -1,43 +1,97 @@
 package ar.edu.um.ingenieria.controller.admin;
 
 import java.util.List;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import ar.edu.um.ingenieria.domain.Usuario;
-import ar.edu.um.ingenieria.manager.UsuarioManager;
+import ar.edu.um.ingenieria.service.impl.PlantaServiceImpl;
+import ar.edu.um.ingenieria.service.impl.RolServiceImpl;
 import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 
 @RestController
 @RequestMapping("/admin/usuarios")
 public class UsuarioAdmController {
-
+	
 	@Autowired
 	private UsuarioServiceImpl usuarioServiceImpl;
-	@Autowired
-	private UsuarioManager usuarioManager;
 	
+	@Autowired
+	private RolServiceImpl rolServiceImpl;
+	
+	private static final Logger logger = Logger.getLogger(PlantaServiceImpl.class);
+
 	@GetMapping
-	public ResponseEntity<List<Usuario>> findAll() {
-		return new ResponseEntity<List<Usuario>>(usuarioServiceImpl.findAll(), HttpStatus.OK);
+	public List<Usuario> indexPage()
+	{
+		logger.info("Datos de los usuarios:"+usuarioServiceImpl.findAll());
+		return usuarioServiceImpl.findAll();
 	}
-	//falta logica de: existe o no existe?
+	
 	@GetMapping("/{id}")
-	public ResponseEntity<Usuario> findById(@PathVariable Integer id) {
-		return new ResponseEntity<Usuario>(usuarioServiceImpl.findById(id),HttpStatus.OK);
+	public Usuario show(@PathVariable Integer id)
+	{
+		logger.info("Datos de la planta:"+usuarioServiceImpl.findById(id));
+		return usuarioServiceImpl.findById(id);
 	}
-	//falta logica de: existe o no existe?
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
-		Usuario usuario = usuarioServiceImpl.findById(id);
-		usuarioServiceImpl.remove(usuario);
+	
+	@PostMapping("/create")
+	public ResponseEntity<Void> agregar(String password, String user, String email, Integer roles_id) {
+		Usuario usuario = new Usuario();
+		usuario.setPassword(password);
+		usuario.setUser(user);
+		usuario.setEmail(email);
+		usuario.setRol(rolServiceImpl.findById(roles_id));
+		usuarioServiceImpl.create(usuario);
 		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<Void> agregar(String password, String user, String email, Integer roles_id,Usuario usuario) {
+		usuario.setPassword(password);
+		usuario.setUser(user);
+		usuario.setEmail(email);
+		usuario.setRol(rolServiceImpl.findById(roles_id));
+		List<Usuario> usuarios = usuarioServiceImpl.findAll();
+		boolean existe = false;
+		for (int i = 1; i == usuarios.size();i++)
+		{
+			if (usuarios.get(i).equals(usuario) == true)
+			{
+			 existe = true;
+			}
+		}
+		if (existe == true)
+		{
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		} else {
+		usuarioServiceImpl.create(usuario);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+	}
+
+	@PostMapping
+	public Usuario add(@RequestBody Usuario usuario) {
+		return usuarioServiceImpl.create(usuario);
+	}
+
+	@PutMapping(value = "/{id}")
+	public Usuario update(@RequestBody Usuario usuario, @PathVariable Integer id) {
+		usuario.setId(id);
+		return usuarioServiceImpl.update(usuario);
+	}
+
+	@DeleteMapping(value = "/{id}")
+	public void delete(@PathVariable Integer id) {
+		usuarioServiceImpl.remove(usuarioServiceImpl.findById(id));
 	}
 }
