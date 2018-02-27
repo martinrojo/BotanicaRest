@@ -28,19 +28,15 @@ public class TemaAdmController {
 	public ResponseEntity<List<Tema>> findAll() {
 		return new ResponseEntity<List<Tema>>(temaServiceImpl.findAll(), HttpStatus.OK);
 	}
-
+	//falta logica de: existe o no existe?
 	@GetMapping("/{id}")
 	public ResponseEntity<Tema> findById(@PathVariable Integer id) {
 		return new ResponseEntity<Tema>(temaManager.findById(id),HttpStatus.OK);
 	}
-
+	//falta logica de: existe o no existe?
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
-		if(temaServiceImpl.findById(id)==null)
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		else {
-			temaServiceImpl.remove(temaServiceImpl.findById(id));;
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		}
+		temaManager.delete(id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }
