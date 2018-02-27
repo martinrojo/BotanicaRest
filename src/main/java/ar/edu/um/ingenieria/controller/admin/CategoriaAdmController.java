@@ -30,17 +30,23 @@ public class CategoriaAdmController {
 		return new ResponseEntity<List<Categoria>>(categoriaServiceImpl.findAll(), HttpStatus.OK);
 	}
 	
-	//falta logica de: existe o no existe?
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
-		return new ResponseEntity<Categoria>(categoriaManager.findById(id),HttpStatus.OK);
+		if(categoriaServiceImpl.findById(id)==null)
+			return new ResponseEntity<Categoria>(HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<Categoria>(categoriaManager.findById(id),HttpStatus.OK);
 	}
 	
-	//falta logica de: existe o no existe?
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
-		categoriaManager.delete(id);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		if(categoriaServiceImpl.findById(id)==null)
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		else {
+			categoriaServiceImpl.remove(categoriaServiceImpl.findById(id));
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
 	}
 	
 	@PostMapping
