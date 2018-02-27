@@ -4,8 +4,6 @@
 -- ------------------------------------------------------
 -- Server version	5.6.17
 
-use botanica;
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -77,9 +75,11 @@ CREATE TABLE `estados` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
-  `etapas_id` int(11) NOT NULL,
+  `seguimientos_id` int(11) NOT NULL,
+  `plantas_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_estados_etapas1_idx` (`etapas_id`)
+  KEY `fk_estados_seguimientos1_idx` (`seguimientos_id`),
+  KEY `fk_estados_plantas1_idx` (`plantas_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -89,7 +89,7 @@ CREATE TABLE `estados` (
 
 LOCK TABLES `estados` WRITE;
 /*!40000 ALTER TABLE `estados` DISABLE KEYS */;
-INSERT INTO `estados` VALUES (1,'sana','La planta se encuentra en optimas condiciones para continuar su desarrollo',0),(2,'enferma','La planta se encuentra con problemas que todavia se pueden resolver antes de cancelar su seguimiento',0),(3,'muerta','La planta se encuentra en un estado irreversible,ya no se puede continuar con su desarrollo',0);
+INSERT INTO `estados` VALUES (1,'sana','La planta se encuentra en optimas condiciones para continuar su desarrollo',0,0),(2,'enferma','La planta se encuentra con problemas que todavia se pueden resolver antes de cancelar su seguimiento',0,0),(3,'muerta','La planta se encuentra en un estado irreversible,ya no se puede continuar con su desarrollo',0,0);
 /*!40000 ALTER TABLE `estados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,10 +104,10 @@ CREATE TABLE `etapas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
-  `tarea_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tarea_id` (`tarea_id`),
-  CONSTRAINT `fk_tarea_id` FOREIGN KEY (`tarea_id`) REFERENCES `tareas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `planta_id` int(11) DEFAULT NULL,
+  `estados_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`estados_id`),
+  KEY `fk_etapas_estados1_idx` (`estados_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -117,7 +117,7 @@ CREATE TABLE `etapas` (
 
 LOCK TABLES `etapas` WRITE;
 /*!40000 ALTER TABLE `etapas` DISABLE KEYS */;
-INSERT INTO `etapas` VALUES (1,'inicio','',0),(2,'transplante','',0),(3,'finalizado','',0),(4,'poda','',0),(5,'cosecha','',0);
+INSERT INTO `etapas` VALUES (1,'inicio','',0,0),(2,'transplante','',0,0),(3,'finalizado','',0,0),(4,'poda','',0,0),(5,'cosecha','',0,0);
 /*!40000 ALTER TABLE `etapas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,8 +136,7 @@ CREATE TABLE `personas` (
   `usuarios_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_personas_user_idx` (`usuarios_id`),
-  CONSTRAINT `fk_personas_user` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_personas_usuarios` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_personas_user` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -174,11 +173,7 @@ CREATE TABLE `plantas` (
   KEY `fk_plantas_tiposPl_idx` (`tipo_planta_id`),
   CONSTRAINT `fk_plantas_clima` FOREIGN KEY (`climas_id`) REFERENCES `climas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_plantas_suelos` FOREIGN KEY (`suelos_id`) REFERENCES `suelos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_plantas_tempo` FOREIGN KEY (`temporadas_id`) REFERENCES `temporadas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_plantas_climas` FOREIGN KEY (`climas_id`) REFERENCES `climas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_plantas_suelo` FOREIGN KEY (`suelos_id`) REFERENCES `suelos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_plantas_tiempo` FOREIGN KEY (`temporadas_id`) REFERENCES `temporadas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_plantas_tiposPl` FOREIGN KEY (`tipo_planta_id`) REFERENCES `tipos_plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_plantas_tempo` FOREIGN KEY (`temporadas_id`) REFERENCES `temporadas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -209,9 +204,7 @@ CREATE TABLE `respuestas` (
   KEY `fk_respuestas_preg_idx` (`temas_id`),
   KEY `fk_respuestas_user_idx` (`usuario_id`),
   CONSTRAINT `fk_respuestas_preg` FOREIGN KEY (`temas_id`) REFERENCES `temas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_respuestas_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_respuestas_preguntas` FOREIGN KEY (`temas_id`) REFERENCES `temas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_respuestas_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_respuestas_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -268,12 +261,8 @@ CREATE TABLE `seguimientos` (
   PRIMARY KEY (`id`),
   KEY `fk_seguim_user_idx` (`usuario_id`),
   KEY `fk_seguim_planta_idx` (`planta_id`),
-  KEY `fk_seguimiento_estados` (`estado_id`),
   CONSTRAINT `fk_seguim_planta` FOREIGN KEY (`planta_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_seguim_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_seguimiento_estados` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_seguimiento_planta` FOREIGN KEY (`planta_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_seguimiento_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_seguim_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -283,8 +272,7 @@ CREATE TABLE `seguimientos` (
 
 LOCK TABLES `seguimientos` WRITE;
 /*!40000 ALTER TABLE `seguimientos` DISABLE KEYS */;
-INSERT INTO `seguimientos` VALUES (1,1,6,'0000-00-00 00:00:00',1,'0000-00-00 00:00:00','',''),
-(2,2,4,'0000-00-00 00:00:00',1,'0000-00-00 00:00:00','','');
+INSERT INTO `seguimientos` VALUES (1,1,6,'0000-00-00 00:00:00',1,'0000-00-00 00:00:00',0,0),(2,2,4,'0000-00-00 00:00:00',1,'0000-00-00 00:00:00',0,0);
 /*!40000 ALTER TABLE `seguimientos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -323,13 +311,11 @@ DROP TABLE IF EXISTS `tareas`;
 CREATE TABLE `tareas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `etapas_id` int(11) NOT NULL,
   `descripcion` varchar(512) NOT NULL,
+  `etapas_id` int(11) NOT NULL,
   PRIMARY KEY (`id`,`etapas_id`),
-  KEY `fk_tareas_etapas_idx` (`etapas_id`),
-  CONSTRAINT `fk_tareas_estados` FOREIGN KEY (`etapas_id`) REFERENCES `etapas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tareas_etapas` FOREIGN KEY (`etapas_id`) REFERENCES `etapas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+  KEY `fk_tareas_etapas_id` (`etapas_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -338,7 +324,7 @@ CREATE TABLE `tareas` (
 
 LOCK TABLES `tareas` WRITE;
 /*!40000 ALTER TABLE `tareas` DISABLE KEYS */;
-INSERT INTO `tareas` VALUES (2,'preparar suelo',1,'Preparar todo el terreno / maceta donde será plantada la planta'),(3,'transplantar',2,'Cambiar la planta de contenedor, por ejemplo pasar de maceta a tierra'),(4,'podar',4,'Se cortan los brotes viejos para darle paso a los mas nuevos'),(5,'cosechar',5,'Obtencios de los frutos que pueda dar la planta'),(6,'regar',1,'Regar'),(7,'regar',2,'Regar'),(8,'regar',3,'Regar'),(9,'regar',4,'Regar'),(10,'regar',5,'Regar'),(11,'abonar',1,'Cambiar la tierra o agregar abono o algun tipo de fertilizante que ayude a su crecimiento'),(12,'abonar',2,'Cambiar la tierra o agregar abono o algun tipo de fertilizante que ayude a su crecimiento');
+INSERT INTO `tareas` VALUES (1,'preparar suelo','Preparar todo el terreno / maceta donde será plantada la planta',1),(2,'transplantar','Cambiar la planta de contenedor, por ejemplo pasar de maceta a tierra',2),(3,'podar','Se cortan los brotes viejos para darle paso a los mas nuevos',4),(4,'cosechar','Obtencios de los frutos que pueda dar la planta',5),(5,'regar','Regar',1),(6,'regar','Regar',2),(7,'regar','Regar',3),(8,'regar','Regar',4),(9,'regar','Regar',5),(10,'abonar','Cambiar la tierra o agregar abono o algun tipo de fertilizante que ayude a su crecimiento',1),(11,'abonar','Cambiar la tierra o agregar abono o algun tipo de fertilizante que ayude a su crecimiento',2);
 /*!40000 ALTER TABLE `tareas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -360,9 +346,7 @@ CREATE TABLE `temas` (
   PRIMARY KEY (`id`),
   KEY `fk_preguntas_user_idx` (`usuario_id`),
   KEY `fk_preguntas_temas_idx` (`categoria_id`),
-  CONSTRAINT `fk_preguntas_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_preguntas_categ` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_preguntas_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_preguntas_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -408,11 +392,11 @@ DROP TABLE IF EXISTS `tipos_plantas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tipos_plantas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -437,7 +421,7 @@ CREATE TABLE `tipos_ventas` (
   `nombre` varchar(45) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -446,6 +430,7 @@ CREATE TABLE `tipos_ventas` (
 
 LOCK TABLES `tipos_ventas` WRITE;
 /*!40000 ALTER TABLE `tipos_ventas` DISABLE KEYS */;
+INSERT INTO `tipos_ventas` VALUES (1,'TIPO_CONSERVAS','Conservas'),(2,'TIPO_VERDURAS','Verduras'),(3,'TIPO_FRUTAS','Furtas'),(4,'TIPO_HERRAMIENTAS','Herramientas'),(5,'TIPO_FERTILIZANTES','Fertilizantes'),(6,'TIPO_REMEDIOS','Remedios');
 /*!40000 ALTER TABLE `tipos_ventas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -464,8 +449,7 @@ CREATE TABLE `usuarios` (
   `roles_id` int(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_UNIQUE` (`user`),
-  KEY `fk_usuarios_rol` (`roles_id`),
-  CONSTRAINT `fk_usuarios_rol` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_usuarios_rol` (`roles_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -497,10 +481,8 @@ CREATE TABLE `ventas` (
   PRIMARY KEY (`id`),
   KEY `fk_ventas_tipos_idx` (`tipo_venta_id`),
   KEY `fk_ventas_user_idx` (`usuarios_id`),
-  CONSTRAINT `fk_ventas_user` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ventas_tipos` FOREIGN KEY (`tipo_venta_id`) REFERENCES `tipos_ventas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ventas_usuario` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_ventas_user` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -509,6 +491,7 @@ CREATE TABLE `ventas` (
 
 LOCK TABLES `ventas` WRITE;
 /*!40000 ALTER TABLE `ventas` DISABLE KEYS */;
+INSERT INTO `ventas` VALUES (1,'Conserva de frutillas','conserva de frutillas',1,1,'2017-09-20 00:00:00',1),(2,'Conserva de Cerezas','conserva de Cerezas',1,1,'2017-09-21 00:00:00',1);
 /*!40000 ALTER TABLE `ventas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -521,4 +504,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-26 18:27:08
+-- Dump completed on 2018-02-27 17:47:56
