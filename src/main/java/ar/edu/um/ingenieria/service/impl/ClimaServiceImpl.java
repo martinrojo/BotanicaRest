@@ -2,13 +2,18 @@ package ar.edu.um.ingenieria.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.edu.um.ingenieria.domain.Clima;
+import ar.edu.um.ingenieria.domain.Seguimiento;
 
 @Service
 public class ClimaServiceImpl extends ServiceImpl<Clima, Integer> {
 
+	@Autowired
+	private ClimaServiceImpl climaServiceImpl;
+	
 	@Override
 	public Clima create(Clima entity) {
 		// TODO Auto-generated method stub
@@ -38,5 +43,25 @@ public class ClimaServiceImpl extends ServiceImpl<Clima, Integer> {
 		// TODO Auto-generated method stub
 		return super.findAll();
 	}
+	
+	public void create (String nombre, String descripcion) {
+		Clima clima = new Clima();
+		clima.setNombre(nombre);
+		clima.setDescripcion(descripcion);
+		climaServiceImpl.create(clima);
+	}
 
+	public void update (Integer Clima, String nombre, String descripcion) {
+		Clima clima = climaServiceImpl.findById(Clima);
+		clima.setNombre(nombre);
+		clima.setDescripcion(descripcion);
+		climaServiceImpl.create(clima);
+	}
+	
+	public void delete(Integer id) {
+		Clima clima = climaServiceImpl.findById(id);		
+		climaServiceImpl.remove(clima);
+	}
+
+	
 }
