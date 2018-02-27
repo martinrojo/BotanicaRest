@@ -9,9 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="estados")
@@ -34,6 +33,10 @@ public class Estado implements Serializable {
 	@OneToMany
 	@JoinColumn(name = "estados_id")
 	private List<Etapa> etapas;
+	
+	@OneToOne
+	@JoinColumn(name="plantas_id")
+	private Planta planta;
 	
 	public Integer getId() {
 		return id;
@@ -67,6 +70,14 @@ public class Estado implements Serializable {
 		this.etapas = etapas;
 	}
 
+	public Planta getPlanta() {
+		return planta;
+	}
+
+	public void setPlanta(Planta planta) {
+		this.planta = planta;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -79,6 +90,7 @@ public class Estado implements Serializable {
 		result = prime * result + ((etapas == null) ? 0 : etapas.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((planta == null) ? 0 : planta.hashCode());
 		return result;
 	}
 
@@ -111,12 +123,18 @@ public class Estado implements Serializable {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
+		if (planta == null) {
+			if (other.planta != null)
+				return false;
+		} else if (!planta.equals(other.planta))
+			return false;
 		return true;
 	}
 	
 	@Override
 	public String toString() {
-		return "Estado [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", etapas=" + etapas + "]";
+		return "Estado [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", etapas=" + etapas
+				+ ", planta=" + planta + "]";
 	}
 
 	public Estado() {
