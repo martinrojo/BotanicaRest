@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,8 +34,6 @@ public class Etapa implements Serializable{
 	@JoinColumn(name="etapas_id")
 	private List<Tarea> tareas;
 
-	@JsonIgnore
-	@OneToMany(mappedBy="etapa",fetch = FetchType.LAZY)
 	public Integer getId() {
 		return id;
 	}
@@ -118,7 +115,7 @@ public class Etapa implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tareas=" + tareas + "]";
+		return "Etapa [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
 	}
 
 	public Etapa() {

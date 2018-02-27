@@ -231,7 +231,7 @@ public class Planta implements Serializable {
 	public String toString() {
 		return "Planta [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tipo=" + tipo
 				+ ", temporada=" + temporada + ", suelo=" + suelo + ", clima=" + clima + ", tiempoRiego=" + tiempoRiego
-				+ ", seguimiento=" + seguimiento + ", estado=" + estado + "]";
+				+"]";
 	}
 
 	public Planta() {
