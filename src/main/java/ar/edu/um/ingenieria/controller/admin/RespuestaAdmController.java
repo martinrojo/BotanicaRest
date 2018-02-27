@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Respuesta;
-import ar.edu.um.ingenieria.manager.RespuestaManager;
 import ar.edu.um.ingenieria.service.impl.RespuestaServiceImpl;
 
 @RestController
@@ -21,9 +20,7 @@ public class RespuestaAdmController {
 	
 	@Autowired
 	private RespuestaServiceImpl respuestaServiceImpl;
-	@Autowired
-	private RespuestaManager respuestaManager;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Respuesta>> findAll() {
 		return new ResponseEntity<List<Respuesta>>(respuestaServiceImpl.findAll(), HttpStatus.OK);
@@ -34,7 +31,7 @@ public class RespuestaAdmController {
 		if(respuestaServiceImpl.findById(id)==null)
 			return new ResponseEntity<Respuesta>(HttpStatus.BAD_REQUEST);
 		else
-			return new ResponseEntity<Respuesta>(respuestaManager.findById(id),HttpStatus.OK);
+			return new ResponseEntity<Respuesta>(respuestaServiceImpl.findById(id),HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

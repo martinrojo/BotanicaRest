@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ar.edu.um.ingenieria.domain.Categoria;
 import ar.edu.um.ingenieria.domain.Estado;
 import ar.edu.um.ingenieria.domain.Seguimiento;
-import ar.edu.um.ingenieria.manager.CategoriaManager;
 import ar.edu.um.ingenieria.service.impl.CategoriaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.EstadoServiceImpl;
 

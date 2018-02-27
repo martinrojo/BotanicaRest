@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ar.edu.um.ingenieria.domain.Respuesta;
-import ar.edu.um.ingenieria.manager.TemaManager;
-import ar.edu.um.ingenieria.repository.RespuestaRepository;
 import ar.edu.um.ingenieria.service.impl.RespuestaServiceImpl;
+import ar.edu.um.ingenieria.service.impl.TemaServiceImpl;
 
 @RestController
 @RequestMapping("/foro/respuesta")
@@ -23,13 +22,11 @@ public class RespuestaController {
 	@Autowired
 	private RespuestaServiceImpl respuestaServiceImpl;
 	@Autowired
-	private RespuestaRepository respuestaRepository;
-	@Autowired
-	private TemaManager temaManager;
+	private TemaServiceImpl temaServiceImpl;
 	
 	@GetMapping()
 	public ResponseEntity<List<Respuesta>> findByTema (Integer id){		
-		return new ResponseEntity<List<Respuesta>>(temaManager.findById(2).getRespuestas(),HttpStatus.OK);
+		return new ResponseEntity<List<Respuesta>>(temaServiceImpl.findById(id).getRespuestas(),HttpStatus.OK);
 	}
 	
 	@PostMapping

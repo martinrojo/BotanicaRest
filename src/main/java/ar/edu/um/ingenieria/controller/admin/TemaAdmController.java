@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Tema;
-import ar.edu.um.ingenieria.manager.TemaManager;
 import ar.edu.um.ingenieria.service.impl.TemaServiceImpl;
 
 @RestController
@@ -21,8 +20,6 @@ public class TemaAdmController {
 
 	@Autowired
 	private TemaServiceImpl temaServiceImpl;
-	@Autowired
-	private TemaManager temaManager;
 	
 	@GetMapping
 	public ResponseEntity<List<Tema>> findAll() {
@@ -34,7 +31,7 @@ public class TemaAdmController {
 		if(temaServiceImpl.findById(id)==null)
 			return new ResponseEntity<Tema>(HttpStatus.BAD_REQUEST);
 		else
-			return new ResponseEntity<Tema>(temaManager.findById(id),HttpStatus.OK);
+			return new ResponseEntity<Tema>(temaServiceImpl.findById(id),HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

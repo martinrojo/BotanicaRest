@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Categoria;
-import ar.edu.um.ingenieria.manager.CategoriaManager;
 import ar.edu.um.ingenieria.service.impl.CategoriaServiceImpl;
 
 @RestController
@@ -22,8 +21,6 @@ public class CategoriaAdmController {
 	
 	@Autowired
 	private CategoriaServiceImpl categoriaServiceImpl;
-	@Autowired
-	private CategoriaManager categoriaManager;
 	
 	@GetMapping
 	public ResponseEntity<List<Categoria>> findAll() {
@@ -36,7 +33,7 @@ public class CategoriaAdmController {
 		if(categoriaServiceImpl.findById(id)==null)
 			return new ResponseEntity<Categoria>(HttpStatus.BAD_REQUEST);
 		else
-			return new ResponseEntity<Categoria>(categoriaManager.findById(id),HttpStatus.OK);
+			return new ResponseEntity<Categoria>(categoriaServiceImpl.findById(id),HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
