@@ -1,4 +1,4 @@
-package ar.edu.um.ingenieria.controller;
+package ar.edu.um.ingenieria.controller.seguimiento;
 
 import java.util.List;
 import org.apache.log4j.Logger;

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ar.edu.um.ingenieria.domain.Seguimiento;
-import ar.edu.um.ingenieria.manager.SeguimientoManager;
 import ar.edu.um.ingenieria.service.impl.SeguimientoServiceImpl;
 
 @RestController
@@ -24,15 +23,12 @@ public class SeguimientoAdmController {
 	
 	@Autowired
 	private SeguimientoServiceImpl seguimientoServiceImpl;
-	
-	@Autowired
-	private SeguimientoManager seguimientoManager;
 
 	private static final Logger logger = LoggerFactory.getLogger(SeguimientoAdmController.class);
 //Get devuelve todos
 	@GetMapping
 	public List<Seguimiento> indexPage() {
-		logger.info("datos de seguimiento: {}", seguimientoManager.findAll());
+		logger.info("datos de seguimiento: {}", seguimientoServiceImpl.findAll());
 		return seguimientoServiceImpl.findAll();
 	}
 
@@ -44,13 +40,13 @@ public class SeguimientoAdmController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado) {
-		seguimientoManager.create(usuario, planta, estado);
+		seguimientoServiceImpl.create(usuario, planta, estado);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 //Put es para actualizar, patch es para actualizar parcialmente	
 	@PostMapping("/update")
 	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa) {
-		seguimientoManager.update(usuario, planta, estado,tarea, etapa);
+		seguimientoServiceImpl.update(usuario, planta, estado,tarea, etapa);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 

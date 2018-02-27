@@ -1,4 +1,4 @@
-package ar.edu.um.ingenieria.controller;
+package ar.edu.um.ingenieria.controller.seguimiento;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ar.edu.um.ingenieria.domain.Seguimiento;
-import ar.edu.um.ingenieria.manager.SeguimientoManager;
 import ar.edu.um.ingenieria.service.impl.SeguimientoServiceImpl;
 
 @RestController
@@ -23,51 +22,48 @@ import ar.edu.um.ingenieria.service.impl.SeguimientoServiceImpl;
 public class SeguimientoController {
 	
 	@Autowired
-	private SeguimientoServiceImpl seguimientoService;
-	
-	@Autowired
-	private SeguimientoManager seguimientoManager;
+	private SeguimientoServiceImpl seguimientoServiceImpl;
 
 	private static final Logger logger = LoggerFactory.getLogger(SeguimientoController.class);
 //Get devuelve todos
 	@GetMapping
 	public List<Seguimiento> indexPage() {
 		int id = 2;
-		logger.info("datos de seguimiento: {}", seguimientoManager.findByUser(id));
-		return seguimientoManager.findByUser(id);
+		logger.info("datos de seguimiento: {}", seguimientoServiceImpl.findByUser(id));
+		return seguimientoServiceImpl.findByUser(id);
 	}
 
 	@GetMapping("/{id}")
 	public Seguimiento show(@PathVariable Integer id) {
-		logger.info("datos de seguimiento: {}", seguimientoService.findAll());
-		return seguimientoService.findById(id);
+		logger.info("datos de seguimiento: {}", seguimientoServiceImpl.findAll());
+		return seguimientoServiceImpl.findById(id);
 	}
 	
 	@PostMapping("/create")
 	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado) {
-		seguimientoManager.create(usuario, planta, estado);
+		seguimientoServiceImpl.create(usuario, planta, estado);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 //Put es para actualizar, patch es para actualizar parcialmente	
 	@PostMapping("/update")
 	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa) {
-		seguimientoManager.update(usuario, planta, estado,tarea, etapa);
+		seguimientoServiceImpl.update(usuario, planta, estado,tarea, etapa);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	@PostMapping
 	public Seguimiento add(@RequestBody Seguimiento seguimiento) {
-		return seguimientoService.create(seguimiento);
+		return seguimientoServiceImpl.create(seguimiento);
 	}
 
 	@PutMapping(value = "/{id}")
 	public Seguimiento update(@RequestBody Seguimiento seguimiento, @PathVariable Integer id) {
 		seguimiento.setId(id);
-		return seguimientoService.update(seguimiento);
+		return seguimientoServiceImpl.update(seguimiento);
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public void delete(@PathVariable Integer id) {
-		seguimientoService.remove(seguimientoService.findById(id));
+		seguimientoServiceImpl.remove(seguimientoServiceImpl.findById(id));
 	}
 }
