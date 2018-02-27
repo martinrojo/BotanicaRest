@@ -23,6 +23,7 @@ public class CategoriaAdmController {
 	
 	@Autowired
 	private CategoriaServiceImpl categoriaServiceImpl;
+
 	private static final Logger logger = Logger.getLogger(CategoriaServiceImpl.class);
 	
 	@GetMapping

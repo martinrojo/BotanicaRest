@@ -20,7 +20,7 @@ public class RespuestaAdmController {
 	
 	@Autowired
 	private RespuestaServiceImpl respuestaServiceImpl;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Respuesta>> findAll() {
 		return new ResponseEntity<List<Respuesta>>(respuestaServiceImpl.findAll(), HttpStatus.OK);

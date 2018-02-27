@@ -20,7 +20,7 @@ public class TemaAdmController {
 
 	@Autowired
 	private TemaServiceImpl temaServiceImpl;
-		
+
 	@GetMapping
 	public ResponseEntity<List<Tema>> findAll() {
 		return new ResponseEntity<List<Tema>>(temaServiceImpl.findAll(), HttpStatus.OK);
