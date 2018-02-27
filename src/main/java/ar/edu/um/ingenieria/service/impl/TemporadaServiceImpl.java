@@ -39,4 +39,5 @@ public class TemporadaServiceImpl extends ServiceImpl<Temporada, Integer> {
 		return super.findAll();
 	}
 
+	
 }

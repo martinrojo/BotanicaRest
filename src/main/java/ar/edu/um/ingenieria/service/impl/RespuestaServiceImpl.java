@@ -2,6 +2,7 @@ package ar.edu.um.ingenieria.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.edu.um.ingenieria.domain.Respuesta;
@@ -9,6 +10,9 @@ import ar.edu.um.ingenieria.domain.Respuesta;
 @Service
 public class RespuestaServiceImpl extends ServiceImpl<Respuesta, Integer>{
 
+	@Autowired
+	private RespuestaServiceImpl respuestaServiceImpl;
+	
 	@Override
 	public Respuesta create(Respuesta entity) {
 		// TODO Auto-generated method stub
@@ -37,6 +41,11 @@ public class RespuestaServiceImpl extends ServiceImpl<Respuesta, Integer>{
 	public List<Respuesta> findAll() {
 		// TODO Auto-generated method stub
 		return super.findAll();
+	}
+	
+	public void delete(Integer id) {
+		Respuesta respuesta = respuestaServiceImpl.findById(id);	
+		respuestaServiceImpl.remove(respuesta);
 	}
 	
 }

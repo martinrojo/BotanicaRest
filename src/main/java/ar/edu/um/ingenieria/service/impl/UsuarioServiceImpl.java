@@ -2,18 +2,25 @@ package ar.edu.um.ingenieria.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ar.edu.um.ingenieria.domain.Persona;
 import ar.edu.um.ingenieria.domain.Usuario;
 
 
 @Service
 public class UsuarioServiceImpl extends ServiceImpl<Usuario, Integer>{
 
+	@Autowired
+	private UsuarioServiceImpl usuarioServiceImpl;	
+	
+	@Autowired
+	private PersonaServiceImpl personaServiceImpl;
+	
 	@Override
 	public Usuario create(Usuario entity) {
-		//BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-	//	entity.setPassword(bCryptPasswordEncoder.encode(entity.getPassword()));
+		
 		return super.create(entity);
 	}
 
@@ -40,5 +47,17 @@ public class UsuarioServiceImpl extends ServiceImpl<Usuario, Integer>{
 		return super.findAll();
 	}
 
+	
+	public void create(Persona persona, Usuario usuario) {
+		usuarioServiceImpl.create(usuario);
+		persona.setUsuario(usuario);
+		personaServiceImpl.create(persona);	
+	}
+	
+	public void delete(Integer id) {
+		Usuario usuario = usuarioServiceImpl.findById(id);
+		personaServiceImpl.remove(usuario.getPersona());		
+		usuarioServiceImpl.remove(usuario);
+	}
 	
 }

@@ -237,4 +237,9 @@ public class Planta implements Serializable {
 	public Planta() {
 		super();
 	}
+
+	public List<Planta> getPlanta() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
