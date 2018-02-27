@@ -20,8 +20,4 @@ private static final Logger logger = LoggerFactory.getLogger(TemaManager.class);
 	@Autowired
 	private VentaServiceImpl ventaServiceImpl;
 
-	public void delete(Integer id) {
-		ventaServiceImpl.remove(ventaServiceImpl.findById(id));
-		
-	}
 }

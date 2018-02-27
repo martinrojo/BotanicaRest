@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,26 +18,38 @@ import ar.edu.um.ingenieria.domain.TipoVenta;
 import ar.edu.um.ingenieria.service.impl.TipoVentaServiceImpl;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admin/tipoventas")
 public class TipoVentaAdmController {
 
 	@Autowired
 	private TipoVentaServiceImpl tipoVentaServiceImpl;
 
-	@GetMapping("/tipoventas/")
+	@GetMapping("/")
 	public ResponseEntity<List<TipoVenta>> findAll() {
 		return new ResponseEntity<List<TipoVenta>>(tipoVentaServiceImpl.findAll(), HttpStatus.OK);
 	}
 
-	@GetMapping("/tipoventas/{id}")
-	public ResponseEntity<TipoVenta> edit(@PathVariable Integer id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<TipoVenta> findById(@PathVariable Integer id) {
 		if(tipoVentaServiceImpl.findById(id)==null)
 			return new ResponseEntity<TipoVenta>(HttpStatus.BAD_REQUEST);
 		else
 			return new ResponseEntity<TipoVenta>(tipoVentaServiceImpl.findById(id),HttpStatus.OK);
 	}
+	
+	@PostMapping("/")
+	public ResponseEntity<Void> insert(@RequestBody TipoVenta tipoVenta) {
+		tipoVentaServiceImpl.create(tipoVenta);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@PutMapping("/")
+	public ResponseEntity<Void> edit(TipoVenta tipoVenta) {
+		tipoVentaServiceImpl.update(tipoVenta);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 
-	@DeleteMapping("/tipoventas/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
 		if(tipoVentaServiceImpl.findById(id)==null)
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);

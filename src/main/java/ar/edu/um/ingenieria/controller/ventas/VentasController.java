@@ -15,14 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Venta;
-import ar.edu.um.ingenieria.manager.VentaManager;
 import ar.edu.um.ingenieria.service.impl.VentaServiceImpl;
 
 @RestController
 @RequestMapping("/ventas")
-public class VentasController {  // no funciona nada
-	@Autowired
-	private VentaManager ventaManager;
+public class VentasController {
 	@Autowired
 	private VentaServiceImpl ventaServiceImpl;
 	
@@ -31,27 +28,27 @@ public class VentasController {  // no funciona nada
 		return new ResponseEntity<List<Venta>>(ventaServiceImpl.findAll(), HttpStatus.OK);
 	}
 
-	@GetMapping("/ventas/{id}")
-	public ResponseEntity<Venta> edit(@PathVariable Integer id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<Venta> findById(@PathVariable Integer id) {
 		if(ventaServiceImpl.findById(id)==null)
 			return new ResponseEntity<Venta>(HttpStatus.BAD_REQUEST);
 		else
 			return new ResponseEntity<Venta>(ventaServiceImpl.findById(id),HttpStatus.OK);
 	}
 	
-	@PostMapping("/crear")
-	public ResponseEntity<Void> agregar(@RequestBody Venta venta) {
+	@PostMapping("/")
+	public ResponseEntity<Void> insert(@RequestBody Venta venta) {
 		ventaServiceImpl.create(venta);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	@PutMapping("/actulizar")
-	public ResponseEntity<Void> actulizar(Venta venta) {
+	@PutMapping("/")
+	public ResponseEntity<Void> edit(Venta venta) {
 		ventaServiceImpl.update(venta);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
 		if(ventaServiceImpl.findById(id)==null)
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
