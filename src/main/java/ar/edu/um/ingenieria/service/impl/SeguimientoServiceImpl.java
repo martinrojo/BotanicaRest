@@ -68,14 +68,15 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 		seguimientoServiceImpl.create(seguimiento);
 	}
 	
-	public void update (Integer Seguimiento, Integer planta, Integer estado, Integer tarea, Integer etapa)
+	public void update (Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa,Integer seguimiento)
 	{
-		Seguimiento seguimiento = seguimientoServiceImpl.findById(Seguimiento);
-		seguimiento.setTarea(tareaServiceImpl.findById(tarea));
-		seguimiento.setEtapa(etapaServiceImpl.findById(etapa));
-		seguimiento.setEstado(estadoServiceImpl.findById(estado));
-		seguimiento.setPlanta(plantaServiceImpl.findById(planta));
-		seguimientoServiceImpl.create(seguimiento);
+		Seguimiento nativeSeguimiento = seguimientoServiceImpl.findById(seguimiento);
+		nativeSeguimiento.setUsuario(usuarioServiceImpl.findById(usuario));
+		nativeSeguimiento.setTarea(tareaServiceImpl.findById(tarea));
+		nativeSeguimiento.setEtapa(etapaServiceImpl.findById(etapa));
+		nativeSeguimiento.setEstado(estadoServiceImpl.findById(estado));
+		nativeSeguimiento.setPlanta(plantaServiceImpl.findById(planta));
+		seguimientoServiceImpl.create(nativeSeguimiento);
 	}
 	
 	public List<Seguimiento> findByUser(Integer usuario)

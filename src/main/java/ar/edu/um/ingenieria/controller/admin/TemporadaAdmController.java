@@ -41,15 +41,26 @@ public class TemporadaAdmController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<Void> agregar(String nombre, String descripcion) {
-		Temporada temporada = new Temporada();
-		temporada.setNombre(nombre);
-		temporada.setDescripcion(descripcion);
-		temporadaServiceImpl.create(temporada);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		List<Temporada> temporadas = temporadaServiceImpl.findAll();
+		boolean isEmpty = true;
+		for (int i = 0;i < temporadas.size();i++)
+		{
+			if (nombre.equals(temporadas.get(i).getNombre()))
+			{
+				isEmpty = false;
+			}
+		}
+		if (isEmpty == true) {
+			temporadaServiceImpl.create(nombre, descripcion);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} else {
+		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<Void> agregar(String nombre, String descripcion, Temporada temporada) {
+	public ResponseEntity<Void> agregar(String nombre, String descripcion, Integer temporada_id) {
+		Temporada temporada = temporadaServiceImpl.findById(temporada_id);
 		temporada.setNombre(nombre);
 		temporada.setDescripcion(descripcion);
 		temporadaServiceImpl.create(temporada);

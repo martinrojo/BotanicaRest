@@ -18,7 +18,7 @@ import ar.edu.um.ingenieria.domain.Estado;
 import ar.edu.um.ingenieria.service.impl.EstadoServiceImpl;
 
 @RestController
-@RequestMapping("/admin/estado")
+@RequestMapping("/admin/estados")
 public class EstadoAdmController {
 	
 	@Autowired
@@ -41,13 +41,26 @@ public class EstadoAdmController {
 		
 		@PostMapping("/create")
 		public ResponseEntity<Void> agregar(String nombre, String descripcion) {
-			estadoServiceImpl.create(nombre, descripcion);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			List<Estado> estados = estadoServiceImpl.findAll();
+			boolean isEmpty = true;
+			for (int i = 0;i < estados.size();i++)
+			{
+				if (nombre.equals(estados.get(i).getNombre()))
+				{
+					isEmpty = false;
+				}
+			}
+			if (isEmpty == true) {
+				estadoServiceImpl.create(nombre, descripcion);
+				return new ResponseEntity<Void>(HttpStatus.OK);
+			} else {
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			}
 		}
 	//Put es para actualizar, patch es para actualizar parcialmente	
 		@PostMapping("/update")
-		public ResponseEntity<Void> agregar(Integer estado, String nombre, String descripcion) {
-			estadoServiceImpl.update(estado, nombre, descripcion);
+		public ResponseEntity<Void> agregar(Integer estado_id, String nombre, String descripcion) {
+			estadoServiceImpl.update(estado_id,nombre,descripcion);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 

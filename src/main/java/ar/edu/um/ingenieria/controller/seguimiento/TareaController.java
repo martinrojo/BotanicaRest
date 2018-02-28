@@ -1,19 +1,13 @@
 package ar.edu.um.ingenieria.controller.seguimiento;
 
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import ar.edu.um.ingenieria.domain.Tarea;
 import ar.edu.um.ingenieria.repository.TareaRepository;
 
@@ -37,21 +31,5 @@ private static final Logger logger = LoggerFactory.getLogger(TareaController.cla
 		logger.info("datos de Tarea: {}", tareaRepository.findAll());
 	    return tareaRepository.getOne(id);
     }
-	
-	@PostMapping
-    public Tarea add(@RequestBody Tarea tarea) {
-	    return tareaRepository.saveAndFlush(tarea);
-    }
-	
-	@PutMapping(value = "/{id}")
-    public Tarea update(@RequestBody Tarea tarea, @PathVariable Integer id) {
-		tarea.setId(id);
-	    return tareaRepository.saveAndFlush(tarea);
-    }
-	
-	@DeleteMapping(value = "/{id}")
-	public void delete(@PathVariable Integer id) {
-		tareaRepository.delete(id);
-	}
 
 }

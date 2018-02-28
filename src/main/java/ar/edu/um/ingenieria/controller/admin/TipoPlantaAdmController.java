@@ -41,18 +41,26 @@ public class TipoPlantaAdmController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<Void> agregar(String nombre, String descripcion) {
-		TipoPlanta tipoPlanta = new TipoPlanta();
-		tipoPlanta.setNombre(nombre);
-		tipoPlanta.setDescripcion(descripcion);
-		tipoPlantaServiceImpl.create(tipoPlanta);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		List<TipoPlanta> tipoPlantas = tipoPlantaServiceImpl.findAll();
+		boolean isEmpty = true;
+		for (int i = 0;i < tipoPlantas.size();i++)
+		{
+			if (nombre.equals(tipoPlantas.get(i).getNombre()))
+			{
+				isEmpty = false;
+			}
+		}
+		if (isEmpty == true) {
+			tipoPlantaServiceImpl.create(nombre, descripcion);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} else {
+		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<Void> agregar(String nombre, String descripcion, TipoPlanta tipoPlanta) {
-		tipoPlanta.setNombre(nombre);
-		tipoPlanta.setDescripcion(descripcion);
-		tipoPlantaServiceImpl.create(tipoPlanta);
+	public ResponseEntity<Void> agregar(String nombre, String descripcion, Integer tipoPlanta) {
+		tipoPlantaServiceImpl.update(tipoPlanta,nombre,descripcion);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 

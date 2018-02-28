@@ -40,29 +40,24 @@ public class ClimaAdmController {
 		return climaServiceImpl.findById(id);
 	}
 	
-	/*@PostMapping("/create")
-	public ResponseEntity<Void> agregar(String nombre, String descripcion) {
-		Clima clima = new Clima();
-		clima.setNombre(nombre);
-		clima.setDescripcion(descripcion);
-		climaServiceImpl.create(clima);
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}*/
-	
 	@PostMapping("/create")
 	public ResponseEntity<Void> agregar(String nombre, String descripcion) {
-		climaServiceImpl.create(nombre, descripcion);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		List<Clima> climas = climaServiceImpl.findAll();
+		boolean isEmpty = true;
+		for (int i = 0;i < climas.size();i++)
+		{
+			if (nombre.equals(climas.get(i).getNombre()))
+			{
+				isEmpty = false;
+			}
+		}
+		if (isEmpty == true) {
+			climaServiceImpl.create(nombre, descripcion);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} else {
+		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
 	}
-	
-	
-	/*@PostMapping("/update")
-	public ResponseEntity<Void> agregar(String nombre, String descripcion, Clima clima) {
-		clima.setNombre(nombre);
-		clima.setDescripcion(descripcion);
-		climaServiceImpl.create(clima);
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}*/
 	
 	@PostMapping("/update")
 	public ResponseEntity<Void> agregar(Integer clima, String nombre, String descripcion) {

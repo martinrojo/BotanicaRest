@@ -63,8 +63,8 @@ public class SeguimientoController {
 	
 //Put es para actualizar, patch es para actualizar parcialmente	
 	@PostMapping("/update")
-	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa) {
-		seguimientoServiceImpl.update(usuario, planta, estado,tarea, etapa);
+	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa,Integer seguimiento) {
+		seguimientoServiceImpl.update(usuario, planta, estado,tarea, etapa,seguimiento);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
