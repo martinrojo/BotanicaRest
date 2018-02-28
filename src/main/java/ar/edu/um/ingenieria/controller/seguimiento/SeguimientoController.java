@@ -35,7 +35,7 @@ public class SeguimientoController {
 
 	@GetMapping("/{id}")
 	public Seguimiento show(@PathVariable Integer id) {
-		logger.info("datos de seguimiento: {}", seguimientoServiceImpl.findAll());
+		logger.info("datos de seguimiento: {}", seguimientoServiceImpl.findById(id));
 		return seguimientoServiceImpl.findById(id);
 	}
 	
