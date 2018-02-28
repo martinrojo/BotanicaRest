@@ -53,23 +53,17 @@ public class EstadoServiceImpl extends ServiceImpl<Estado, Integer>{
 	}
 	
 	
-	public void create(String nombre, String descripcion, Integer planta) {
-		
+	public void create(String nombre, String descripcion) {
 		Estado estado = new Estado();
-		
 		estado.setNombre(nombre);
 		estado.setDescripcion(descripcion);
-		estado.setPlanta(plantaServiceImpl.findById(1));
-
-		estadoServiceImpl.create(estado);
 	}
 	
-	public void update (Integer Estado, String nombre, String descripcion, Integer planta)
+	public void update (Integer Estado, String nombre, String descripcion)
 	{
 		Estado estado = estadoServiceImpl.findById(Estado);
 		estado.setNombre(nombre);
 		estado.setDescripcion(descripcion);
-		estado.setPlanta(plantaServiceImpl.findById(planta));
 		estadoServiceImpl.create(estado);
 	}
 

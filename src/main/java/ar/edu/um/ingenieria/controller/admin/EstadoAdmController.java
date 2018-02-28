@@ -14,11 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import ar.edu.um.ingenieria.domain.Categoria;
 import ar.edu.um.ingenieria.domain.Estado;
-import ar.edu.um.ingenieria.domain.Seguimiento;
-import ar.edu.um.ingenieria.service.impl.CategoriaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.EstadoServiceImpl;
 
 @RestController
@@ -44,14 +40,14 @@ public class EstadoAdmController {
 		}
 		
 		@PostMapping("/create")
-		public ResponseEntity<Void> agregar(String nombre, String descripcion, Integer planta) {
-			estadoServiceImpl.create(nombre, descripcion, planta);
+		public ResponseEntity<Void> agregar(String nombre, String descripcion) {
+			estadoServiceImpl.create(nombre, descripcion);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 	//Put es para actualizar, patch es para actualizar parcialmente	
 		@PostMapping("/update")
-		public ResponseEntity<Void> agregar(Integer estado, String nombre, String descripcion, Integer planta) {
-			estadoServiceImpl.update(estado, nombre, descripcion, planta);
+		public ResponseEntity<Void> agregar(Integer estado, String nombre, String descripcion) {
+			estadoServiceImpl.update(estado, nombre, descripcion);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 

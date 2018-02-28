@@ -12,6 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name="ventas")
@@ -38,6 +44,9 @@ public class Venta implements Serializable {
 	@Column(name="cerrado")
 	private Boolean cerrado;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column(name="fecha")
 	private Date fecha;
 	

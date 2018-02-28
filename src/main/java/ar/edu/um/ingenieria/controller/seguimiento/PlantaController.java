@@ -8,28 +8,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import ar.edu.um.ingenieria.domain.Planta;
-import ar.edu.um.ingenieria.repository.PlantaRepository;
+import ar.edu.um.ingenieria.service.impl.PlantaServiceImpl;
 
 @RestController
 @RequestMapping("/plantas")
 public class PlantaController {
 	
-private static final Logger logger = LoggerFactory.getLogger(PlantaController.class);
-	
 	@Autowired
-	private PlantaRepository plantaRepository;
+	private PlantaServiceImpl plantaServiceImpl;
+
+	private static final Logger logger = LoggerFactory.getLogger(SeguimientoController.class);
 	
-	@GetMapping
-    public List<Planta> indexPage() {
-		logger.info("datos de Planta: {}", plantaRepository.findAll());
-	    return plantaRepository.findAll();
-    }
-	
+//Get devuelve todos
+@GetMapping
+public List<Planta> indexPage() {
+	logger.info("datos de seguimiento: {}", plantaServiceImpl.findAll());
+	return plantaServiceImpl.findAll();
+}
+
 	@GetMapping("/{id}")
-    public Planta show(@PathVariable Integer id) {
-		logger.info("datos de Planta: {}", plantaRepository.findAll());
-	    return plantaRepository.getOne(id);
-    }
+	public Planta show(@PathVariable Integer id) {
+		logger.info("datos de seguimiento: {}", plantaServiceImpl.findAll());
+		return plantaServiceImpl.findById(id);
+	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ar.edu.um.ingenieria.domain.Usuario;
+import ar.edu.um.ingenieria.repository.UsuarioRepository;
 import ar.edu.um.ingenieria.service.impl.PlantaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.RolServiceImpl;
 import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
@@ -27,7 +28,9 @@ public class UsuarioAdmController {
 	
 	@Autowired
 	private RolServiceImpl rolServiceImpl;
-	
+
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 	private static final Logger logger = Logger.getLogger(PlantaServiceImpl.class);
 
 	@GetMapping
@@ -40,19 +43,25 @@ public class UsuarioAdmController {
 	@GetMapping("/{id}")
 	public Usuario show(@PathVariable Integer id)
 	{
-		logger.info("Datos de la planta:"+usuarioServiceImpl.findById(id));
+		logger.info("Datos del usuario:"+usuarioServiceImpl.findById(id));
 		return usuarioServiceImpl.findById(id);
 	}
+
 	
 	@PostMapping("/create")
-	public ResponseEntity<Void> agregar(String password, String user, String email, Integer roles_id) {
+	public ResponseEntity<Void> create(String password, String user, String email, Integer roles_id) {
 		Usuario usuario = new Usuario();
 		usuario.setPassword(password);
 		usuario.setUser(user);
 		usuario.setEmail(email);
 		usuario.setRol(rolServiceImpl.findById(roles_id));
-		usuarioServiceImpl.create(usuario);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		if (usuarioRepository.findUsername(user) != null && usuarioRepository.findUsermail(email) != null)
+		{	
+			usuarioServiceImpl.create(usuario);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} else {
+		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
 	}
 	
 	@PostMapping("/update")
@@ -65,7 +74,14 @@ public class UsuarioAdmController {
 		boolean existe = false;
 		for (int i = 1; i == usuarios.size();i++)
 		{
-			if (usuarios.get(i).equals(usuario) == true)
+			if (usuarios.get(i).getUser() == usuario.getUser())
+			{
+			 existe = true;
+			}
+		}
+		for (int i = 1; i == usuarios.size();i++)
+		{
+			if (usuarios.get(i).getEmail() == usuario.getEmail())
 			{
 			 existe = true;
 			}

@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="estados")
 public class Estado implements Serializable {
@@ -31,15 +33,16 @@ public class Estado implements Serializable {
 	
 	@Column(name = "descripcion")
 	private String descripcion;
-	
+	/*
 	@OneToMany
 	@JoinColumn(name = "estados_id")
 	private List<Etapa> etapas;
 	
-	@ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="plantas_id")
-	private Planta planta;
-	
+	@JsonIgnore
+	@OneToMany (mappedBy="estado",fetch = FetchType.LAZY)
+	//@JoinColumn(name="plantas_id")
+	private List<Seguimiento> seguimientos;
+	*/
 	public Integer getId() {
 		return id;
 	}
@@ -63,7 +66,7 @@ public class Estado implements Serializable {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
+/*
 	public List<Etapa> getEtapas() {
 		return etapas;
 	}
@@ -72,14 +75,14 @@ public class Estado implements Serializable {
 		this.etapas = etapas;
 	}
 
-	public Planta getPlanta() {
-		return planta;
+	public List<Seguimiento> getPlantas() {
+		return seguimientos;
 	}
 
-	public void setPlanta(Planta planta) {
-		this.planta = planta;
+	public void setPlantas(List<Seguimiento> seguimientos) {
+		this.seguimientos = seguimientos;
 	}
-
+*/
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -89,10 +92,10 @@ public class Estado implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
-		result = prime * result + ((etapas == null) ? 0 : etapas.hashCode());
+	//	result = prime * result + ((etapas == null) ? 0 : etapas.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((planta == null) ? 0 : planta.hashCode());
+	//	result = prime * result + ((seguimientos == null) ? 0 : seguimientos.hashCode());
 		return result;
 	}
 
@@ -110,11 +113,11 @@ public class Estado implements Serializable {
 				return false;
 		} else if (!descripcion.equals(other.descripcion))
 			return false;
-		if (etapas == null) {
+	/*	if (etapas == null) {
 			if (other.etapas != null)
 				return false;
 		} else if (!etapas.equals(other.etapas))
-			return false;
+			return false;*/
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -125,11 +128,11 @@ public class Estado implements Serializable {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		if (planta == null) {
-			if (other.planta != null)
+		/*if (seguimientos == null) {
+			if (other.seguimientos != null)
 				return false;
-		} else if (!planta.equals(other.planta))
-			return false;
+		} else if (!seguimientos.equals(other.seguimientos))
+			return false;*/
 		return true;
 	}
 	
