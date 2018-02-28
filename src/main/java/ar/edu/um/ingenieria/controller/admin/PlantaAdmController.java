@@ -57,44 +57,45 @@ public class PlantaAdmController {
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity<Void> agregar(String nombre, Integer suelo_id, Integer climas_id, Integer temporadas_id, String descripcion, Time tiempo_riego, Integer tipo_planta_id) {
-		Planta planta = new Planta();
-		planta.setNombre(nombre);
-		planta.setSuelo(sueloServiceImpl.findById(suelo_id));
-		planta.setClima(climaServiceImpl.findById(climas_id));
-		planta.setTemporada(temporadaServiceImpl.findById(temporadas_id));
-		planta.setDescripcion(descripcion);
-		planta.setTiempoRiego(tiempo_riego);
-		planta.setTipo(tipoPlantaServiceImpl.findById(tipo_planta_id));
-		plantaServiceImpl.create(planta);
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
-	
-	@PostMapping("/update")
-	public ResponseEntity<Void> agregar(String nombre, Integer suelo_id, Integer climas_id, Integer temporadas_id, String descripcion, Time tiempo_riego, Integer tipo_planta_id,Planta planta) {
-		planta.setNombre(nombre);
-		planta.setSuelo(sueloServiceImpl.findById(suelo_id));
-		planta.setClima(climaServiceImpl.findById(climas_id));
-		planta.setTemporada(temporadaServiceImpl.findById(temporadas_id));
-		planta.setDescripcion(descripcion);
-		planta.setTiempoRiego(tiempo_riego);
-		planta.setTipo(tipoPlantaServiceImpl.findById(tipo_planta_id));
-		List<Planta> plantita = plantaServiceImpl.findAll();
-		boolean existe = false;
-		for (int i = 1; i == plantita.size();i++)
+	public ResponseEntity<Void> agregar(String nombre, String descripcion, Integer tipo_planta_id, Integer temporada_id, 
+			Integer suelos_id, Integer climas_id, Time tiempo_riego) {
+		List<Planta> plantas = plantaServiceImpl.findAll();
+		boolean isEmpty = true;
+		for (int i = 0;i < plantas.size();i++)
 		{
-			if (plantita.get(i).equals(planta) == true)
-			{
-			 existe = true;
-			}
+			if (nombre.equals(plantas.get(i).getNombre()) && (plantas.get(i).getTipo().getId() == tipo_planta_id) && (plantas.get(i).getTemporada().getId() == temporada_id)
+					&& (plantas.get(i).getSuelo().getId() == suelos_id) && (plantas.get(i).getClima().getId() == climas_id) )
+					{
+				isEmpty = false;
+					}
 		}
-		if (existe == true)
+		if (isEmpty == true)
 		{
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			Planta planta = new Planta();
+			planta.setNombre(nombre);
+			planta.setDescripcion(descripcion);
+			planta.setTipo(tipoPlantaServiceImpl.findById(tipo_planta_id));
+			planta.setTemporada(temporadaServiceImpl.findById(temporada_id));
+			planta.setSuelo(sueloServiceImpl.findById(suelos_id));
+			planta.setClima(climaServiceImpl.findById(climas_id));
+			planta.setTiempoRiego(tiempo_riego);
+			logger.info("Planta creado con exito");
+			plantaServiceImpl.create(planta);
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {
-		plantaServiceImpl.create(planta);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+			logger.info("Planta existente");
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
+	}
+
+	//Put es para actualizar, patch es para actualizar parcialmente	
+	@PostMapping("/update")
+	public ResponseEntity<Void> agregar(String nombre, String descripcion, Integer tipoPlanta, Integer temporada, 
+			Integer suelo, Integer clima, Time tiempoRiego,Integer planta_id) {
+		
+		plantaServiceImpl.update( nombre,  descripcion,  tipoPlanta,  temporada, 
+				 suelo,  clima,  tiempoRiego, planta_id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	@PostMapping

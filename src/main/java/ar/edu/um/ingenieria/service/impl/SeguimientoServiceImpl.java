@@ -3,16 +3,12 @@ package ar.edu.um.ingenieria.service.impl;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ar.edu.um.ingenieria.domain.Seguimiento;
 
 @Service
 public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
-	
-	private static final Logger logger = LoggerFactory.getLogger(SeguimientoServiceImpl.class);
 	
 	@Autowired
 	private UsuarioServiceImpl usuarioServiceImpl;

@@ -1,7 +1,5 @@
 package ar.edu.um.ingenieria.controller.seguimiento;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import ar.edu.um.ingenieria.domain.Estado;
-import ar.edu.um.ingenieria.domain.Seguimiento;
-import ar.edu.um.ingenieria.repository.EstadoRepository;
 import ar.edu.um.ingenieria.service.impl.EstadoServiceImpl;
 
 @RestController
@@ -43,14 +38,14 @@ public class EstadoController {
     }
 	
 	@PostMapping("/create")
-	public ResponseEntity<Void> agregar(String nombre, String descripcion, Integer planta) {
-		estadoServiceImpl.create(nombre, descripcion, planta);
+	public ResponseEntity<Void> agregar(String nombre, String descripcion) {
+		estadoServiceImpl.create(nombre, descripcion);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 //Put es para actualizar, patch es para actualizar parcialmente	
 	@PostMapping("/update")
-	public ResponseEntity<Void> agregar(Integer estado, String nombre, String descripcion, Integer planta) {
-		estadoServiceImpl.update(estado, nombre, descripcion,  planta);
+	public ResponseEntity<Void> agregar(Integer estado, String nombre, String descripcion) {
+		estadoServiceImpl.update(estado, nombre, descripcion);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 

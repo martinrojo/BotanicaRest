@@ -169,7 +169,7 @@ public class Usuario implements Serializable{
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", user=" + user + ", email=" + email + ", password=" + password + ", rol=" + rol
-				+/* ", seguimiento=" + seguimiento +*/ ", persona=" + persona + "]";
+				+ ", persona=" + persona + "]";
 	}
 
 	public Usuario() {

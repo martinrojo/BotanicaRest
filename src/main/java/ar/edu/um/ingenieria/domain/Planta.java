@@ -59,11 +59,7 @@ public class Planta implements Serializable {
 	@JsonIgnore
 	@OneToMany (mappedBy="planta",fetch = FetchType.LAZY)
 	private List<Seguimiento> seguimiento;
-	
-	@JsonIgnore
-	@OneToMany (mappedBy="planta",fetch = FetchType.LAZY)
-	private List<Estado> estado;
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -136,14 +132,6 @@ public class Planta implements Serializable {
 		this.seguimiento = seguimiento;
 	}
 
-	public List<Estado> getEstado() {
-		return estado;
-	}
-
-	public void setEstado(List<Estado> estado) {
-		this.estado = estado;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -154,7 +142,6 @@ public class Planta implements Serializable {
 		int result = 1;
 		result = prime * result + ((clima == null) ? 0 : clima.hashCode());
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
-		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((seguimiento == null) ? 0 : seguimiento.hashCode());
@@ -184,11 +171,11 @@ public class Planta implements Serializable {
 				return false;
 		} else if (!descripcion.equals(other.descripcion))
 			return false;
-		if (estado == null) {
+		/*if (estado == null) {
 			if (other.estado != null)
 				return false;
 		} else if (!estado.equals(other.estado))
-			return false;
+			return false;*/
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -236,10 +223,5 @@ public class Planta implements Serializable {
 
 	public Planta() {
 		super();
-	}
-
-	public List<Planta> getPlanta() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

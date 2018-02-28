@@ -23,7 +23,7 @@ public class SeguimientoController {
 	
 	@Autowired
 	private SeguimientoServiceImpl seguimientoServiceImpl;
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(SeguimientoController.class);
 //Get devuelve todos
 	@GetMapping
@@ -41,9 +41,26 @@ public class SeguimientoController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado) {
-		seguimientoServiceImpl.create(usuario, planta, estado);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		List<Seguimiento> seguimientos = seguimientoServiceImpl.findAll();
+		boolean isEmpty = true;
+		for (int i = 0;i < seguimientos.size();i++)
+		{
+			if ((seguimientos.get(i).getUsuario().getId() == usuario) && (seguimientos.get(i).getPlanta().getId() == planta) &&(seguimientos.get(i).getEstado().getId() == estado))
+					{
+				isEmpty = false;
+					}
+		}
+		if (isEmpty == true)
+		{
+			logger.info("Seguimiento creado con exito");
+			seguimientoServiceImpl.create(usuario,planta,estado);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} else {
+			logger.info("Seguimiento existente");
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
 	}
+	
 //Put es para actualizar, patch es para actualizar parcialmente	
 	@PostMapping("/update")
 	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa) {
