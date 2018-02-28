@@ -45,6 +45,20 @@ public class TemaAdmController {
 		}
 	}
 	
+	/*
+	@PostMapping
+	public ResponseEntity<Void> create(Integer id, String titulo, Boolean cerrado, String texto, ){
+		Tema tema = new Tema();
+		
+		if () {
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		} else {
+			
+			return new ResponseEntity<Void> (HttpStatus.OK);
+		}
+	}
+	*/
+	
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> edit(Tema tema) {
 		temaServiceImpl.update(tema);
