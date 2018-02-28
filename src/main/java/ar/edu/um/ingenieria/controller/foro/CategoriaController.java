@@ -20,14 +20,19 @@ public class CategoriaController {
 	@Autowired
 	private CategoriaServiceImpl categoriaServiceImpl;
 	
-	//falta logica de: existe o no existe?
 	@GetMapping
 	public ResponseEntity<List<Categoria>> findAll() {
+		if (categoriaServiceImpl.findAll() == null) {
+			return new ResponseEntity<List<Categoria>>(HttpStatus.CONFLICT);
+		}
 		return new ResponseEntity<List<Categoria>>(categoriaServiceImpl.findAll(), HttpStatus.OK);
 	}
-	//falta logica de: existe o no existe?
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
+		if (categoriaServiceImpl.findById(id) == null) {
+			return new ResponseEntity<Categoria>(HttpStatus.CONFLICT); 
+		}
 		return new ResponseEntity<Categoria>(categoriaServiceImpl.findById(id),HttpStatus.OK);
 	}
 }
