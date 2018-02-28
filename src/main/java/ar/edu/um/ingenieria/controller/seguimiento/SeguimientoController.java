@@ -62,10 +62,10 @@ public class SeguimientoController {
 	}
 	
 	@PostMapping("/{id}/regar")
-	public ResponseEntity<Void> regar(@PathVariable Integer id) {
-			logger.info("Riego registrado con exito");
+	public ResponseEntity<Seguimiento> regar(@PathVariable Integer id) {
 			seguimientoServiceImpl.regar(id);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			logger.info("Riego registrado con exito");
+			return new ResponseEntity<Seguimiento>(seguimientoServiceImpl.findById(id),HttpStatus.OK);
 	}
 //Put es para actualizar, patch es para actualizar parcialmente	
 	@PostMapping("/update")

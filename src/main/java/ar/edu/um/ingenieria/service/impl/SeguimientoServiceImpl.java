@@ -83,7 +83,7 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 	
 	public void regar (Integer seguimiento_id) {
 		Seguimiento seguimiento = seguimientoServiceImpl.findById(seguimiento_id);
-		long horasFaltantes = seguimiento.getPlanta().getTiempoRiego().getTime();
+		long horasFaltantes = seguimiento.getPlanta().getTiempoRiego().getTime()-10800000;
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-3:00"));
 		long tiempoActual = calendar.getTimeInMillis()-10800000, suma = tiempoActual + horasFaltantes;
 		calendar.setTimeInMillis(suma);
