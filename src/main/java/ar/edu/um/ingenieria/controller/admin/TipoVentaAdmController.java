@@ -38,15 +38,26 @@ public class TipoVentaAdmController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<Void> insert(@RequestBody TipoVenta tipoVenta) {
+	public ResponseEntity<Void> insert(String nombre, String descripcion) {
+		TipoVenta tipoVenta = new TipoVenta();
+		tipoVenta.setNombre(nombre);
+		tipoVenta.setDescripcion(descripcion);
 		tipoVentaServiceImpl.create(tipoVenta);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	@PutMapping("/")
-	public ResponseEntity<Void> edit(TipoVenta tipoVenta) {
-		tipoVentaServiceImpl.update(tipoVenta);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+	@PostMapping("/edit/")
+	public ResponseEntity<Void> edit(Integer id, String nombre, String descripcion) {
+		if(tipoVentaServiceImpl.findById(id)==null)
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		else {
+			TipoVenta tipoVenta = tipoVentaServiceImpl.findById(id);
+			tipoVenta.setNombre(nombre);
+			tipoVenta.setDescripcion(descripcion);
+			tipoVentaServiceImpl.update(tipoVenta);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+		
 	}
 
 	@DeleteMapping("/{id}")
