@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -36,8 +37,9 @@ public class Persona implements Serializable {
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern="dd/MM/yyyy")
 	@Column(name = "fecha_nacimiento")
-	private Date fecha_naciemiento;
+	private Date fechaNacimiento;
 	
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER)
@@ -69,11 +71,11 @@ public class Persona implements Serializable {
 	}
 
 	public Date getFechaNacimiento() {
-		return fecha_naciemiento;
+		return fechaNacimiento;
 	}
 
 	public void setFechaNacimiento(Date fechaNacimiento) {
-		this.fecha_naciemiento = fechaNacimiento;
+		this.fechaNacimiento = fechaNacimiento;
 	}
 
 	public Usuario getUsuario() {
@@ -93,7 +95,7 @@ public class Persona implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((apellido == null) ? 0 : apellido.hashCode());
-		result = prime * result + ((fecha_naciemiento == null) ? 0 : fecha_naciemiento.hashCode());
+		result = prime * result + ((fechaNacimiento == null) ? 0 : fechaNacimiento.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		return result;
@@ -113,10 +115,10 @@ public class Persona implements Serializable {
 				return false;
 		} else if (!apellido.equals(other.apellido))
 			return false;
-		if (fecha_naciemiento == null) {
-			if (other.fecha_naciemiento != null)
+		if (fechaNacimiento == null) {
+			if (other.fechaNacimiento != null)
 				return false;
-		} else if (!fecha_naciemiento.equals(other.fecha_naciemiento))
+		} else if (!fechaNacimiento.equals(other.fechaNacimiento))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -133,7 +135,7 @@ public class Persona implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Persona [id=" + id + ", apellido=" + apellido + ", nombre=" + nombre + ", fechaNacimiento=" + fecha_naciemiento + "]";
+		return "Persona [id=" + id + ", apellido=" + apellido + ", nombre=" + nombre + ", fechaNacimiento=" + fechaNacimiento + "]";
 	}
 
 	public Persona() {

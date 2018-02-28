@@ -65,6 +65,8 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 		seguimiento.setUsuario(usuarioServiceImpl.findById(usuario));
 		seguimiento.setPlanta(plantaServiceImpl.findById(planta));
 		seguimiento.setProximoRiego(calendar.getTime());
+		calendar.setTimeInMillis(tiempoActual);
+		seguimiento.setUltimoRiego(calendar.getTime());
 		seguimientoServiceImpl.create(seguimiento);
 	}
 	
@@ -77,6 +79,17 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 		nativeSeguimiento.setEstado(estadoServiceImpl.findById(estado));
 		nativeSeguimiento.setPlanta(plantaServiceImpl.findById(planta));
 		seguimientoServiceImpl.create(nativeSeguimiento);
+	}
+	
+	public void regar (Integer seguimiento_id) {
+		Seguimiento seguimiento = seguimientoServiceImpl.findById(seguimiento_id);
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-3:00"));
+		long tiempoActual = calendar.getTimeInMillis()-10800000	, horasFaltantes = plantaServiceImpl.findById(seguimiento.getPlanta().getId()).getTiempoRiego().getTime(),
+				suma = tiempoActual + horasFaltantes;
+		calendar.setTimeInMillis(suma);
+		seguimiento.setProximoRiego(calendar.getTime());
+		calendar.setTimeInMillis(tiempoActual);
+		seguimiento.setUltimoRiego(calendar.getTime());
 	}
 	
 	public List<Seguimiento> findByUser(Integer usuario)

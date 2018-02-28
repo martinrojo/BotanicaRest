@@ -1,13 +1,9 @@
 package ar.edu.um.ingenieria.service.impl;
 
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ar.edu.um.ingenieria.domain.Estado;
-import ar.edu.um.ingenieria.domain.Seguimiento;
 
 
 @Service
@@ -15,12 +11,6 @@ public class EstadoServiceImpl extends ServiceImpl<Estado, Integer>{
 	
 	@Autowired
 	private EstadoServiceImpl estadoServiceImpl;
-	
-	@Autowired
-	private PlantaServiceImpl plantaServiceImpl;
-	
-	@Autowired
-	private SeguimientoServiceImpl seguimientoServiceImpl;
 	
 	@Override
 	public Estado create(Estado entity) {
@@ -65,9 +55,5 @@ public class EstadoServiceImpl extends ServiceImpl<Estado, Integer>{
 		estado.setNombre(nombre);
 		estado.setDescripcion(descripcion);
 		estadoServiceImpl.create(estado);
-	}
-
-	
-	
-	
+	}	
 }

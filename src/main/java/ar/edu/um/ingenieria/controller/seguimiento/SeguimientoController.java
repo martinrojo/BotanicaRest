@@ -61,6 +61,12 @@ public class SeguimientoController {
 		}
 	}
 	
+	@PostMapping("/{id}/regar")
+	public ResponseEntity<Void> regar(@PathVariable Integer id) {
+			logger.info("Riego registrado con exito");
+			seguimientoServiceImpl.regar(id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 //Put es para actualizar, patch es para actualizar parcialmente	
 	@PostMapping("/update")
 	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa,Integer seguimiento) {
