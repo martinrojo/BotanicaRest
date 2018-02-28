@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Categoria;
 import ar.edu.um.ingenieria.domain.Tema;
-import ar.edu.um.ingenieria.repository.TemaRepository;
 import ar.edu.um.ingenieria.service.impl.CategoriaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.TemaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
@@ -55,7 +54,7 @@ public class TemaController {
 	
 	@PostMapping
 	public ResponseEntity<Void> insert(String titulo, Integer idUsuario, Boolean cerrado, String texto, Integer idCategoria, String fecha) throws ParseException{
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		System.out.println(titulo + idCategoria + idUsuario + cerrado + texto + fecha );
 		Tema tema = new Tema();
 		tema.setTitulo(titulo);
