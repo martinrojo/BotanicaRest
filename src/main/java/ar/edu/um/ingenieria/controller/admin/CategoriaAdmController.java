@@ -2,6 +2,7 @@ package ar.edu.um.ingenieria.controller.admin;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import ar.edu.um.ingenieria.domain.Categoria;
 import ar.edu.um.ingenieria.service.impl.CategoriaServiceImpl;
 
+
 @RestController
 @RequestMapping("/admin/categoria")
 public class CategoriaAdmController {
 	
 	@Autowired
 	private CategoriaServiceImpl categoriaServiceImpl;
+
+	private static final Logger logger = Logger.getLogger(CategoriaServiceImpl.class);
 	
 	@GetMapping
 	public ResponseEntity<List<Categoria>> findAll() {
