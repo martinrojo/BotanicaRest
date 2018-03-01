@@ -32,7 +32,7 @@ public class TipoVentaAdmController {
 	@GetMapping("/{id}")
 	public ResponseEntity<TipoVenta> findById(@PathVariable Integer id) {
 		if(tipoVentaServiceImpl.findById(id)==null)
-			return new ResponseEntity<TipoVenta>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<TipoVenta>(HttpStatus.NO_CONTENT);
 		else
 			return new ResponseEntity<TipoVenta>(tipoVentaServiceImpl.findById(id),HttpStatus.OK);
 	}
@@ -49,7 +49,7 @@ public class TipoVentaAdmController {
 	@PostMapping("/edit/")
 	public ResponseEntity<Void> edit(Integer id, String nombre, String descripcion) {
 		if(tipoVentaServiceImpl.findById(id)==null)
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		else {
 			TipoVenta tipoVenta = tipoVentaServiceImpl.findById(id);
 			tipoVenta.setNombre(nombre);
@@ -63,7 +63,7 @@ public class TipoVentaAdmController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
 		if(tipoVentaServiceImpl.findById(id)==null)
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		else {
 			tipoVentaServiceImpl.remove(tipoVentaServiceImpl.findById(id));
 			return new ResponseEntity<Void>(HttpStatus.OK);

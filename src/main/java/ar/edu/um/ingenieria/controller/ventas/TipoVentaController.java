@@ -30,7 +30,7 @@ public class TipoVentaController {
 	@GetMapping("/{id}")
 	public ResponseEntity<TipoVenta> findById(@PathVariable Integer id) {
 		if(tipoVentaServiceImpl.findById(id)==null)
-			return new ResponseEntity<TipoVenta>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<TipoVenta>(HttpStatus.NO_CONTENT);
 		else
 			return new ResponseEntity<TipoVenta>(tipoVentaServiceImpl.findById(id),HttpStatus.OK);
 	}
