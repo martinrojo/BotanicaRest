@@ -32,6 +32,7 @@ public class RegistroController {
 			if (usuarioRepository.findUsername(usuario.getUser()) == null) 
 			{
 			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-3:00"));
+			long tiempoActual = calendar.getTimeInMillis()-10800000;
 			calendar.set(1992, 10, 22);
 				persona.setApellido("Bruseghini");
 				persona.setNombre("Alvaro");
@@ -40,7 +41,7 @@ public class RegistroController {
 				usuario.setUser("Alvaro92");
 				usuario.setPassword("123456789");
 				usuario.setRol(rolServiceImpl.findById(2));
-				calendar.getInstance(TimeZone.getTimeZone("GMT-3:00"));
+				calendar.setTimeInMillis(tiempoActual);
 				usuario.setLastPasswordResetDate(calendar.getTime());
 				persona.setUsuario(usuario);
 				usuarioServiceImpl.create(persona, usuario);
