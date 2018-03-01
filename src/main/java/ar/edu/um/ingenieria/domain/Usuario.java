@@ -1,6 +1,9 @@
 package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,12 +17,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="usuarios")
-public class Usuario implements Serializable{
+public class Usuario implements Serializable, UserDetails{
 	private static final long serialVersionUID = -7153249297528005760L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +56,12 @@ public class Usuario implements Serializable{
 	
 	@OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
 	private Persona persona;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
+    private Date lastPasswordResetDate;
 	
 	public Integer getId() {
 		return id;
@@ -171,8 +189,50 @@ public class Usuario implements Serializable{
 		return "Usuario [id=" + id + ", user=" + user + ", email=" + email + ", password=" + password + ", rol=" + rol
 				+ ", persona=" + persona + "]";
 	}
+	
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+	
+	
+    public void setLastPasswordResetDate(Date lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+	
+	@JsonIgnore
+    public Date getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
 
 	public Usuario() {
 		super();
+	}
+	@JsonIgnore
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(rol.getRol()));
+		return authorities;
+	}
+	@JsonIgnore
+	@Override
+	public String getUsername() {
+		return this.getUser();
 	}
 }
