@@ -27,7 +27,7 @@ CREATE TABLE `categorias` (
   `nombre` varchar(120) NOT NULL,
   `descripcion` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,6 +36,7 @@ CREATE TABLE `categorias` (
 
 LOCK TABLES `categorias` WRITE;
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
+INSERT INTO `categorias` VALUES (1,'Consejos Utiles','Tips y consejos en general para mantener tu jardin en orden y siempre bello'),(2,'Posibles Enfermedades','Algunas enfermedades comunes con las que nos encontramos a la hora de cuidar nuestros cultivos'),(3,'Pesticidas','Qué son, para qué y cómo se usan. Algunos de los mas utilizados.'),(4,'Cómo y Cuándo Podar','Consejos de poda. Cómo y cuándo podar. Beneficios de poda en las plantas');
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,12 +76,11 @@ CREATE TABLE `estados` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
-  `seguimientos_id` int(11) NOT NULL,
   `plantas_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_estados_seguimientos1_idx` (`seguimientos_id`),
-  KEY `fk_estados_plantas1_idx` (`plantas_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  KEY `fk_estados_plantas_idx` (`plantas_id`),
+  CONSTRAINT `fk_estados_plantas` FOREIGN KEY (`plantas_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +89,7 @@ CREATE TABLE `estados` (
 
 LOCK TABLES `estados` WRITE;
 /*!40000 ALTER TABLE `estados` DISABLE KEYS */;
-INSERT INTO `estados` VALUES (1,'sana','La planta se encuentra en optimas condiciones para continuar su desarrollo',0,0),(2,'enferma','La planta se encuentra con problemas que todavia se pueden resolver antes de cancelar su seguimiento',0,0),(3,'muerta','La planta se encuentra en un estado irreversible,ya no se puede continuar con su desarrollo',0,0);
+INSERT INTO `estados` VALUES (1,'sana','La planta se encuentra en optimas condiciones para continuar su desarrollo',0),(2,'enferma','La planta se encuentra con problemas que todavia se pueden resolver antes de cancelar su seguimiento',0),(3,'muerta','La planta se encuentra en un estado irreversible,ya no se puede continuar con su desarrollo',0);
 /*!40000 ALTER TABLE `estados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,7 +107,10 @@ CREATE TABLE `etapas` (
   `planta_id` int(11) DEFAULT NULL,
   `estados_id` int(11) NOT NULL,
   PRIMARY KEY (`id`,`estados_id`),
-  KEY `fk_etapas_estados1_idx` (`estados_id`)
+  KEY `fk_etapas_estados1_idx` (`estados_id`),
+  KEY `fk_etapas_plantas_idx` (`planta_id`),
+  CONSTRAINT `fk_etapas_estdos` FOREIGN KEY (`estados_id`) REFERENCES `estados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_etapas_plantas` FOREIGN KEY (`planta_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -146,7 +149,7 @@ CREATE TABLE `personas` (
 
 LOCK TABLES `personas` WRITE;
 /*!40000 ALTER TABLE `personas` DISABLE KEYS */;
-INSERT INTO `personas` VALUES (1,'ascurra','daiana','0000-00-00',1),(2,'padilla','perla','0000-00-00',2),(3,'rojo','martin','0000-00-00',3),(4,'romani','matias','0000-00-00',4),(5,'nosecomoseescribe','alvaro','0000-00-00',5),(6,'sabio','leandro','0000-00-00',6),(7,'giandinoto','ramiro','0000-00-00',7);
+INSERT INTO `personas` VALUES (1,'ascurra','daiana','1989-12-12',1),(2,'padilla','perla','1995-01-15',2),(3,'rojo','martin','1996-01-13',3),(4,'romani','matias','1992-02-15',4),(5,'nosecomoseescribe','alvaro','1990-03-05',5),(6,'sabio','leandro','1995-05-12',6),(7,'giandinoto','ramiro','1989-10-20',7);
 /*!40000 ALTER TABLE `personas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,7 +176,8 @@ CREATE TABLE `plantas` (
   KEY `fk_plantas_tiposPl_idx` (`tipo_planta_id`),
   CONSTRAINT `fk_plantas_clima` FOREIGN KEY (`climas_id`) REFERENCES `climas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_plantas_suelos` FOREIGN KEY (`suelos_id`) REFERENCES `suelos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_plantas_tempo` FOREIGN KEY (`temporadas_id`) REFERENCES `temporadas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_plantas_tempo` FOREIGN KEY (`temporadas_id`) REFERENCES `temporadas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_plantas_tipoPlan` FOREIGN KEY (`tipo_planta_id`) REFERENCES `tipos_plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -201,11 +205,11 @@ CREATE TABLE `respuestas` (
   `usuario_id` int(11) DEFAULT NULL,
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_respuestas_preg_idx` (`temas_id`),
   KEY `fk_respuestas_user_idx` (`usuario_id`),
-  CONSTRAINT `fk_respuestas_preg` FOREIGN KEY (`temas_id`) REFERENCES `temas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `fk_respuestas_temas_idx` (`temas_id`),
+  CONSTRAINT `fk_respuestas_temas` FOREIGN KEY (`temas_id`) REFERENCES `temas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_respuestas_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -214,6 +218,7 @@ CREATE TABLE `respuestas` (
 
 LOCK TABLES `respuestas` WRITE;
 /*!40000 ALTER TABLE `respuestas` DISABLE KEYS */;
+INSERT INTO `respuestas` VALUES (1,1,'Hay que sacar los brotes mas pequeños para darle fuerzas a los que quedan. Tener en cunata la direccion que quieras darle a tu planta por ejemplo si es una enredadera para donde quieres que se vaya?',2,'0000-00-00 00:00:00'),(2,2,'En producción forestal se emplea para obtener fustes más rectos y con menos ramificaciones, por tanto de mayor calidad. En arbolado urbano para prevenir el riesgo de caída de ramas y controlar el tamaño de árboles.En jardinería,se utiliza la poda para con',5,'0000-00-00 00:00:00'),(3,3,'revisaste que la maceta tenga buen drenaje? si no lo tiene asi lo riegues poco se pudren las raices, yo que tu sacaria esquejes hoy mismo.si es asi y aun hay raices salvables, es decir, que no esten negras y blanditas, cambiale la tierra a una que este se',3,'0000-00-00 00:00:00'),(4,3,'En casa tengo un potus y lo mantengo \"redondito\" cuando larga guías las corto y hago plantas nuevas que mantengo sólo en agua durante años, creciendo hermosas. Unicamente les pongo de vez en cuando un pedacito de carbón de leña que me dijeron que les dá t',2,'0000-00-00 00:00:00'),(5,3,'puede ser la calefaccion, aca no usamos eso porq el clima es caliente pero a si vez es bastante humedo,el problema de la calefaccion es que seca los ambientes, si la tienes cerca de la calefaccion puede ser eso',1,'0000-00-00 00:00:00'),(6,4,'De entrada decirte que no conozco la marca de producto que comentas, pero si te puedo confirmar que para luchar contra la cochinilla no necesitas un fungicida, sino un insecticida. Lo puedes adquirir en tu centro de productos fitosanitarios o invernadero ',4,'0000-00-00 00:00:00'),(7,5,'Con estos pasos tendras resultados excelentes ->Para evitar que una enfermedad se introduzca al jardín, 1) inspeccione todas las plantas nuevas y cerciorese de que no tengan síntomas de la enfermedad (manchas foliares, raíces obscuras, etc.) o señas (crec',2,'0000-00-00 00:00:00'),(8,5,'Hola encontre informacion muy valiosa te conviene leerla.Mantenga el Jardín o Paisaje Limpio: Mantenga el paisaje libre de insectos o malezas. Si va a añadir materia orgánica al suelo, cerciorese de que este venga de un vendedor confiable. Cerciorese de q',2,'0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `respuestas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,9 +266,15 @@ CREATE TABLE `seguimientos` (
   PRIMARY KEY (`id`),
   KEY `fk_seguim_user_idx` (`usuario_id`),
   KEY `fk_seguim_planta_idx` (`planta_id`),
+  KEY `fk_seguim_estados_idx` (`estado_id`),
+  KEY `fk_seguim_etapa_idx` (`etapa_id`),
+  KEY `fk_seguim_tarea_idx` (`tarea_id`),
+  CONSTRAINT `fk_seguim_estados` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_seguim_etapa` FOREIGN KEY (`etapa_id`) REFERENCES `etapas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_seguim_planta` FOREIGN KEY (`planta_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_seguim_tarea` FOREIGN KEY (`tarea_id`) REFERENCES `tareas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_seguim_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,7 +325,8 @@ CREATE TABLE `tareas` (
   `descripcion` varchar(512) NOT NULL,
   `etapas_id` int(11) NOT NULL,
   PRIMARY KEY (`id`,`etapas_id`),
-  KEY `fk_tareas_etapas_id` (`etapas_id`)
+  KEY `fk_tareas_etapas_idx` (`etapas_id`),
+  CONSTRAINT `fk_tareas_etapas` FOREIGN KEY (`etapas_id`) REFERENCES `etapas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -336,7 +348,7 @@ DROP TABLE IF EXISTS `temas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `temas` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `titulo` varchar(45) DEFAULT NULL,
   `usuario_id` int(11) DEFAULT NULL,
   `cerrado` tinyint(1) DEFAULT NULL,
@@ -345,9 +357,10 @@ CREATE TABLE `temas` (
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_preguntas_user_idx` (`usuario_id`),
-  KEY `fk_preguntas_temas_idx` (`categoria_id`),
+  KEY `fk_preguntas_categ_idx` (`categoria_id`),
+  CONSTRAINT `fk_preguntas_categ` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_preguntas_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -356,6 +369,7 @@ CREATE TABLE `temas` (
 
 LOCK TABLES `temas` WRITE;
 /*!40000 ALTER TABLE `temas` DISABLE KEYS */;
+INSERT INTO `temas` VALUES (0,NULL,NULL,NULL,NULL,NULL,NULL),(1,'Como podar mi planta?',1,0,'Hola mi planta tiene  muchos brotes algunos mas grandes que otros, cómo se cual es el que tengo que cortar??',4,'0000-00-00 00:00:00'),(2,'Para qué sirve Podar?',2,1,'para qué se tiene que podar?es necesario que lo haga?ayuda no tengo idea cómo se hace',4,'0000-00-00 00:00:00'),(3,'Potus se está muriendo',3,0,'Me regalaron un potus precioso, lo puse en una maceta mas grande, lo riego poco, pero se me han secado casi todas las hojas',2,'0000-00-00 00:00:00'),(4,'limonero 4 estaciones',4,0,'Cómo están?Estoy en Argentina. El limonero que tengo, (según me han dicho) tiene Cochilla. Este es el funjicida que me han recomendado, Glaco-Max. ¿Cosideran qué, es fectivo o sería mejor otro producto?',3,'0000-00-00 00:00:00'),(5,'Como puedo evitar que entren enfermedades?',5,0,'Logré despues de mucho tiempo el jardin de mis sueños y todas son sanas y fuertes, como puedo hacer para conservarlas asi y que ninguna enfermedad entre en él???',2,'0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `temas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -447,9 +461,11 @@ CREATE TABLE `usuarios` (
   `user` varchar(16) CHARACTER SET utf8 NOT NULL,
   `email` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `roles_id` int(50) NOT NULL,
+  `last_password_reset_date` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_UNIQUE` (`user`),
-  KEY `fk_usuarios_rol` (`roles_id`)
+  KEY `fk_usuarios_rol` (`roles_id`),
+  CONSTRAINT `fk_usuarios_rol` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -459,7 +475,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'1234','day','day@gmail',2),(2,'2345','perlis','perlis@gmail',1),(3,'3456','tincho','tincho@gmail',2),(4,'7890','mati','mati@gmail',3),(5,'0123','lea','lea@gmail',2),(6,'4567','alvarito','alvarito@gmail',3),(7,'4567','rami','rami@gmail',2);
+INSERT INTO `usuarios` VALUES (1,'1234','day','day@gmail',2,'0000-00-00'),(2,'2345','perlis','perlis@gmail',1,'0000-00-00'),(3,'3456','tincho','tincho@gmail',2,'0000-00-00'),(4,'7890','mati','mati@gmail',3,'0000-00-00'),(5,'0123','lea','lea@gmail',2,'0000-00-00'),(6,'4567','alvarito','alvarito@gmail',3,'0000-00-00'),(7,'4567','rami','rami@gmail',2,'0000-00-00');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -479,8 +495,9 @@ CREATE TABLE `ventas` (
   `fecha` datetime DEFAULT NULL,
   `tipo_venta_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_ventas_tipos_idx` (`tipo_venta_id`),
   KEY `fk_ventas_user_idx` (`usuarios_id`),
+  KEY `fk_ventas_tiposVen_idx` (`tipo_venta_id`),
+  CONSTRAINT `fk_ventas_tiposVen` FOREIGN KEY (`tipo_venta_id`) REFERENCES `tipos_ventas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ventas_user` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -504,4 +521,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-27 17:47:56
+-- Dump completed on 2018-03-01  1:58:24
