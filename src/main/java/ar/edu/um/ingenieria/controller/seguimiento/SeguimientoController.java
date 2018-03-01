@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,21 +17,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ar.edu.um.ingenieria.domain.Seguimiento;
 import ar.edu.um.ingenieria.service.impl.SeguimientoServiceImpl;
+import ar.edu.um.ingenieria.service.impl.UsuarioSecurityServiceImpl;
 
 @RestController
 @RequestMapping("/seguimientos")
+@Secured({"ROLE_USER" , "ROLE_VENDEDOR", "ROLE_ADMIN"})
 public class SeguimientoController {
 	
 	@Autowired
 	private SeguimientoServiceImpl seguimientoServiceImpl;
 	
+	@Autowired
+	private UsuarioSecurityServiceImpl usuarioSecurityServiceImpl;
+	
 	private static final Logger logger = LoggerFactory.getLogger(SeguimientoController.class);
 //Get devuelve todos
 	@GetMapping
 	public List<Seguimiento> indexPage() {
-		int id = 2;
-		logger.info("datos de seguimiento: {}", seguimientoServiceImpl.findByUser(id));
-		return seguimientoServiceImpl.findByUser(id);
+		logger.info("datos de seguimiento: {}", seguimientoServiceImpl.findByUser(usuarioSecurityServiceImpl.GetIdUser()));
+		return seguimientoServiceImpl.findByUser(usuarioSecurityServiceImpl.GetIdUser());
 	}
 
 	@GetMapping("/{id}")

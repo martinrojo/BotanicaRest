@@ -3,6 +3,7 @@ package ar.edu.um.ingenieria.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ar.edu.um.ingenieria.domain.Persona;
@@ -20,7 +21,9 @@ public class UsuarioServiceImpl extends ServiceImpl<Usuario, Integer>{
 	
 	@Override
 	public Usuario create(Usuario entity) {
-		
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(entity.getPassword());
+		entity.setPassword(hashedPassword);
 		return super.create(entity);
 	}
 
@@ -46,7 +49,6 @@ public class UsuarioServiceImpl extends ServiceImpl<Usuario, Integer>{
 	public List<Usuario> findAll() {
 		return super.findAll();
 	}
-
 	
 	public void create(Persona persona, Usuario usuario) {
 		usuarioServiceImpl.create(usuario);
