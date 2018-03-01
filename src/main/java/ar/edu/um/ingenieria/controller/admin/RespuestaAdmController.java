@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.um.ingenieria.domain.Respuesta;
+import ar.edu.um.ingenieria.domain.Tema;
 import ar.edu.um.ingenieria.service.impl.RespuestaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.TemaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
@@ -32,54 +33,61 @@ public class RespuestaAdmController {
 	@Autowired
 	private TemaServiceImpl temaServiceImpl;
 
-	@GetMapping
-	public ResponseEntity<List<Respuesta>> findAll() {
-		return new ResponseEntity<List<Respuesta>>(respuestaServiceImpl.findAll(), HttpStatus.OK);
+	@GetMapping("/leer/{id}")
+	public ResponseEntity<List<Respuesta>> findByTema(@PathVariable Integer id) {
+		if (temaServiceImpl.findById(id) == null) {
+			return new ResponseEntity<List<Respuesta>>(respuestaServiceImpl.findAll(), HttpStatus.OK);
+		} else {
+			Tema tema = temaServiceImpl.findById(id);
+			if(tema.getRespuestas() == null) {
+				new ResponseEntity<List<Respuesta>>(HttpStatus.CONFLICT);
+			}
+			return new ResponseEntity<List<Respuesta>>(tema.getRespuestas(), HttpStatus.OK);
+		}
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Respuesta> findById(@PathVariable Integer id) {
-		if(respuestaServiceImpl.findById(id)==null)
-			return new ResponseEntity<Respuesta>(HttpStatus.BAD_REQUEST);
-		else
-			return new ResponseEntity<Respuesta>(respuestaServiceImpl.findById(id),HttpStatus.OK);
+		if(respuestaServiceImpl.findById(id) == null) {
+			return new ResponseEntity<Respuesta>(HttpStatus.CONFLICT);
+		}
+		return new ResponseEntity<Respuesta>(respuestaServiceImpl.findById(id),HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
-		if(respuestaServiceImpl.findById(id)==null)
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		else {
-			respuestaServiceImpl.remove(respuestaServiceImpl.findById(id));
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		}
-	}
-	
 	@PostMapping
-	public ResponseEntity<Void> create(String texto, Integer temasId, Integer usuarioId, String fecha) throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public ResponseEntity<Void> create(String texto, Integer idTema, Integer idUsuario, String fecha) throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Respuesta respuesta = new Respuesta();
 		respuesta.setTexto(texto);
 		respuesta.setFecha(simpleDateFormat.parse(fecha));
-		respuesta.setUsuario(usuarioServiceImpl.findById(usuarioId));
-		respuesta.setTema(temaServiceImpl.findById(temasId));
+		respuesta.setUsuario(usuarioServiceImpl.findById(idUsuario));
+		respuesta.setTema(temaServiceImpl.findById(idTema));
 		respuestaServiceImpl.create(respuesta);
 		return new ResponseEntity<Void> (HttpStatus.OK);
 	}
 	
 	@PostMapping("/edit/")
-	public ResponseEntity<Void> edit(Integer id, String texto, Integer temasId, Integer usuarioId, String fecha) throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public ResponseEntity<Void> edit(Integer id, String texto, Integer idTema, Integer idUsuario, String fecha) throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		if (respuestaServiceImpl.findById(id) == null) {
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		} else {
 			Respuesta respuesta = respuestaServiceImpl.findById(id);
 			respuesta.setTexto(texto);
 			respuesta.setFecha(simpleDateFormat.parse(fecha));
-			respuesta.setUsuario(usuarioServiceImpl.findById(usuarioId));
-			respuesta.setTema(temaServiceImpl.findById(temasId));
+			respuesta.setUsuario(usuarioServiceImpl.findById(idUsuario));
+			respuesta.setTema(temaServiceImpl.findById(idTema));
 			respuestaServiceImpl.update(respuesta);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		if(respuestaServiceImpl.findById(id) == null) {
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
+		respuestaServiceImpl.remove(respuestaServiceImpl.findById(id));
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }

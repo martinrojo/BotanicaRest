@@ -32,7 +32,6 @@ public class CategoriaAdmController {
 	public ResponseEntity<List<Categoria>> findAll() {
 		return new ResponseEntity<List<Categoria>>(categoriaServiceImpl.findAll(), HttpStatus.OK);
 	}
-	
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
