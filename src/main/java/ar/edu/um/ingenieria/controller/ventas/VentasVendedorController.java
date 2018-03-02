@@ -22,9 +22,9 @@ import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 import ar.edu.um.ingenieria.service.impl.VentaServiceImpl;
 
 @RestController
-@RequestMapping("/ventas")
-@Secured({"ROLE_USER" , "ROLE_VENDEDOR", "ROLE_ADMIN"})
-public class VentasController {
+@RequestMapping("/ventas/vendedor")
+@Secured({"ROLE_VENDEDOR", "ROLE_ADMIN"}) //contiene los metodos para el vendedor no es disponible para los usuarios comunes
+public class VentasVendedorController {
 	@Autowired
 	private VentaServiceImpl ventaServiceImpl;
 	@Autowired
@@ -32,7 +32,7 @@ public class VentasController {
 	@Autowired
 	private TipoVentaServiceImpl tipoVentaServiceImpl;
 	
-	@GetMapping("/")
+	@GetMapping
 	public ResponseEntity<List<Venta>> findAll() {
 		return new ResponseEntity<List<Venta>>(ventaServiceImpl.findAll(), HttpStatus.OK);
 	}
