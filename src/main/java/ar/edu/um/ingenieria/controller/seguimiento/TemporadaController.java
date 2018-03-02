@@ -1,7 +1,6 @@
 package ar.edu.um.ingenieria.controller.seguimiento;
 
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -32,4 +31,5 @@ public class TemporadaController {
 			logger.info("Datos de Temporadas:"+temporadaServiceImpl.findById(id));
 			return temporadaServiceImpl.findById(id);
 		}
+		
 }

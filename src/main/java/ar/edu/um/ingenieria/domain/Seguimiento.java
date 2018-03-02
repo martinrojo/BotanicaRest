@@ -74,6 +74,12 @@ public class Seguimiento implements Serializable{
 	@Column ( name = "fecha_abono")
 	private Date fechaAbono;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(pattern="dd/MM/yyyy")
+	@Column ( name = "fecha_poda")
+	private Date fechaPoda;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -154,6 +160,14 @@ public class Seguimiento implements Serializable{
 		this.fechaAbono = fechaAbono;
 	}
 
+	public Date getFechaPoda() {
+		return fechaPoda;
+	}
+
+	public void setFechaPoda(Date fechaPoda) {
+		this.fechaPoda = fechaPoda;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -166,6 +180,7 @@ public class Seguimiento implements Serializable{
 		result = prime * result + ((etapa == null) ? 0 : etapa.hashCode());
 		result = prime * result + ((fechaAbono == null) ? 0 : fechaAbono.hashCode());
 		result = prime * result + ((fechaInicio == null) ? 0 : fechaInicio.hashCode());
+		result = prime * result + ((fechaPoda == null) ? 0 : fechaPoda.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((planta == null) ? 0 : planta.hashCode());
 		result = prime * result + ((proximoRiego == null) ? 0 : proximoRiego.hashCode());
@@ -204,6 +219,11 @@ public class Seguimiento implements Serializable{
 				return false;
 		} else if (!fechaInicio.equals(other.fechaInicio))
 			return false;
+		if (fechaPoda == null) {
+			if (other.fechaPoda != null)
+				return false;
+		} else if (!fechaPoda.equals(other.fechaPoda))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -241,7 +261,7 @@ public class Seguimiento implements Serializable{
 	public String toString() {
 		return "Seguimiento [id=" + id + ", planta=" + planta + ", estado=" + estado + ", etapa=" + etapa + ", tarea="
 				+ tarea + ", ultimoRiego=" + ultimoRiego + ", proximoRiego=" + proximoRiego + ", fechaInicio="
-				+ fechaInicio + ", fechaAbono=" + fechaAbono + "]";
+				+ fechaInicio + ", fechaAbono=" + fechaAbono + ", fechaPoda=" + fechaPoda + "]";
 	}
 
 	public Seguimiento() {

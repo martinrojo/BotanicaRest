@@ -6,5 +6,4 @@ import ar.edu.um.ingenieria.domain.Temporada;
 
 @Repository
 public interface TemporadaRepository extends JpaRepository<Temporada, Integer>{
-	
 }
