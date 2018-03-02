@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.21, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: botanica
+-- Host: localhost    Database: botanica
 -- ------------------------------------------------------
--- Server version	5.6.17
+-- Server version	5.7.21-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -76,10 +76,7 @@ CREATE TABLE `estados` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
-  `plantas_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_estados_plantas_idx` (`plantas_id`),
-  CONSTRAINT `fk_estados_plantas` FOREIGN KEY (`plantas_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -89,7 +86,7 @@ CREATE TABLE `estados` (
 
 LOCK TABLES `estados` WRITE;
 /*!40000 ALTER TABLE `estados` DISABLE KEYS */;
-INSERT INTO `estados` VALUES (1,'sana','La planta se encuentra en optimas condiciones para continuar su desarrollo',0),(2,'enferma','La planta se encuentra con problemas que todavia se pueden resolver antes de cancelar su seguimiento',0),(3,'muerta','La planta se encuentra en un estado irreversible,ya no se puede continuar con su desarrollo',0);
+INSERT INTO `estados` VALUES (1,'sana','La planta se encuentra en optimas condiciones para continuar su desarrollo'),(2,'enferma','La planta se encuentra con problemas que todavia se pueden resolver antes de cancelar su seguimiento'),(3,'muerta','La planta se encuentra en un estado irreversible,ya no se puede continuar con su desarrollo');
 /*!40000 ALTER TABLE `estados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,14 +101,11 @@ CREATE TABLE `etapas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
-  `planta_id` int(11) DEFAULT NULL,
   `estados_id` int(11) NOT NULL,
   PRIMARY KEY (`id`,`estados_id`),
   KEY `fk_etapas_estados1_idx` (`estados_id`),
-  KEY `fk_etapas_plantas_idx` (`planta_id`),
-  CONSTRAINT `fk_etapas_estdos` FOREIGN KEY (`estados_id`) REFERENCES `estados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_etapas_plantas` FOREIGN KEY (`planta_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_etapas_estdos` FOREIGN KEY (`estados_id`) REFERENCES `estados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,7 +114,7 @@ CREATE TABLE `etapas` (
 
 LOCK TABLES `etapas` WRITE;
 /*!40000 ALTER TABLE `etapas` DISABLE KEYS */;
-INSERT INTO `etapas` VALUES (1,'inicio','',0,0),(2,'transplante','',0,0),(3,'finalizado','',0,0),(4,'poda','',0,0),(5,'cosecha','',0,0);
+INSERT INTO `etapas` VALUES (1,'inicio','',1),(2,'transplante','',1),(3,'finalizado','',1),(4,'poda','',1),(5,'cosecha','',1),(6,'fumigar','',2),(7,'quitar larvas e insectos','',2),(8,'reciclar maceta','Sentimos lo sucedido',3);
 /*!40000 ALTER TABLE `etapas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,7 +134,7 @@ CREATE TABLE `personas` (
   PRIMARY KEY (`id`),
   KEY `fk_personas_user_idx` (`usuarios_id`),
   CONSTRAINT `fk_personas_user` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +143,7 @@ CREATE TABLE `personas` (
 
 LOCK TABLES `personas` WRITE;
 /*!40000 ALTER TABLE `personas` DISABLE KEYS */;
-INSERT INTO `personas` VALUES (1,'ascurra','daiana','1989-12-12',1),(2,'padilla','perla','1995-01-15',2),(3,'rojo','martin','1996-01-13',3),(4,'romani','matias','1992-02-15',4),(5,'nosecomoseescribe','alvaro','1990-03-05',5),(6,'sabio','leandro','1995-05-12',6),(7,'giandinoto','ramiro','1989-10-20',7);
+INSERT INTO `personas` VALUES (1,'ascurra','daiana','1989-12-12',1),(2,'padilla','perla','1995-01-15',2),(3,'rojo','martin','1996-01-13',3),(4,'romani','matias','1992-02-15',4),(5,'nosecomoseescribe','alvaro','1990-03-05',5),(6,'sabio','leandro','1995-05-12',6),(7,'giandinoto','ramiro','1989-10-20',7),(8,'Bruseghini','Alvaro','1992-11-22',8);
 /*!40000 ALTER TABLE `personas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,7 +181,7 @@ CREATE TABLE `plantas` (
 
 LOCK TABLES `plantas` WRITE;
 /*!40000 ALTER TABLE `plantas` DISABLE KEYS */;
-INSERT INTO `plantas` VALUES (1,'frutillas',1,2,1,'fruto rojo pequeño','00:00:00',1),(2,'limonero',1,2,1,'planta de tipo arbol','00:00:00',1),(3,'acelga',3,2,1,'planta de hojas verdes pequeña','00:00:00',2),(4,'SOLANUM LYCOPERSICUM/ tomate \"perita\"',3,3,3,'Es una planta anual, pero a veces puede perdurar más de un año en el terreno.\r\n\r\nLos tallos son ligeramente angulosos, semileñosos, de grosor mediano (cercano a 4 cm en la base) y con tricomas simples y glandulares.\r\n\r\nHojas de tamaño medio a grande (10 a 50 cm), alternas, pecioladas, bipinatisectas (con folíolos a su vez divididos) y con numerosos tricomas simples y glandulares.\r\nNecesitan mucho sol.','00:00:00',1),(5,'plantaslavanda',1,1,1,'planta de tipo arbusto mediana','00:00:00',3),(6,'petunia multiflora',2,2,2,'Son originarias de Brasil. Son plantas perennes de escasa estatura, aproximadamente entre 15 y 60 centímetros. Desde principios de primavera hasta los finales de otoño, la floración se produce de manera abundante. ','00:00:00',3),(7,'echinocactus grusonii / asiento de suegra',2,1,1,'Suculenta, puede llegar a medir 80 cm de ancho y diámetro (15 cm a los 10 años) y es de crecimiento lento. Florece cuando es adulto y sólo en verano por 3 días. Requiere mucho sol y poca agua. ','00:00:00',5),(8,'epipremnum pinnatum / potus colgante',1,2,2,'Conocido como \"potus\", es originario del sudeste asiático. Liana que puede alcanzar 20 m de alto, con tallos de hasta 4 cm de diámetro. Trepa mediante raíces aéreas que se enganchan a las ramas de los árboles. Las hojas son perennes, alternas y acorazonadas, enteras en las plantas jóvenes, pero irregularmente pinnadas en las maduras y de hasta 1 m de largo por 45 cm de ancho (en las plantas jóvenes no superan los 20 cm de largo). Crecimiento rápido. Abundante agua y sombra luminosa. necesita buen drenaje. ','00:00:00',6),(9,'albaca',1,2,3,'aromatica para ensaladas','00:00:00',4),(10,'ruda',2,4,5,'aromatica con propiedades digestivas','00:00:00',4),(11,'menta',2,1,2,'pequeñas hojas con propiedades digestivas','00:00:00',4),(12,'aloe variegata/aloe tigre',1,2,3,'Pequeñas plantas suculentas de fácil cultivo, sin tallo o con uno muy corto y que alcanzan los 20-30 cm de altura. Las hojas carnosas y lanceoladas surgen en roseta, son de color verde oscuro con bandas transversales y borde blanco con pequeños dientes. Las flores se presentan en inflorescencias ramificadas, son de color rojo o rosa y de forma tubular. Florecen en la segunda mitad del invierno. Son muy sensibles al exceso de humedad que pudre rápidamente la planta;pueden ser víctimas de cochinillas.','00:00:00',5),(13,'junco',1,2,3,'planca acuatica','00:00:00',6),(14,'flor de loto',1,2,3,'acuatica','00:00:00',6);
+INSERT INTO `plantas` VALUES (1,'frutillas',1,2,1,'fruto rojo pequeño','10:00:00',1),(2,'limonero',1,2,1,'planta de tipo arbol','05:00:00',1),(3,'acelga',3,2,1,'planta de hojas verdes pequeña','07:00:00',2),(4,'SOLANUM LYCOPERSICUM/ tomate \"perita\"',3,3,3,'Es una planta anual, pero a veces puede perdurar más de un año en el terreno.\r\n\r\nLos tallos son ligeramente angulosos, semileñosos, de grosor mediano (cercano a 4 cm en la base) y con tricomas simples y glandulares.\r\n\r\nHojas de tamaño medio a grande (10 a 50 cm), alternas, pecioladas, bipinatisectas (con folíolos a su vez divididos) y con numerosos tricomas simples y glandulares.\r\nNecesitan mucho sol.','05:00:00',1),(5,'plantaslavanda',1,1,1,'planta de tipo arbusto mediana','07:00:00',3),(6,'petunia multiflora',2,2,2,'Son originarias de Brasil. Son plantas perennes de escasa estatura, aproximadamente entre 15 y 60 centímetros. Desde principios de primavera hasta los finales de otoño, la floración se produce de manera abundante. ','05:00:00',3),(7,'echinocactus grusonii / asiento de suegra',2,1,1,'Suculenta, puede llegar a medir 80 cm de ancho y diámetro (15 cm a los 10 años) y es de crecimiento lento. Florece cuando es adulto y sólo en verano por 3 días. Requiere mucho sol y poca agua. ','05:00:00',5),(8,'epipremnum pinnatum / potus colgante',1,2,2,'Conocido como \"potus\", es originario del sudeste asiático. Liana que puede alcanzar 20 m de alto, con tallos de hasta 4 cm de diámetro. Trepa mediante raíces aéreas que se enganchan a las ramas de los árboles. Las hojas son perennes, alternas y acorazonadas, enteras en las plantas jóvenes, pero irregularmente pinnadas en las maduras y de hasta 1 m de largo por 45 cm de ancho (en las plantas jóvenes no superan los 20 cm de largo). Crecimiento rápido. Abundante agua y sombra luminosa. necesita buen drenaje. ','07:00:00',6),(9,'albaca',1,2,3,'aromatica para ensaladas','05:00:00',4),(10,'ruda',2,4,1,'aromatica con propiedades digestivas','10:00:00',4),(11,'menta',2,1,2,'pequeñas hojas con propiedades digestivas','07:00:00',4),(12,'aloe variegata/aloe tigre',1,2,3,'Pequeñas plantas suculentas de fácil cultivo, sin tallo o con uno muy corto y que alcanzan los 20-30 cm de altura. Las hojas carnosas y lanceoladas surgen en roseta, son de color verde oscuro con bandas transversales y borde blanco con pequeños dientes. Las flores se presentan en inflorescencias ramificadas, son de color rojo o rosa y de forma tubular. Florecen en la segunda mitad del invierno. Son muy sensibles al exceso de humedad que pudre rápidamente la planta;pueden ser víctimas de cochinillas.','05:00:00',5),(13,'junco',1,2,3,'planca acuatica','10:00:00',6),(14,'flor de loto',1,2,3,'acuatica','07:00:00',6);
 /*!40000 ALTER TABLE `plantas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,11 +252,14 @@ CREATE TABLE `seguimientos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL,
   `planta_id` int(11) NOT NULL,
-  `ultimo_riego` datetime DEFAULT NULL,
   `estado_id` int(11) DEFAULT NULL,
-  `proximo_riego` datetime DEFAULT NULL,
   `etapa_id` int(11) DEFAULT NULL,
   `tarea_id` int(11) DEFAULT NULL,
+  `ultimo_riego` datetime DEFAULT NULL,
+  `proximo_riego` datetime DEFAULT NULL,
+  `fecha_inicio` date DEFAULT NULL,
+  `fecha_abono` date DEFAULT NULL,
+  `fecha_poda` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_seguim_user_idx` (`usuario_id`),
   KEY `fk_seguim_planta_idx` (`planta_id`),
@@ -270,11 +267,10 @@ CREATE TABLE `seguimientos` (
   KEY `fk_seguim_etapa_idx` (`etapa_id`),
   KEY `fk_seguim_tarea_idx` (`tarea_id`),
   CONSTRAINT `fk_seguim_estados` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_seguim_etapa` FOREIGN KEY (`etapa_id`) REFERENCES `etapas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_seguim_planta` FOREIGN KEY (`planta_id`) REFERENCES `plantas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_seguim_tarea` FOREIGN KEY (`tarea_id`) REFERENCES `tareas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_seguim_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,7 +279,7 @@ CREATE TABLE `seguimientos` (
 
 LOCK TABLES `seguimientos` WRITE;
 /*!40000 ALTER TABLE `seguimientos` DISABLE KEYS */;
-INSERT INTO `seguimientos` VALUES (1,1,6,'0000-00-00 00:00:00',1,'0000-00-00 00:00:00',0,0),(2,2,4,'0000-00-00 00:00:00',1,'0000-00-00 00:00:00',0,0);
+INSERT INTO `seguimientos` VALUES (1,1,6,1,1,1,'2017-10-05 05:00:00','2017-10-05 05:00:00',NULL,NULL,NULL),(2,2,4,1,1,1,'2017-10-05 05:00:00','2017-10-05 05:00:00',NULL,NULL,NULL),(3,8,2,1,4,9,'2018-03-02 08:25:57','2018-03-02 13:25:57','2018-03-02','2018-03-02','2018-03-02');
 /*!40000 ALTER TABLE `seguimientos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -327,7 +323,7 @@ CREATE TABLE `tareas` (
   PRIMARY KEY (`id`,`etapas_id`),
   KEY `fk_tareas_etapas_idx` (`etapas_id`),
   CONSTRAINT `fk_tareas_etapas` FOREIGN KEY (`etapas_id`) REFERENCES `etapas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -336,7 +332,7 @@ CREATE TABLE `tareas` (
 
 LOCK TABLES `tareas` WRITE;
 /*!40000 ALTER TABLE `tareas` DISABLE KEYS */;
-INSERT INTO `tareas` VALUES (1,'preparar suelo','Preparar todo el terreno / maceta donde será plantada la planta',1),(2,'transplantar','Cambiar la planta de contenedor, por ejemplo pasar de maceta a tierra',2),(3,'podar','Se cortan los brotes viejos para darle paso a los mas nuevos',4),(4,'cosechar','Obtencios de los frutos que pueda dar la planta',5),(5,'regar','Regar',1),(6,'regar','Regar',2),(7,'regar','Regar',3),(8,'regar','Regar',4),(9,'regar','Regar',5),(10,'abonar','Cambiar la tierra o agregar abono o algun tipo de fertilizante que ayude a su crecimiento',1),(11,'abonar','Cambiar la tierra o agregar abono o algun tipo de fertilizante que ayude a su crecimiento',2);
+INSERT INTO `tareas` VALUES (1,'preparar suelo','Preparar todo el terreno / maceta donde será plantada la planta',1),(2,'sembrar','Deposite las semillas en el suelo que hemos preparado con anterioridad',1),(3,'transplantar','Cambiar la planta de contenedor, por ejemplo pasar de maceta a tierra',2),(4,'podar','Se cortan los brotes viejos para darle paso a los mas nuevos',4),(5,'cosechar','Obtencios de los frutos que pueda dar la planta',5),(6,'regar','Regar',1),(7,'regar','Regar',2),(8,'regar','Regar',3),(9,'regar','Regar',4),(10,'regar','Regar',5),(11,'abonar','Cambiar la tierra o agregar abono o algun tipo de fertilizante que ayude a su crecimiento',1),(12,'abonar','Cambiar la tierra o agregar abono o algun tipo de fertilizante que ayude a su crecimiento',2),(13,'abonar','Cambiar la tierra o agregar abono o algun tipo de fertilizante que ayude a su crecimiento',3);
 /*!40000 ALTER TABLE `tareas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -384,6 +380,8 @@ CREATE TABLE `temporadas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `descripcion` varchar(256) NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -394,7 +392,7 @@ CREATE TABLE `temporadas` (
 
 LOCK TABLES `temporadas` WRITE;
 /*!40000 ALTER TABLE `temporadas` DISABLE KEYS */;
-INSERT INTO `temporadas` VALUES (1,'primavera',''),(2,'verano',''),(3,'otoño',''),(4,'invierno','');
+INSERT INTO `temporadas` VALUES (1,'primavera','','2018-09-21','2018-12-20'),(2,'verano','','2018-12-21','2019-03-22'),(3,'otoño','','2018-03-23','2018-06-20'),(4,'invierno','','2018-06-21','2018-09-20');
 /*!40000 ALTER TABLE `temporadas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -466,7 +464,7 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `user_UNIQUE` (`user`),
   KEY `fk_usuarios_rol` (`roles_id`),
   CONSTRAINT `fk_usuarios_rol` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -475,7 +473,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'1234','day','day@gmail',2,'0000-00-00'),(2,'2345','perlis','perlis@gmail',1,'0000-00-00'),(3,'3456','tincho','tincho@gmail',2,'0000-00-00'),(4,'7890','mati','mati@gmail',3,'0000-00-00'),(5,'0123','lea','lea@gmail',2,'0000-00-00'),(6,'4567','alvarito','alvarito@gmail',3,'0000-00-00'),(7,'4567','rami','rami@gmail',2,'0000-00-00');
+INSERT INTO `usuarios` VALUES (1,'1234','day','day@gmail',2,'2018-03-02'),(2,'2345','perlis','perlis@gmail',1,'2018-03-02'),(3,'3456','tincho','tincho@gmail',2,'2018-03-02'),(4,'7890','mati','mati@gmail',3,'2018-03-02'),(5,'0123','lea','lea@gmail',2,'2018-03-02'),(6,'4567','alvarito','alvarito@gmail',3,'2018-03-02'),(7,'4567','rami','rami@gmail',2,'2018-03-02'),(8,'$2a$10$X.a2LYY9A7zDRY0sDSyNXe0E0qmtNtKfIOdn2y.k0MCIGgxhMsyDi','Alvaro92','bruseghini_92@live.com.ar',2,'2018-03-01');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -521,4 +519,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-01  1:58:24
+-- Dump completed on 2018-03-02 11:30:03
