@@ -62,6 +62,12 @@ public class Seguimiento implements Serializable{
 	@Column ( name = "proximo_riego")
 	private Date proximoRiego;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(pattern="dd/MM/yyyy")
+	@Column ( name = "fecha_inicio")
+	private Date fechaInicio;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -126,6 +132,14 @@ public class Seguimiento implements Serializable{
 		this.proximoRiego = proximoRiego;
 	}
 
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -136,12 +150,13 @@ public class Seguimiento implements Serializable{
 		int result = 1;
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result + ((etapa == null) ? 0 : etapa.hashCode());
+		result = prime * result + ((fechaInicio == null) ? 0 : fechaInicio.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((planta == null) ? 0 : planta.hashCode());
 		result = prime * result + ((proximoRiego == null) ? 0 : proximoRiego.hashCode());
 		result = prime * result + ((tarea == null) ? 0 : tarea.hashCode());
-		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		result = prime * result + ((ultimoRiego == null) ? 0 : ultimoRiego.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
 
@@ -164,6 +179,11 @@ public class Seguimiento implements Serializable{
 				return false;
 		} else if (!etapa.equals(other.etapa))
 			return false;
+		if (fechaInicio == null) {
+			if (other.fechaInicio != null)
+				return false;
+		} else if (!fechaInicio.equals(other.fechaInicio))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -184,23 +204,24 @@ public class Seguimiento implements Serializable{
 				return false;
 		} else if (!tarea.equals(other.tarea))
 			return false;
-		if (usuario == null) {
-			if (other.usuario != null)
-				return false;
-		} else if (!usuario.equals(other.usuario))
-			return false;
 		if (ultimoRiego == null) {
 			if (other.ultimoRiego != null)
 				return false;
 		} else if (!ultimoRiego.equals(other.ultimoRiego))
+			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Seguimiento [id=" + id +", planta=" + planta + ", estado=" + estado
-				+ ", etapa=" + etapa + ", tarea=" + tarea + ", ultimoRiego=" + ultimoRiego + ", proximoRiego=" + proximoRiego + "]";
+		return "Seguimiento [id=" + id + ", planta=" + planta + ", estado=" + estado + ", etapa=" + etapa + ", tarea="
+				+ tarea + ", ultimoRiego=" + ultimoRiego + ", proximoRiego=" + proximoRiego + ", fechaInicio="
+				+ fechaInicio + "]";
 	}
 
 	public Seguimiento() {

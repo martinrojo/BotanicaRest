@@ -2,12 +2,16 @@ package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,8 +34,12 @@ public class Etapa implements Serializable{
 	private String descripcion;
 	
 	@JsonIgnore
-	@OneToMany
-	@JoinColumn(name="etapas_id")
+	@ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name="estados_id")
+	private Estado estado;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy ="etapa", fetch = FetchType.LAZY)
 	private List<Tarea> tareas;
 
 	public Integer getId() {
@@ -58,6 +66,14 @@ public class Etapa implements Serializable{
 		this.descripcion = descripcion;
 	}
 
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+	
 	public List<Tarea> getTareas() {
 		return tareas;
 	}
@@ -65,7 +81,7 @@ public class Etapa implements Serializable{
 	public void setTareas(List<Tarea> tareas) {
 		this.tareas = tareas;
 	}
-	
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -75,6 +91,7 @@ public class Etapa implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
+		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((tareas == null) ? 0 : tareas.hashCode());
@@ -94,6 +111,11 @@ public class Etapa implements Serializable{
 			if (other.descripcion != null)
 				return false;
 		} else if (!descripcion.equals(other.descripcion))
+			return false;
+		if (estado == null) {
+			if (other.estado != null)
+				return false;
+		} else if (!estado.equals(other.estado))
 			return false;
 		if (id == null) {
 			if (other.id != null)

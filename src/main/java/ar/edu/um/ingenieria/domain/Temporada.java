@@ -1,8 +1,8 @@
 package ar.edu.um.ingenieria.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -29,8 +32,20 @@ public class Temporada implements Serializable {
 	@Column(name="descripcion")
 	private String descripcion;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(pattern="dd/MM/yyyy")
+	@Column(name="fecha_inicio")
+	private Date fechaInicio;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(pattern="dd/MM/yyyy")
+	@Column(name="fecha_fin")
+	private Date fechaFin;
+	
 	@JsonIgnore
-	@OneToMany(mappedBy = "temporada", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "temporada", fetch = FetchType.LAZY)
 	private List<Planta> plantas;
 	
 	public Integer getId() {
@@ -57,6 +72,22 @@ public class Temporada implements Serializable {
 		this.descripcion = descripcion;
 	}
 
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public Date getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
 	public List<Planta> getPlantas() {
 		return plantas;
 	}
@@ -74,8 +105,11 @@ public class Temporada implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
+		result = prime * result + ((fechaFin == null) ? 0 : fechaFin.hashCode());
+		result = prime * result + ((fechaInicio == null) ? 0 : fechaInicio.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((plantas == null) ? 0 : plantas.hashCode());
 		return result;
 	}
 
@@ -93,6 +127,16 @@ public class Temporada implements Serializable {
 				return false;
 		} else if (!descripcion.equals(other.descripcion))
 			return false;
+		if (fechaFin == null) {
+			if (other.fechaFin != null)
+				return false;
+		} else if (!fechaFin.equals(other.fechaFin))
+			return false;
+		if (fechaInicio == null) {
+			if (other.fechaInicio != null)
+				return false;
+		} else if (!fechaInicio.equals(other.fechaInicio))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -103,12 +147,18 @@ public class Temporada implements Serializable {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
+		if (plantas == null) {
+			if (other.plantas != null)
+				return false;
+		} else if (!plantas.equals(other.plantas))
+			return false;
 		return true;
 	}
 	
 	@Override
 	public String toString() {
-		return "Temporada [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
+		return "Temporada [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", fechaInicio="
+				+ fechaInicio + ", fechaFin=" + fechaFin + "]";
 	}
 
 	public Temporada() {
