@@ -61,6 +61,54 @@ public class SeguimientoAdmController {
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
 	}
+	@PostMapping("/{id}/regar")
+	public ResponseEntity<Seguimiento> regar(@PathVariable Integer id) {
+			seguimientoServiceImpl.regar(id);
+			logger.info("Riego registrado con exito");
+			return new ResponseEntity<Seguimiento>(seguimientoServiceImpl.findById(id),HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/suelo_preparado")
+	public ResponseEntity<Seguimiento> sueloPreparado(@PathVariable Integer id) {
+			seguimientoServiceImpl.sueloPreparado(id);
+			logger.info("Suelo preparado con exito");
+			return new ResponseEntity<Seguimiento>(seguimientoServiceImpl.findById(id),HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/sembrado")
+	public ResponseEntity<Seguimiento> sembrado(@PathVariable Integer id) {
+			seguimientoServiceImpl.sembrado(id);
+			logger.info("Siembra realizado con exito");
+			return new ResponseEntity<Seguimiento>(seguimientoServiceImpl.findById(id),HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/podar")
+	public ResponseEntity<Seguimiento> podar(@PathVariable Integer id) {
+			seguimientoServiceImpl.podar(id);
+			logger.info("Poda establecida con exito");
+			return new ResponseEntity<Seguimiento>(seguimientoServiceImpl.findById(id),HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/transplantar")
+	public ResponseEntity<Seguimiento> transplantar(@PathVariable Integer id) {
+			seguimientoServiceImpl.transplantar(id);
+			logger.info("Transplante establecido con exito");
+			return new ResponseEntity<Seguimiento>(seguimientoServiceImpl.findById(id),HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/cosechar")
+	public ResponseEntity<Seguimiento> cosechar(@PathVariable Integer id) {
+			seguimientoServiceImpl.cosechar(id);
+			logger.info("Cosecha establecida con exito");
+			return new ResponseEntity<Seguimiento>(seguimientoServiceImpl.findById(id),HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/abonar")
+	public ResponseEntity<Seguimiento> abonar(@PathVariable Integer id) {
+			seguimientoServiceImpl.abonar(id);
+			logger.info("Abono establecido con exito");
+			return new ResponseEntity<Seguimiento>(seguimientoServiceImpl.findById(id),HttpStatus.OK);
+	}
 //Put es para actualizar, patch es para actualizar parcialmente	
 	@PostMapping("/update")
 	public ResponseEntity<Void> agregar(Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa, Integer seguimiento) {
