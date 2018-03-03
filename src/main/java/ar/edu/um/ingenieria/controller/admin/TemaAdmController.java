@@ -37,11 +37,11 @@ public class TemaAdmController {
 	@GetMapping("/leer/{id}")
 	public ResponseEntity<List<Tema>> findByCategoria(@PathVariable Integer id){
 		if (categoriaServiceImpl.findById(id) == null) {
-			return new ResponseEntity<List<Tema>>(HttpStatus.CONFLICT);
+			return new ResponseEntity<List<Tema>>(HttpStatus.NO_CONTENT);
 		}else {
 			Categoria categoria = categoriaServiceImpl.findById(id);
 			if(categoria.getTemas() == null) {
-				new ResponseEntity<List<Tema>>(HttpStatus.CONFLICT);
+				new ResponseEntity<List<Tema>>(HttpStatus.NO_CONTENT);
 			}
 			return new ResponseEntity<List<Tema>>(categoria.getTemas(), HttpStatus.OK);
 		}		
@@ -50,15 +50,14 @@ public class TemaAdmController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Tema> findById(@PathVariable Integer id) {
 		if(temaServiceImpl.findById(id)==null) {
-			return new ResponseEntity<Tema>(HttpStatus.CONFLICT);
+			return new ResponseEntity<Tema>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<Tema>(temaServiceImpl.findById(id),HttpStatus.OK);
 	}
 
 	@PostMapping
 	public ResponseEntity<Void> insert(String titulo, Integer idUsuario, Boolean cerrado, String texto, Integer idCategoria, String fecha) throws ParseException{
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		System.out.println(titulo + idCategoria + idUsuario + cerrado + texto + fecha );
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Tema tema = new Tema();
 		tema.setTitulo(titulo);
 		tema.setUsuario(usuarioServiceImpl.findById(idUsuario));
@@ -66,7 +65,6 @@ public class TemaAdmController {
 		tema.setTexto(texto);
 		tema.setCategoria(categoriaServiceImpl.findById(idCategoria));
 		Date date = simpleDateFormat.parse(fecha);
-		System.out.println("\n\n\n\n" + date);
 		tema.setFecha(date);
 		temaServiceImpl.create(tema);
 		return new ResponseEntity<Void>(HttpStatus.OK);
@@ -75,7 +73,7 @@ public class TemaAdmController {
 	@PostMapping("/edit")
 	public ResponseEntity<Void> edit(String titulo, Integer idUsuario, Boolean cerrado, String texto, Integer idCategoria, String fecha, Integer id) throws ParseException{
 		if (temaServiceImpl.findById(id) == null) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Tema tema = temaServiceImpl.findById(id);
@@ -92,7 +90,7 @@ public class TemaAdmController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
 		if(temaServiceImpl.findById(id)==null)
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		else {
 			temaServiceImpl.remove(temaServiceImpl.findById(id));
 			return new ResponseEntity<Void>(HttpStatus.OK);

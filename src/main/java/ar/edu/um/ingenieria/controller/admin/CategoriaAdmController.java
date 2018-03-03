@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,13 +31,16 @@ public class CategoriaAdmController {
 	
 	@GetMapping
 	public ResponseEntity<List<Categoria>> findAll() {
+		if (categoriaServiceImpl.findAll() == null) {
+			return new ResponseEntity<List<Categoria>>(HttpStatus.NO_CONTENT);
+		}
 		return new ResponseEntity<List<Categoria>>(categoriaServiceImpl.findAll(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
 		if(categoriaServiceImpl.findById(id)==null)
-			return new ResponseEntity<Categoria>(HttpStatus.CONFLICT);
+			return new ResponseEntity<Categoria>(HttpStatus.NO_CONTENT);
 		else
 			return new ResponseEntity<Categoria>(categoriaServiceImpl.findById(id),HttpStatus.OK);
 	}
@@ -46,7 +48,7 @@ public class CategoriaAdmController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
 		if(categoriaServiceImpl.findById(id)==null)
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		else {
 			categoriaServiceImpl.remove(categoriaServiceImpl.findById(id));
 			return new ResponseEntity<Void>(HttpStatus.OK);
@@ -66,10 +68,10 @@ public class CategoriaAdmController {
 		}
 	}
 	
-	@PutMapping("/edit/")
+	@PostMapping("/edit/")
 	public ResponseEntity<Void> edit(Integer id, String nombre, String descripcion) {
 		if (categoriaServiceImpl.findById(id) == null) {
-			return new ResponseEntity<Void> (HttpStatus.CONFLICT);
+			return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
 		} else {
 			Categoria categoria = categoriaServiceImpl.findById(id);
 			categoria.setNombre(nombre);
