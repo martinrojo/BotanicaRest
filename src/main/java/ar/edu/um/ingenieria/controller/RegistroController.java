@@ -1,6 +1,7 @@
 package ar.edu.um.ingenieria.controller;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,23 +26,24 @@ public class RegistroController {
 	private RolServiceImpl rolServiceImpl;
 
 	@PostMapping
-	public ResponseEntity<Void> agregar(Usuario usuario, Persona persona) 
+	public ResponseEntity<Void> agregar(String apellido, String nombre, Date fechaNacimiento, String email,
+			String user, String password) 
 	{
-		if (usuarioRepository.findUsermail(usuario.getEmail()) == null) 
+		if (usuarioRepository.findUsermail(email) == null) 
 		{
-			if (usuarioRepository.findUsername(usuario.getUser()) == null) 
+			if (usuarioRepository.findUsername(user) == null) 
 			{
 			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-3:00"));
-			long tiempoActual = calendar.getTimeInMillis()-10800000;
-			calendar.set(1992, 10, 22);
-				persona.setApellido("Bruseghini");
-				persona.setNombre("Alvaro");
-				persona.setFechaNacimiento(calendar.getTime());
-				usuario.setEmail("bruseghini_92@live.com.ar");
-				usuario.setUser("Alvaro92");
-				usuario.setPassword("123456789");
+			calendar.add(Calendar.HOUR, -3);
+			Usuario usuario = new Usuario();
+			Persona persona = new Persona();
+				persona.setApellido(apellido);
+				persona.setNombre(nombre);
+				persona.setFechaNacimiento(fechaNacimiento);
+				usuario.setEmail(email);
+				usuario.setUser(user);
+				usuario.setPassword(password);
 				usuario.setRol(rolServiceImpl.findById(2));
-				calendar.setTimeInMillis(tiempoActual);
 				usuario.setLastPasswordResetDate(calendar.getTime());
 				persona.setUsuario(usuario);
 				usuarioServiceImpl.create(persona, usuario);
