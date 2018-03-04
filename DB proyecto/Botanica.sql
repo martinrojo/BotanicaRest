@@ -134,7 +134,7 @@ CREATE TABLE `personas` (
   PRIMARY KEY (`id`),
   KEY `fk_personas_user_idx` (`usuarios_id`),
   CONSTRAINT `fk_personas_user` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +143,7 @@ CREATE TABLE `personas` (
 
 LOCK TABLES `personas` WRITE;
 /*!40000 ALTER TABLE `personas` DISABLE KEYS */;
-INSERT INTO `personas` VALUES (1,'ascurra','daiana','1989-12-12',1),(2,'padilla','perla','1995-01-15',2),(3,'rojo','martin','1996-01-13',3),(4,'romani','matias','1992-02-15',4),(5,'nosecomoseescribe','alvaro','1990-03-05',5),(6,'sabio','leandro','1995-05-12',6),(7,'giandinoto','ramiro','1989-10-20',7),(8,'Bruseghini','Alvaro','1992-11-22',8);
+INSERT INTO `personas` VALUES (1,'ascurra','daiana','1989-12-12',1),(2,'padilla','perla','1995-01-15',2),(3,'rojo','martin','1996-01-13',3),(4,'romani','matias','1992-02-15',4),(5,'nosecomoseescribe','alvaro','1990-03-05',5),(6,'sabio','leandro','1995-05-12',6),(7,'giandinoto','ramiro','1989-10-20',7),(8,'Bruseghini','Alvaro','1992-11-22',8),(9,'Bruseghini','Alvaro','1992-11-22',9);
 /*!40000 ALTER TABLE `personas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -260,6 +260,7 @@ CREATE TABLE `seguimientos` (
   `fecha_inicio` date DEFAULT NULL,
   `fecha_abono` date DEFAULT NULL,
   `fecha_poda` date DEFAULT NULL,
+  `fecha_cosecha` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_seguim_user_idx` (`usuario_id`),
   KEY `fk_seguim_planta_idx` (`planta_id`),
@@ -279,7 +280,7 @@ CREATE TABLE `seguimientos` (
 
 LOCK TABLES `seguimientos` WRITE;
 /*!40000 ALTER TABLE `seguimientos` DISABLE KEYS */;
-INSERT INTO `seguimientos` VALUES (1,1,6,1,1,1,'2017-10-05 05:00:00','2017-10-05 05:00:00',NULL,NULL,NULL),(2,2,4,1,1,1,'2017-10-05 05:00:00','2017-10-05 05:00:00',NULL,NULL,NULL),(3,8,2,1,4,9,'2018-03-02 08:25:57','2018-03-02 13:25:57','2018-03-02','2018-03-02','2018-03-02');
+INSERT INTO `seguimientos` VALUES (1,1,6,1,1,1,'2017-10-05 05:00:00','2017-10-05 05:00:00',NULL,NULL,NULL,NULL),(2,2,4,1,1,1,'2017-10-05 05:00:00','2017-10-05 05:00:00',NULL,NULL,NULL,NULL),(3,8,1,1,3,8,'2018-03-04 02:52:14','2018-03-04 12:52:14','2018-02-02','2018-03-04','2019-03-04','2019-03-04');
 /*!40000 ALTER TABLE `seguimientos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -464,7 +465,7 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `user_UNIQUE` (`user`),
   KEY `fk_usuarios_rol` (`roles_id`),
   CONSTRAINT `fk_usuarios_rol` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -473,7 +474,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'1234','day','day@gmail',2,'2018-03-02'),(2,'2345','perlis','perlis@gmail',1,'2018-03-02'),(3,'3456','tincho','tincho@gmail',2,'2018-03-02'),(4,'7890','mati','mati@gmail',3,'2018-03-02'),(5,'0123','lea','lea@gmail',2,'2018-03-02'),(6,'4567','alvarito','alvarito@gmail',3,'2018-03-02'),(7,'4567','rami','rami@gmail',2,'2018-03-02'),(8,'$2a$10$X.a2LYY9A7zDRY0sDSyNXe0E0qmtNtKfIOdn2y.k0MCIGgxhMsyDi','Alvaro92','bruseghini_92@live.com.ar',2,'2018-03-01');
+INSERT INTO `usuarios` VALUES (1,'1234','day','day@gmail',2,'2018-03-02'),(2,'2345','perlis','perlis@gmail',1,'2018-03-02'),(3,'3456','tincho','tincho@gmail',2,'2018-03-02'),(4,'7890','mati','mati@gmail',3,'2018-03-02'),(5,'0123','lea','lea@gmail',2,'2018-03-02'),(6,'4567','alvarito','alvarito@gmail',3,'2018-03-02'),(7,'4567','rami','rami@gmail',2,'2018-03-02'),(8,'$2a$10$X.a2LYY9A7zDRY0sDSyNXe0E0qmtNtKfIOdn2y.k0MCIGgxhMsyDi','Alvaro92','bruseghini_92@live.com.ar',2,'2018-03-01'),(9,'$2a$10$i1yHBZlFTKwUvIVWPcwPiOgeZaW8xqudKizT6CvjBuTxZB/s/hQ4.','Admin','bruseghini_92@live.com.ar',1,'2018-03-04');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -519,4 +520,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-02 11:30:03
+-- Dump completed on 2018-03-04  5:55:54
