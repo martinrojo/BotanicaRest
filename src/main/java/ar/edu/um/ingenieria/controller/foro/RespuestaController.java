@@ -88,7 +88,7 @@ public class RespuestaController {
 			respuesta.setUsuario(usuarioServiceImpl.findById(idUsuario));
 			respuesta.setTema(temaServiceImpl.findById(idTema));
 			respuestaServiceImpl.update(respuesta);
-			logger.info("Respueta actualizada con exito:" + respuesta);
+			logger.info("Respueta actualizada con exito: " + respuesta);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 	}
@@ -99,8 +99,8 @@ public class RespuestaController {
 			logger.info("No existe la respuesta de ID:" + id);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
-		respuestaServiceImpl.remove(respuestaServiceImpl.findById(id));
 		logger.info("Respuesta borrado con exito:" + respuestaServiceImpl.findById(id));
+		respuestaServiceImpl.remove(respuestaServiceImpl.findById(id));
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	

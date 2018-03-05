@@ -66,7 +66,6 @@ public class TemaController {
 	@PostMapping
 	public ResponseEntity<Void> insert(String titulo, Integer idUsuario, Boolean cerrado, String texto, Integer idCategoria, String fecha) throws ParseException{
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		System.out.println(titulo + idCategoria + idUsuario + cerrado + texto + fecha );
 		Tema tema = new Tema();
 		tema.setTitulo(titulo);
 		tema.setUsuario(usuarioServiceImpl.findById(idUsuario));
@@ -74,7 +73,6 @@ public class TemaController {
 		tema.setTexto(texto);
 		tema.setCategoria(categoriaServiceImpl.findById(idCategoria));
 		Date date = simpleDateFormat.parse(fecha);
-		System.out.println("\n\n\n\n" + date);
 		tema.setFecha(date);
 		temaServiceImpl.create(tema);
 		logger.info("Tema creado con exito:" + tema);
