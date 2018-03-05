@@ -3,10 +3,13 @@ package ar.edu.um.ingenieria.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +36,14 @@ private static final Logger logger = LoggerFactory.getLogger(UsuarioController.c
 		logger.info("datos de usuario: {}", usuarioServiceImpl.findById(usuarioSecurityServiceImpl.GetIdUser()));
 	    return usuarioServiceImpl.findById(usuarioSecurityServiceImpl.GetIdUser());
     }
+	
+	@PostMapping("/password_update")
+	public ResponseEntity<Void> agregar(String password) {
+		Usuario usuario = usuarioServiceImpl.findById(usuarioSecurityServiceImpl.GetIdUser());
+		usuario.setPassword(password);
+		usuarioServiceImpl.update(usuario);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 	
 	@PutMapping(value = "/{id}")
     public Usuario update(@RequestBody Usuario usuario, @PathVariable Integer id) {

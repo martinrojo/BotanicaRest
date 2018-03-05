@@ -67,7 +67,8 @@ public class UsuarioAdmController {
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<Void> agregar(String password, String user, String email, Integer roles_id,Usuario usuario) {
+	public ResponseEntity<Void> agregar(String password, String user, String email, Integer roles_id,Integer idUsuario) {
+		Usuario usuario = usuarioServiceImpl.findById(idUsuario);
 		usuario.setPassword(password);
 		usuario.setUser(user);
 		usuario.setEmail(email);

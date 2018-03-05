@@ -25,7 +25,7 @@ public class TipoPlantaAdmController {
 	@Autowired
 	private TipoPlantaServiceImpl tipoPlantaServiceImpl;
 	
-	private static final Logger logger = Logger.getLogger(TipoPlantaServiceImpl.class);
+	private static final Logger logger = Logger.getLogger(TipoPlantaAdmController.class);
 
 	@GetMapping
 	public List<TipoPlanta> indexPage()

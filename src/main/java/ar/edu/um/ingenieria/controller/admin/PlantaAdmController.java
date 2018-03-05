@@ -42,7 +42,7 @@ public class PlantaAdmController {
 	@Autowired
 	private TipoPlantaServiceImpl tipoPlantaServiceImpl;
 	
-	private static final Logger logger = Logger.getLogger(PlantaServiceImpl.class);
+	private static final Logger logger = Logger.getLogger(PlantaAdmController.class);
 
 	@GetMapping
 	public List<Planta> indexPage()
