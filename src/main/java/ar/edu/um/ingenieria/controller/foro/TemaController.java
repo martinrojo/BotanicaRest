@@ -77,7 +77,6 @@ public class TemaController {
 		tema.setTexto(texto);
 		tema.setCategoria(categoriaServiceImpl.findById(idCategoria));
 		Date date = simpleDateFormat.parse(fecha);
-		System.out.println("\n\n\n\n" + date);
 		tema.setFecha(date);
 		temaServiceImpl.create(tema);
 		logger.info("Tema creado con exito:" + tema);

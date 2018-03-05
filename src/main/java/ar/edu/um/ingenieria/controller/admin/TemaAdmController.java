@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,15 +35,20 @@ public class TemaAdmController {
 	@Autowired
 	private CategoriaServiceImpl categoriaServiceImpl;
 	
+	private static final Logger logger = Logger.getLogger(TemaServiceImpl.class);
+	
 	@GetMapping("/leer/{id}")
 	public ResponseEntity<List<Tema>> findByCategoria(@PathVariable Integer id){
 		if (categoriaServiceImpl.findById(id) == null) {
+			logger.info("No existe la categoria de ID:" + id);
 			return new ResponseEntity<List<Tema>>(HttpStatus.NO_CONTENT);
 		}else {
 			Categoria categoria = categoriaServiceImpl.findById(id);
 			if(categoria.getTemas() == null) {
+				logger.info("No hay temas en la categoria de ID:" + id);
 				new ResponseEntity<List<Tema>>(HttpStatus.NO_CONTENT);
 			}
+			logger.info("Datos tema:" + categoria.getTemas());
 			return new ResponseEntity<List<Tema>>(categoria.getTemas(), HttpStatus.OK);
 		}		
 	}
@@ -50,8 +56,10 @@ public class TemaAdmController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Tema> findById(@PathVariable Integer id) {
 		if(temaServiceImpl.findById(id)==null) {
+			logger.info("No existe el tema de ID:" + id);
 			return new ResponseEntity<Tema>(HttpStatus.NO_CONTENT);
 		}
+		logger.info("Datos tema:" + temaServiceImpl.findById(id));
 		return new ResponseEntity<Tema>(temaServiceImpl.findById(id),HttpStatus.OK);
 	}
 
@@ -67,12 +75,14 @@ public class TemaAdmController {
 		Date date = simpleDateFormat.parse(fecha);
 		tema.setFecha(date);
 		temaServiceImpl.create(tema);
+		logger.info("Tema creado con exito:" + tema);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	@PostMapping("/edit")
 	public ResponseEntity<Void> edit(String titulo, Integer idUsuario, Boolean cerrado, String texto, Integer idCategoria, String fecha, Integer id) throws ParseException{
 		if (temaServiceImpl.findById(id) == null) {
+			logger.info("No existe el tema de ID:" + id);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -84,15 +94,43 @@ public class TemaAdmController {
 		tema.setCategoria(categoriaServiceImpl.findById(idCategoria));
 		tema.setFecha(simpleDateFormat.parse(fecha));
 		temaServiceImpl.create(tema);
+		logger.info("Tema actualizado con exito:" + tema);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void>  delete(@PathVariable Integer id) {
+		if(temaServiceImpl.findById(id)==null) {
+			logger.info("No existe el tema de ID:" + id);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		logger.info("Tema borrado con exito:" + temaServiceImpl.findById(id));
+		temaServiceImpl.remove(temaServiceImpl.findById(id));
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@GetMapping("/close/{id}")
+	public ResponseEntity<Void>  close(@PathVariable Integer id) {
 		if(temaServiceImpl.findById(id)==null)
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		else {
-			temaServiceImpl.remove(temaServiceImpl.findById(id));
+			Tema tema = temaServiceImpl.findById(id);
+			tema.setCerrado(true);
+			logger.info("Tema cerrado con exito:" + temaServiceImpl.findById(id).getId());
+			temaServiceImpl.update(temaServiceImpl.findById(id));
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/open/{id}")
+	public ResponseEntity<Void>  open(@PathVariable Integer id) {
+		if(temaServiceImpl.findById(id)==null)
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		else {
+			Tema tema = temaServiceImpl.findById(id);
+			tema.setCerrado(false);
+			logger.info("Tema abierto con exito:" + temaServiceImpl.findById(id).getId());
+			temaServiceImpl.update(temaServiceImpl.findById(id));
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 	}

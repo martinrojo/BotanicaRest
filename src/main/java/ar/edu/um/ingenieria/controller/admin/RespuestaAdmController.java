@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,16 +35,21 @@ public class RespuestaAdmController {
 	
 	@Autowired
 	private TemaServiceImpl temaServiceImpl;
+	
+	private static final Logger logger = Logger.getLogger(RespuestaServiceImpl.class);
 
 	@GetMapping("/leer/{id}")
 	public ResponseEntity<List<Respuesta>> findByTema(@PathVariable Integer id) {
 		if (temaServiceImpl.findById(id) == null) {
+			logger.info("No existe el tema de ID:" + id);
 			return new ResponseEntity<List<Respuesta>>(respuestaServiceImpl.findAll(), HttpStatus.OK);
 		} else {
 			Tema tema = temaServiceImpl.findById(id);
 			if(tema.getRespuestas() == null) {
+				logger.info("No hay respuestas en el tema de ID:" + id);
 				new ResponseEntity<List<Respuesta>>(HttpStatus.CONFLICT);
 			}
+			logger.info("Datos tema:" + tema.getRespuestas());
 			return new ResponseEntity<List<Respuesta>>(tema.getRespuestas(), HttpStatus.OK);
 		}
 	}
@@ -51,8 +57,10 @@ public class RespuestaAdmController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Respuesta> findById(@PathVariable Integer id) {
 		if(respuestaServiceImpl.findById(id) == null) {
+			logger.info("No existe la respuesta de ID:" + id);
 			return new ResponseEntity<Respuesta>(HttpStatus.CONFLICT);
 		}
+		logger.info("Datos respuesta:" + respuestaServiceImpl.findById(id));
 		return new ResponseEntity<Respuesta>(respuestaServiceImpl.findById(id),HttpStatus.OK);
 	}
 
@@ -65,6 +73,7 @@ public class RespuestaAdmController {
 		respuesta.setUsuario(usuarioServiceImpl.findById(idUsuario));
 		respuesta.setTema(temaServiceImpl.findById(idTema));
 		respuestaServiceImpl.create(respuesta);
+		logger.info("Respueta creada con exito:" + respuesta);
 		return new ResponseEntity<Void> (HttpStatus.OK);
 	}
 	
@@ -72,6 +81,7 @@ public class RespuestaAdmController {
 	public ResponseEntity<Void> edit(Integer id, String texto, Integer idTema, Integer idUsuario, String fecha) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		if (respuestaServiceImpl.findById(id) == null) {
+			logger.info("No existe la respuesta de ID:" + id);
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		} else {
 			Respuesta respuesta = respuestaServiceImpl.findById(id);
@@ -80,6 +90,7 @@ public class RespuestaAdmController {
 			respuesta.setUsuario(usuarioServiceImpl.findById(idUsuario));
 			respuesta.setTema(temaServiceImpl.findById(idTema));
 			respuestaServiceImpl.update(respuesta);
+			logger.info("Respueta actualizada con exito: " + respuesta);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 	}
@@ -87,8 +98,10 @@ public class RespuestaAdmController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		if(respuestaServiceImpl.findById(id) == null) {
+			logger.info("No existe la respuesta de ID:" + id);
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
+		logger.info("Respuesta borrado con exito:" + respuestaServiceImpl.findById(id));
 		respuestaServiceImpl.remove(respuestaServiceImpl.findById(id));
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
