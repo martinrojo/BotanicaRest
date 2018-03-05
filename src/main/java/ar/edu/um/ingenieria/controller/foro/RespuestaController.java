@@ -20,6 +20,7 @@ import ar.edu.um.ingenieria.domain.Respuesta;
 import ar.edu.um.ingenieria.domain.Tema;
 import ar.edu.um.ingenieria.service.impl.RespuestaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.TemaServiceImpl;
+import ar.edu.um.ingenieria.service.impl.UsuarioSecurityServiceImpl;
 import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 
 @RestController
@@ -33,6 +34,8 @@ public class RespuestaController {
 	private TemaServiceImpl temaServiceImpl;
 	@Autowired
 	private UsuarioServiceImpl usuarioServiceImpl;
+	@Autowired
+	private UsuarioSecurityServiceImpl usuarioSecurity;
 	
 	private static final Logger logger = Logger.getLogger(RespuestaServiceImpl.class);
 	
@@ -63,12 +66,12 @@ public class RespuestaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> create(String texto, Integer idTema, Integer idUsuario, String fecha) throws ParseException {
+	public ResponseEntity<Void> create(String texto, Integer idTema, String fecha) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Respuesta respuesta = new Respuesta();
 		respuesta.setTexto(texto);
 		respuesta.setFecha(simpleDateFormat.parse(fecha));
-		respuesta.setUsuario(usuarioServiceImpl.findById(idUsuario));
+		respuesta.setUsuario(usuarioServiceImpl.findById(usuarioSecurity.GetIdUser()));
 		respuesta.setTema(temaServiceImpl.findById(idTema));
 		respuestaServiceImpl.create(respuesta);
 		logger.info("Respueta creada con exito:" + respuesta);
@@ -85,10 +88,10 @@ public class RespuestaController {
 			Respuesta respuesta = respuestaServiceImpl.findById(id);
 			respuesta.setTexto(texto);
 			respuesta.setFecha(simpleDateFormat.parse(fecha));
-			respuesta.setUsuario(usuarioServiceImpl.findById(idUsuario));
+			respuesta.setUsuario(usuarioServiceImpl.findById(usuarioSecurity.GetIdUser()));
 			respuesta.setTema(temaServiceImpl.findById(idTema));
 			respuestaServiceImpl.update(respuesta);
-			logger.info("Respueta actualizada con exito:" + respuesta);
+			logger.info("Respueta actualizada con exito: " + respuesta);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 	}
@@ -99,8 +102,8 @@ public class RespuestaController {
 			logger.info("No existe la respuesta de ID:" + id);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
-		respuestaServiceImpl.remove(respuestaServiceImpl.findById(id));
 		logger.info("Respuesta borrado con exito:" + respuestaServiceImpl.findById(id));
+		respuestaServiceImpl.remove(respuestaServiceImpl.findById(id));
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
