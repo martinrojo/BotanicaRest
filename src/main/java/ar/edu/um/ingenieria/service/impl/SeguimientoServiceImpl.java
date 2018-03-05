@@ -11,8 +11,8 @@ import ar.edu.um.ingenieria.domain.Seguimiento;
 import ar.edu.um.ingenieria.domain.Tarea;
 
 @Service
-public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
-	
+public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer> {
+
 	@Autowired
 	private UsuarioServiceImpl usuarioServiceImpl;
 	@Autowired
@@ -25,7 +25,7 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 	private EtapaServiceImpl etapaServiceImpl;
 	@Autowired
 	private TareaServiceImpl tareaServiceImpl;
-	
+
 	@Override
 	public Seguimiento create(Seguimiento entity) {
 		// TODO Auto-generated method stub
@@ -55,17 +55,16 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 		// TODO Auto-generated method stub
 		return super.findAll();
 	}
-	
+
 	public void create(Integer usuario, Integer planta, Integer estado) {
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
-		calendar.add(Calendar.HOUR, -3);
+		calendar.add(Calendar.HOUR, -3); // para cambiar la hora de argentina
 		Seguimiento seguimiento = new Seguimiento();
-		if (estado == 1)
-		{
-		seguimiento.setEtapa(etapaServiceImpl.findById(1));
-		seguimiento.setTarea(tareaServiceImpl.findById(1));
-		seguimiento.setEstado(estadoServiceImpl.findById(estado));
-		} else if (estado == 2){
+		if (estado == 1) {
+			seguimiento.setEtapa(etapaServiceImpl.findById(1));
+			seguimiento.setTarea(tareaServiceImpl.findById(1));
+			seguimiento.setEstado(estadoServiceImpl.findById(estado));
+		} else if (estado == 2) {
 			seguimiento.setEtapa(etapaServiceImpl.findById(6));
 			seguimiento.setTarea(tareaServiceImpl.findById(7));
 			seguimiento.setEstado(estadoServiceImpl.findById(estado));
@@ -79,17 +78,16 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 		calendar.add(Calendar.YEAR, -3);
 		calendar.add(Calendar.MONTH, 1);
 		seguimiento.setFechaAbono(calendar.getTime());
-		calendar.add(Calendar.MONTH, -1);
-		calendar.add(Calendar.MONTH, 6);
+		calendar.add(Calendar.MONTH, 5);
 		seguimiento.setFechaPoda(calendar.getTime());
 		calendar.add(Calendar.MONTH, -6);
 		calendar.add(Calendar.HOUR, seguimiento.getPlanta().getTiempoRiego().getHours());
 		seguimiento.setProximoRiego(calendar.getTime());
 		seguimientoServiceImpl.create(seguimiento);
 	}
-	
-	public void update (Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa,Integer seguimiento)
-	{
+
+	public void update(Integer usuario, Integer planta, Integer estado, Integer tarea, Integer etapa,
+			Integer seguimiento) {
 		Seguimiento nativeSeguimiento = seguimientoServiceImpl.findById(seguimiento);
 		nativeSeguimiento.setUsuario(usuarioServiceImpl.findById(usuario));
 		nativeSeguimiento.setTarea(tareaServiceImpl.findById(tarea));
@@ -98,8 +96,8 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 		nativeSeguimiento.setPlanta(plantaServiceImpl.findById(planta));
 		seguimientoServiceImpl.create(nativeSeguimiento);
 	}
-	
-	public void regar (Integer seguimiento_id) {
+
+	public void regar(Integer seguimiento_id) {
 		Seguimiento seguimiento = seguimientoServiceImpl.findById(seguimiento_id);
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-3:00"));
 		calendar.add(Calendar.HOUR, -3);
@@ -107,9 +105,10 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 		Tarea tarea = seguimiento.getTarea();
 		List<Tarea> tareas = seguimiento.getEtapa().getTareas();
 		List<Etapa> etapas = seguimiento.getEstado().getEtapas();
-		seguimiento.setUltimoRiego(calendar.getTime());
-		calendar.add(Calendar.HOUR, seguimiento.getPlanta().getTiempoRiego().getHours());
-		seguimiento.setProximoRiego(calendar.getTime());
+		seguimiento.setUltimoRiego(calendar.getTime()); // guarda el ultimo riego
+		calendar.add(Calendar.HOUR, seguimiento.getPlanta().getTiempoRiego().getHours()); // guarda en calendar el
+																							// tiempo de la planta
+		seguimiento.setProximoRiego(calendar.getTime()); // setea el proximo riego
 		calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-3:00"));
 		calendar.add(Calendar.HOUR, -3);
 		Calendar abono = Calendar.getInstance();
@@ -117,89 +116,96 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 		abono.add(Calendar.MONTH, 1);
 		Calendar poda = Calendar.getInstance();
 		poda.setTime(seguimiento.getFechaPoda());
-		abono.add(Calendar.YEAR, 1);
+		poda.add(Calendar.YEAR, 1);
 		Calendar cosecha = Calendar.getInstance();
 		cosecha.setTime(seguimiento.getFechaCosecha());
 		cosecha.add(Calendar.MONTH, 6);
-		if (abono.before(calendar) && tareas.indexOf(seguimiento.getTarea()) < seguimiento.getEtapa().getTareas().size()) {
-			seguimiento.setTarea(tareas.get(tareas.indexOf(tarea)+1));
-		} else if(poda.before(calendar) && seguimiento.getEtapa().getId() == 3){
-			seguimiento.setEtapa(etapas.get(etapas.indexOf(etapaServiceImpl.findById(etapaActual))+1));
-			seguimiento.setTarea(seguimiento.getEtapa().getTareas().get(0));
+		if (abono.before(calendar)
+				&& tareas.indexOf(seguimiento.getTarea()) < seguimiento.getEtapa().getTareas().size()) {
+			seguimiento.setTarea(tareas.get(tareas.indexOf(tarea) + 1));
+		} else if (poda.before(calendar) && seguimiento.getEtapa().getId() == 3) { // 3 = finalizado
+			seguimiento.setEtapa(etapas.get(etapas.indexOf(etapaServiceImpl.findById(etapaActual)) + 1)); // seteo la
+																											// nueva
+																											// etapa ya
+																											// que
+																											// terminó
+			seguimiento.setTarea(seguimiento.getEtapa().getTareas().get(0)); // seteo la primer tarea de la nueva etapa
 			seguimientoServiceImpl.create(seguimiento);
-		}else if(cosecha.before(calendar) && seguimiento.getEtapa().getId() == 3 && seguimiento.getPlanta().getTipo().getId() == 1
-				|| cosecha.before(calendar) && seguimiento.getEtapa().getId() == 3 && seguimiento.getPlanta().getTipo().getId() == 2){
+		} else if (cosecha.before(calendar) && seguimiento.getEtapa().getId() == 3
+				&& seguimiento.getPlanta().getTipo().getId() == 1
+				|| cosecha.before(calendar) && seguimiento.getEtapa().getId() == 3
+						&& seguimiento.getPlanta().getTipo().getId() == 2) {
 			seguimiento.setEtapa(etapaServiceImpl.findById(5));
 			seguimiento.setTarea(seguimiento.getEtapa().getTareas().get(0));
 			seguimientoServiceImpl.create(seguimiento);
-		}else {
+		} else {
 			Integer index = seguimiento.getEtapa().getTareas().indexOf(tarea);
 			seguimiento.setTarea(tareas.get(index));
 		}
 		seguimientoServiceImpl.create(seguimiento);
 	}
-	
-	public void sueloPreparado (Integer seguimiento_id) {
+
+	public void sueloPreparado(Integer seguimiento_id) {
 		Seguimiento seguimiento = seguimientoServiceImpl.findById(seguimiento_id);
 		if (seguimiento.getTarea().getId() == 1) {
-		Integer tareaActual = seguimiento.getTarea().getId(), etapaActual = seguimiento.getEtapa().getId();
-		Tarea tarea = seguimiento.getTarea();
-		List<Tarea> tareas = seguimiento.getEtapa().getTareas();
-		Integer tamanio = seguimiento.getEtapa().getTareas().size()-1;
-		Integer ultimaTarea = tareas.get(tamanio).getId();
-		if (tareaActual == ultimaTarea) {
-			seguimiento.setEtapa(etapaServiceImpl.findById(etapaActual+1));
-			List<Tarea> tareasNew = etapaServiceImpl.findById(etapaActual+1).getTareas();
-			seguimiento.setTarea(tareasNew.get(1));
-		} else {
-			Integer index = seguimiento.getEtapa().getTareas().indexOf(tarea);
-			seguimiento.setTarea(tareas.get(index+1));
-		}
-		seguimientoServiceImpl.create(seguimiento);
+			Integer tareaActual = seguimiento.getTarea().getId(), etapaActual = seguimiento.getEtapa().getId();
+			Tarea tarea = seguimiento.getTarea();
+			List<Tarea> tareas = seguimiento.getEtapa().getTareas();
+			Integer tamanio = seguimiento.getEtapa().getTareas().size() - 1;
+			Integer ultimaTarea = tareas.get(tamanio).getId();
+			if (tareaActual == ultimaTarea) {
+				seguimiento.setEtapa(etapaServiceImpl.findById(etapaActual + 1));
+				List<Tarea> tareasNew = etapaServiceImpl.findById(etapaActual + 1).getTareas();
+				seguimiento.setTarea(tareasNew.get(1));
+			} else {
+				Integer index = seguimiento.getEtapa().getTareas().indexOf(tarea);
+				seguimiento.setTarea(tareas.get(index + 1));
+			}
+			seguimientoServiceImpl.create(seguimiento);
 		}
 	}
-	
-	public void sembrado (Integer seguimiento_id) {
+
+	public void sembrado(Integer seguimiento_id) {
 		Seguimiento seguimiento = seguimientoServiceImpl.findById(seguimiento_id);
 		if (seguimiento.getTarea().getId() == 2) {
-		Integer tareaActual = seguimiento.getTarea().getId(), etapaActual = seguimiento.getEtapa().getId();
-		Tarea tarea = seguimiento.getTarea();
-		List<Tarea> tareas = seguimiento.getEtapa().getTareas();
-		Integer tamanio = seguimiento.getEtapa().getTareas().size()-1;
-		Integer ultimaTarea = tareas.get(tamanio).getId();
-		if (tareaActual == ultimaTarea) {
-			seguimiento.setEtapa(etapaServiceImpl.findById(etapaActual+1));
-			List<Tarea> tareasNew = etapaServiceImpl.findById(etapaActual+1).getTareas();
-			seguimiento.setTarea(tareasNew.get(1));
-		} else {
-			Integer index = seguimiento.getEtapa().getTareas().indexOf(tarea);
-			seguimiento.setTarea(tareas.get(index+1));
-		}
-		seguimientoServiceImpl.create(seguimiento);
+			Integer tareaActual = seguimiento.getTarea().getId(), etapaActual = seguimiento.getEtapa().getId();
+			Tarea tarea = seguimiento.getTarea();
+			List<Tarea> tareas = seguimiento.getEtapa().getTareas();
+			Integer tamanio = seguimiento.getEtapa().getTareas().size() - 1;
+			Integer ultimaTarea = tareas.get(tamanio).getId();
+			if (tareaActual == ultimaTarea) {
+				seguimiento.setEtapa(etapaServiceImpl.findById(etapaActual + 1));
+				List<Tarea> tareasNew = etapaServiceImpl.findById(etapaActual + 1).getTareas();
+				seguimiento.setTarea(tareasNew.get(1));
+			} else {
+				Integer index = seguimiento.getEtapa().getTareas().indexOf(tarea);
+				seguimiento.setTarea(tareas.get(index + 1));
+			}
+			seguimientoServiceImpl.create(seguimiento);
 		}
 	}
-	
-	public void transplantar (Integer seguimiento_id) {
+
+	public void transplantar(Integer seguimiento_id) {
 		Seguimiento seguimiento = seguimientoServiceImpl.findById(seguimiento_id);
 		if (seguimiento.getTarea().getId() == 3) {
-		Integer tareaActual = seguimiento.getTarea().getId(), etapaActual = seguimiento.getEtapa().getId();
-		Tarea tarea = seguimiento.getTarea();
-		List<Tarea> tareas = seguimiento.getEtapa().getTareas();
-		Integer tamanio = seguimiento.getEtapa().getTareas().size()-1;
-		Integer ultimaTarea = tareas.get(tamanio).getId();
-		if (tareaActual == ultimaTarea) {
-			seguimiento.setEtapa(etapaServiceImpl.findById(etapaActual+1));
-			List<Tarea> tareasNew = etapaServiceImpl.findById(etapaActual+1).getTareas();
-			seguimiento.setTarea(tareasNew.get(1));
-		} else {
-			Integer index = seguimiento.getEtapa().getTareas().indexOf(tarea);
-			seguimiento.setTarea(tareas.get(index+1));
-		}
-		seguimientoServiceImpl.create(seguimiento);
+			Integer tareaActual = seguimiento.getTarea().getId(), etapaActual = seguimiento.getEtapa().getId();
+			Tarea tarea = seguimiento.getTarea();
+			List<Tarea> tareas = seguimiento.getEtapa().getTareas();
+			Integer tamanio = seguimiento.getEtapa().getTareas().size() - 1;
+			Integer ultimaTarea = tareas.get(tamanio).getId();
+			if (tareaActual == ultimaTarea) {
+				seguimiento.setEtapa(etapaServiceImpl.findById(etapaActual + 1));
+				List<Tarea> tareasNew = etapaServiceImpl.findById(etapaActual + 1).getTareas();
+				seguimiento.setTarea(tareasNew.get(1));
+			} else {
+				Integer index = seguimiento.getEtapa().getTareas().indexOf(tarea);
+				seguimiento.setTarea(tareas.get(index + 1));
+			}
+			seguimientoServiceImpl.create(seguimiento);
 		}
 	}
-	
-	public void abonar (Integer seguimiento_id) {
+
+	public void abonar(Integer seguimiento_id) {
 		Seguimiento seguimiento = seguimientoServiceImpl.findById(seguimiento_id);
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
 		Calendar timeNow = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
@@ -209,55 +215,54 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 		List<Etapa> etapas = seguimiento.getEstado().getEtapas();
 		Integer etapaActual = seguimiento.getEtapa().getId();
 		if (seguimiento.getTarea().getId() == 11 || seguimiento.getTarea().getId() == 12) {
-			seguimiento.setEtapa(etapas.get(etapas.indexOf(etapaServiceImpl.findById(etapaActual))+1));
+			seguimiento.setEtapa(etapas.get(etapas.indexOf(etapaServiceImpl.findById(etapaActual)) + 1));
 			seguimiento.setTarea(seguimiento.getEtapa().getTareas().get(0));
 			seguimiento.setFechaAbono(timeNow.getTime());
 			seguimientoServiceImpl.create(seguimiento);
-		} else if (seguimiento.getTarea().getId() == 13){
+		} else if (seguimiento.getTarea().getId() == 13) {
 			seguimiento.setTarea(tareaServiceImpl.findById(8));
 			seguimiento.setFechaAbono(timeNow.getTime());
 			seguimientoServiceImpl.create(seguimiento);
 		}
 	}
-	
-	public void podar (Integer seguimiento_id) {
+
+	public void podar(Integer seguimiento_id) {
 		Seguimiento seguimiento = seguimientoServiceImpl.findById(seguimiento_id);
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
 		if (seguimiento.getTarea().getId() == 4 && seguimiento.getEtapa().getId() == 4) {
-		seguimiento.setFechaPoda(calendar.getTime());
-		calendar.add(Calendar.YEAR, 1);
-		if (seguimiento.getTarea().getId() == 4) {
-			seguimiento.setEtapa(etapaServiceImpl.findById(3));
-			seguimiento.setTarea(tareaServiceImpl.findById(8));
 			seguimiento.setFechaPoda(calendar.getTime());
+			calendar.add(Calendar.YEAR, 1);
+			if (seguimiento.getTarea().getId() == 4) {
+				seguimiento.setEtapa(etapaServiceImpl.findById(3));
+				seguimiento.setTarea(tareaServiceImpl.findById(8));
+				seguimiento.setFechaPoda(calendar.getTime());
+				seguimientoServiceImpl.create(seguimiento);
+			}
 			seguimientoServiceImpl.create(seguimiento);
-		} 
-		seguimientoServiceImpl.create(seguimiento);
 		}
 	}
-	
-	public void cosechar (Integer seguimiento_id) {
+
+	public void cosechar(Integer seguimiento_id) {
 		Seguimiento seguimiento = seguimientoServiceImpl.findById(seguimiento_id);
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
 		calendar.add(Calendar.HOUR, -3);
 		calendar.add(Calendar.YEAR, 1);
 		if (seguimiento.getEtapa().getId() == 5) {
-		seguimiento.setEtapa(etapaServiceImpl.findById(3));
-		seguimiento.setTarea(tareaServiceImpl.findById(8));
-		seguimiento.setFechaCosecha(calendar.getTime());
-		seguimientoServiceImpl.create(seguimiento);
+			seguimiento.setEtapa(etapaServiceImpl.findById(3));
+			seguimiento.setTarea(tareaServiceImpl.findById(8));
+			seguimiento.setFechaCosecha(calendar.getTime());
+			seguimientoServiceImpl.create(seguimiento);
 		}
 	}
-	
+
 	public void UpdateStatus(Integer idUser) {
 		List<Seguimiento> seguimientos = seguimientoServiceImpl.findByUser(idUser);
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
 		calendar.add(Calendar.HOUR, -3);
 		Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
 		fecha.add(Calendar.HOUR, -3);
-		calendar.add(Calendar.DATE,-10);
-		for (int i = 0; i < seguimientos.size();i++)
-		{
+		calendar.add(Calendar.DATE, -10);
+		for (int i = 0; i < seguimientos.size(); i++) {
 			if (seguimientos.get(i).getUltimoRiego().before(calendar.getTime())) {
 				seguimientos.get(i).setEstado(estadoServiceImpl.findById(3));
 			}
@@ -270,14 +275,13 @@ public class SeguimientoServiceImpl extends ServiceImpl<Seguimiento, Integer>{
 			}
 		}
 	}
-	
-	public List<Seguimiento> findByUser(Integer usuario)
-	{
+
+	public List<Seguimiento> findByUser(Integer usuario) {
 		return usuarioServiceImpl.findById(usuario).getSeguimiento();
 	}
 
 	public void delete(Integer id) {
-		Seguimiento seguimiento = seguimientoServiceImpl.findById(id);		
+		Seguimiento seguimiento = seguimientoServiceImpl.findById(id);
 		seguimientoServiceImpl.remove(seguimiento);
 	}
 }
