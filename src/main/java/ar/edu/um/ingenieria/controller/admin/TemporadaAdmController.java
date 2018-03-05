@@ -25,7 +25,7 @@ public class TemporadaAdmController {
 	@Autowired
 	private TemporadaServiceImpl temporadaServiceImpl;
 	
-	private static final Logger logger = Logger.getLogger(TemporadaServiceImpl.class);
+	private static final Logger logger = Logger.getLogger(TemporadaAdmController.class);
 
 	@GetMapping
 	public List<Temporada> indexPage()

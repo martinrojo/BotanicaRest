@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ar.edu.um.ingenieria.domain.Clima;
 import ar.edu.um.ingenieria.service.impl.ClimaServiceImpl;
-import ar.edu.um.ingenieria.service.impl.PlantaServiceImpl;
 
 @RestController
 @RequestMapping("/admin/climas")
@@ -26,7 +25,7 @@ public class ClimaAdmController {
 	@Autowired
 	private ClimaServiceImpl climaServiceImpl;
 	
-	private static final Logger logger = Logger.getLogger(PlantaServiceImpl.class);
+	private static final Logger logger = Logger.getLogger(ClimaAdmController.class);
 
 	@GetMapping
 	public List<Clima> indexPage()
