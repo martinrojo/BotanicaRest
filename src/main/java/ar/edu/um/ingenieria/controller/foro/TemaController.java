@@ -21,11 +21,12 @@ import ar.edu.um.ingenieria.domain.Categoria;
 import ar.edu.um.ingenieria.domain.Tema;
 import ar.edu.um.ingenieria.service.impl.CategoriaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.TemaServiceImpl;
+import ar.edu.um.ingenieria.service.impl.UsuarioSecurityServiceImpl;
 import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 
 @RestController
 @RequestMapping("/foro/tema")
-@Secured({"ROLE_USER" , "ROLE_VENDEDOR", "ROLE_ADMIN"})
+@Secured({ "ROLE_USER", "ROLE_VENDEDOR", "ROLE_ADMIN" })
 public class TemaController {
 
 	@Autowired
@@ -34,42 +35,44 @@ public class TemaController {
 	private UsuarioServiceImpl usuarioServiceImpl;
 	@Autowired
 	private CategoriaServiceImpl categoriaServiceImpl;
-	
+	@Autowired
+	private UsuarioSecurityServiceImpl usuarioSecurity;
+
 	private static final Logger logger = Logger.getLogger(TemaServiceImpl.class);
-	
+
 	@GetMapping("/leer/{id}")
-	public ResponseEntity<List<Tema>> findByCategoria(@PathVariable Integer id){
+	public ResponseEntity<List<Tema>> findByCategoria(@PathVariable Integer id) {
 		if (categoriaServiceImpl.findById(id) == null) {
 			logger.info("No existe la categoria de ID:" + id);
 			return new ResponseEntity<List<Tema>>(HttpStatus.CONFLICT);
-		}else {
+		} else {
 			Categoria categoria = categoriaServiceImpl.findById(id);
-			if(categoria.getTemas() == null) {
+			if (categoria.getTemas() == null) {
 				logger.info("No hay temas en la categoria de ID:" + id);
 				new ResponseEntity<List<Tema>>(HttpStatus.NO_CONTENT);
 			}
 			logger.info("Datos tema:" + categoria.getTemas());
 			return new ResponseEntity<List<Tema>>(categoria.getTemas(), HttpStatus.OK);
-		}		
+		}
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Tema> findById(@PathVariable Integer id){
+	public ResponseEntity<Tema> findById(@PathVariable Integer id) {
 		if (temaServiceImpl.findById(id) == null) {
 			logger.info("No existe el tema de ID:" + id);
 			return new ResponseEntity<Tema>(HttpStatus.NO_CONTENT);
 		}
 		logger.info("Datos tema:" + temaServiceImpl.findById(id));
-		return new ResponseEntity<Tema>(temaServiceImpl.findById(id),HttpStatus.OK);
+		return new ResponseEntity<Tema>(temaServiceImpl.findById(id), HttpStatus.OK);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<Void> insert(String titulo, Integer idUsuario, Boolean cerrado, String texto, Integer idCategoria, String fecha) throws ParseException{
+	public ResponseEntity<Void> insert(String titulo, Boolean cerrado, String texto, Integer idCategoria, String fecha)
+			throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		System.out.println(titulo + idCategoria + idUsuario + cerrado + texto + fecha );
 		Tema tema = new Tema();
 		tema.setTitulo(titulo);
-		tema.setUsuario(usuarioServiceImpl.findById(idUsuario));
+		tema.setUsuario(usuarioServiceImpl.findById(usuarioSecurity.GetIdUser()));
 		tema.setCerrado(cerrado);
 		tema.setTexto(texto);
 		tema.setCategoria(categoriaServiceImpl.findById(idCategoria));
@@ -78,11 +81,12 @@ public class TemaController {
 		tema.setFecha(date);
 		temaServiceImpl.create(tema);
 		logger.info("Tema creado con exito:" + tema);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
-	
+
 	@PostMapping("/edit")
-	public ResponseEntity<Void> edit(String titulo, Integer idUsuario, Boolean cerrado, String texto, Integer idCategoria, String fecha, Integer id) throws ParseException{
+	public ResponseEntity<Void> edit(String titulo, Boolean cerrado, String texto,
+			Integer idCategoria, String fecha, Integer id) throws ParseException {
 		if (temaServiceImpl.findById(id) == null) {
 			logger.info("No existe el tema de ID:" + id);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
@@ -90,18 +94,18 @@ public class TemaController {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Tema tema = temaServiceImpl.findById(id);
 		tema.setTitulo(titulo);
-		tema.setUsuario(usuarioServiceImpl.findById(idUsuario));
+		tema.setUsuario(usuarioServiceImpl.findById(usuarioSecurity.GetIdUser()));
 		tema.setCerrado(cerrado);
 		tema.setTexto(texto);
 		tema.setCategoria(categoriaServiceImpl.findById(idCategoria));
 		tema.setFecha(simpleDateFormat.parse(fecha));
 		temaServiceImpl.create(tema);
 		logger.info("Tema actualizado con exito:" + tema);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id){
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		if (temaServiceImpl.findById(id) == null) {
 			logger.info("No existe el tema de ID:" + id);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
