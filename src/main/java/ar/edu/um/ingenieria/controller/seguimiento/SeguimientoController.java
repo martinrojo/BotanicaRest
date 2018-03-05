@@ -65,6 +65,7 @@ public class SeguimientoController {
 		if (isEmpty == true)
 		{
 			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
+			calendar.add(Calendar.HOUR, -3);
 			calendar.set(2018, 10, 10, 12, 0, 0);
 			if (plantaServiceImpl.findById(planta).getTemporada().getFechaInicio().before(calendar.getTime()) && calendar.getTime().before(plantaServiceImpl.findById(planta).getTemporada().getFechaFin()) )
 			{
