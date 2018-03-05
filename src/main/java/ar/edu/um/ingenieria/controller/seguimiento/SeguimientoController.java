@@ -57,7 +57,9 @@ public class SeguimientoController {
 		boolean isEmpty = true;
 		for (int i = 0;i < seguimientos.size();i++)
 		{
-			if ((seguimientos.get(i).getUsuario().getId() == usuarioSecurityServiceImpl.GetIdUser()) && (seguimientos.get(i).getPlanta().getId() == planta) &&(seguimientos.get(i).getEstado().getId() == estado))
+			if ((seguimientos.get(i).getUsuario().getId() == usuarioSecurityServiceImpl.GetIdUser()) 
+					&& (seguimientos.get(i).getPlanta().getId() == planta) 
+					&& (seguimientos.get(i).getEstado().getId() == estado))
 					{
 				isEmpty = false;
 					}
