@@ -1,9 +1,8 @@
 package ar.edu.um.ingenieria.controller.admin;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import ar.edu.um.ingenieria.domain.Categoria;
 import ar.edu.um.ingenieria.domain.Tema;
 import ar.edu.um.ingenieria.service.impl.CategoriaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.TemaServiceImpl;
+import ar.edu.um.ingenieria.service.impl.UsuarioSecurityServiceImpl;
 import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 
 @RestController
@@ -34,6 +34,8 @@ public class TemaAdmController {
 	private UsuarioServiceImpl usuarioServiceImpl;
 	@Autowired
 	private CategoriaServiceImpl categoriaServiceImpl;
+	@Autowired
+	private UsuarioSecurityServiceImpl usuarioSecurity;
 	
 	private static final Logger logger = Logger.getLogger(TemaServiceImpl.class);
 	
@@ -64,38 +66,45 @@ public class TemaAdmController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> insert(String titulo, Integer idUsuario, Boolean cerrado, String texto, Integer idCategoria, String fecha) throws ParseException{
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	public ResponseEntity<Void> insert(String titulo, String texto, Integer idCategoria) {
+		if (categoriaServiceImpl.findById(idCategoria) == null) {
+			logger.info("No existe la categoria de ID:" + idCategoria);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
 		Tema tema = new Tema();
 		tema.setTitulo(titulo);
-		tema.setUsuario(usuarioServiceImpl.findById(idUsuario));
-		tema.setCerrado(cerrado);
+		tema.setUsuario(usuarioServiceImpl.findById(usuarioSecurity.GetIdUser()));
+		tema.setCerrado(false);
 		tema.setTexto(texto);
 		tema.setCategoria(categoriaServiceImpl.findById(idCategoria));
-		Date date = simpleDateFormat.parse(fecha);
-		tema.setFecha(date);
+		tema.setFecha(calendar.getTime());
 		temaServiceImpl.create(tema);
 		logger.info("Tema creado con exito:" + tema);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/edit")
-	public ResponseEntity<Void> edit(String titulo, Integer idUsuario, Boolean cerrado, String texto, Integer idCategoria, String fecha, Integer id) throws ParseException{
+	public ResponseEntity<Void> edit(String titulo, Boolean cerrado, Integer idUsuario, String texto, Integer idCategoria, Integer id) {
 		if (temaServiceImpl.findById(id) == null) {
 			logger.info("No existe el tema de ID:" + id);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		if (categoriaServiceImpl.findById(idCategoria) == null) {
+			logger.info("No existe la categoria de ID:" + idCategoria);
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
 		Tema tema = temaServiceImpl.findById(id);
 		tema.setTitulo(titulo);
 		tema.setUsuario(usuarioServiceImpl.findById(idUsuario));
 		tema.setCerrado(cerrado);
 		tema.setTexto(texto);
 		tema.setCategoria(categoriaServiceImpl.findById(idCategoria));
-		tema.setFecha(simpleDateFormat.parse(fecha));
+		tema.setFecha(calendar.getTime());
 		temaServiceImpl.create(tema);
 		logger.info("Tema actualizado con exito:" + tema);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/{id}")

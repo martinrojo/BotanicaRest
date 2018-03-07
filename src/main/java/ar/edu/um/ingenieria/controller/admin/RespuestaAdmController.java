@@ -1,8 +1,8 @@
 package ar.edu.um.ingenieria.controller.admin;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import ar.edu.um.ingenieria.domain.Respuesta;
 import ar.edu.um.ingenieria.domain.Tema;
 import ar.edu.um.ingenieria.service.impl.RespuestaServiceImpl;
 import ar.edu.um.ingenieria.service.impl.TemaServiceImpl;
+import ar.edu.um.ingenieria.service.impl.UsuarioSecurityServiceImpl;
 import ar.edu.um.ingenieria.service.impl.UsuarioServiceImpl;
 
 @RestController
@@ -36,41 +37,47 @@ public class RespuestaAdmController {
 	@Autowired
 	private TemaServiceImpl temaServiceImpl;
 	
+	@Autowired
+	private UsuarioSecurityServiceImpl usuarioSecurity;
+	
 	private static final Logger logger = Logger.getLogger(RespuestaServiceImpl.class);
 
 	@GetMapping("/leer/{id}")
 	public ResponseEntity<List<Respuesta>> findByTema(@PathVariable Integer id) {
 		if (temaServiceImpl.findById(id) == null) {
 			logger.info("No existe el tema de ID:" + id);
-			return new ResponseEntity<List<Respuesta>>(respuestaServiceImpl.findAll(), HttpStatus.OK);
-		} else {
-			Tema tema = temaServiceImpl.findById(id);
-			if(tema.getRespuestas() == null) {
-				logger.info("No hay respuestas en el tema de ID:" + id);
-				new ResponseEntity<List<Respuesta>>(HttpStatus.CONFLICT);
-			}
-			logger.info("Datos tema:" + tema.getRespuestas());
-			return new ResponseEntity<List<Respuesta>>(tema.getRespuestas(), HttpStatus.OK);
+			return new ResponseEntity<List<Respuesta>>(HttpStatus.CONFLICT);
 		}
+		Tema tema = temaServiceImpl.findById(id);
+		if(tema.getRespuestas() == null) {
+			logger.info("No hay respuestas en el tema de ID:" + id);
+			new ResponseEntity<List<Respuesta>>(HttpStatus.NO_CONTENT);
+		}
+		logger.info("Datos tema:" + tema.getRespuestas());
+		return new ResponseEntity<List<Respuesta>>(tema.getRespuestas(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Respuesta> findById(@PathVariable Integer id) {
 		if(respuestaServiceImpl.findById(id) == null) {
 			logger.info("No existe la respuesta de ID:" + id);
-			return new ResponseEntity<Respuesta>(HttpStatus.CONFLICT);
+			return new ResponseEntity<Respuesta>(HttpStatus.NO_CONTENT);
 		}
 		logger.info("Datos respuesta:" + respuestaServiceImpl.findById(id));
 		return new ResponseEntity<Respuesta>(respuestaServiceImpl.findById(id),HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> create(String texto, Integer idTema, Integer idUsuario, String fecha) throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	public ResponseEntity<Void> create(String texto, Integer idTema) {
+		if (temaServiceImpl.findById(idTema) == null) {
+			logger.info("No existe el tema de ID:" + idTema);
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
 		Respuesta respuesta = new Respuesta();
 		respuesta.setTexto(texto);
-		respuesta.setFecha(simpleDateFormat.parse(fecha));
-		respuesta.setUsuario(usuarioServiceImpl.findById(idUsuario));
+		respuesta.setFecha(calendar.getTime());
+		respuesta.setUsuario(usuarioServiceImpl.findById(usuarioSecurity.GetIdUser()));
 		respuesta.setTema(temaServiceImpl.findById(idTema));
 		respuestaServiceImpl.create(respuesta);
 		logger.info("Respueta creada con exito:" + respuesta);
@@ -78,21 +85,24 @@ public class RespuestaAdmController {
 	}
 	
 	@PostMapping("/edit/")
-	public ResponseEntity<Void> edit(Integer id, String texto, Integer idTema, Integer idUsuario, String fecha) throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	public ResponseEntity<Void> edit(Integer id, String texto, Integer idTema, Integer idUsuario) {
 		if (respuestaServiceImpl.findById(id) == null) {
 			logger.info("No existe la respuesta de ID:" + id);
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-		} else {
-			Respuesta respuesta = respuestaServiceImpl.findById(id);
-			respuesta.setTexto(texto);
-			respuesta.setFecha(simpleDateFormat.parse(fecha));
-			respuesta.setUsuario(usuarioServiceImpl.findById(idUsuario));
-			respuesta.setTema(temaServiceImpl.findById(idTema));
-			respuestaServiceImpl.update(respuesta);
-			logger.info("Respueta actualizada con exito: " + respuesta);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		} 
+		if (temaServiceImpl.findById(idTema) == null) {
+			logger.info("No existe el tema de ID:" + idTema);
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0300"));
+		Respuesta respuesta = respuestaServiceImpl.findById(id);
+		respuesta.setTexto(texto);
+		respuesta.setFecha(calendar.getTime());
+		respuesta.setUsuario(usuarioServiceImpl.findById(idUsuario));
+		respuesta.setTema(temaServiceImpl.findById(idTema));
+		respuestaServiceImpl.update(respuesta);
+		logger.info("Respueta actualizada con exito: " + respuesta);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
