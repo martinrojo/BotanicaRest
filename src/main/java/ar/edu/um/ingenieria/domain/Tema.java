@@ -20,7 +20,6 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="temas")
@@ -48,7 +47,6 @@ public class Tema implements Serializable{
 	@JoinColumn(name="categoria_id")
 	private Categoria categoria;
 	
-	@JsonIgnore
 	@OneToMany(mappedBy = "tema", fetch = FetchType.EAGER)
 	private List<Respuesta> respuestas;
 	
